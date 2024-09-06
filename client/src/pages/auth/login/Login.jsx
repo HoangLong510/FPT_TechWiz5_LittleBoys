@@ -126,7 +126,7 @@ export default function Login() {
                     />
                     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
                         <Link to='/auth/forgot-password' style={{ fontSize: '15px', color: '#000' }}>
-                            {t("ForgotPassword")}
+                            {t("ForgotPassword")}?
                         </Link>
                     </Box>
                     <Button type='submit' variant='contained' disabled={loading}>

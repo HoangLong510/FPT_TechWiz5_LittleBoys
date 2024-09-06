@@ -12,4 +12,7 @@ Route::group([
     Route::get('fetch-data', [AuthController::class, 'fetchData']);
     Route::post('register', [AuthController::class, 'register']);
     Route::get('refresh', [AuthController::class, 'refresh']);
+    Route::post('send-verification-code', [AuthController::class, 'sendVerificationCode']);
+    Route::post('check-verification-code', [AuthController::class, 'checkVerificationCode']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
 });
