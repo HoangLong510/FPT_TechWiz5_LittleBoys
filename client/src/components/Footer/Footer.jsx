@@ -93,7 +93,8 @@ export default function Footer() {
                     display: 'flex',
                     flexDirection: 'column',
                     width: { xs: '100%', md: '25%' },
-                    gap: '20px'
+                    gap: '20px',
+                    paddingBottom: '10px'
                 }}>
                     <Box style={{
                         fontWeight: 'bold',

@@ -15,7 +15,7 @@
     "Location": "Location",
     "Password": "Password",
     "DontHaveAnAccount": "Dont have an account?",
-    "ForgotPassword": "Forgot password?",
+    "ForgotPassword": "Forgot password",
     "Fullname": "Fullname",
     "ConfirmPassword": "Confirm password",
     "PhoneNumber": "Phone number",
@@ -27,5 +27,12 @@
     "Close": "Close",
     "Agree": "Agree",
     "Error": "Error",
-    "Success": "Success"
+    "Success": "Success",
+    "EnterEmailToContinue": "Enter email to continue",
+    "BackToLoginPage": "Back to login page",
+    "EnterVerificationCode": "Enter verification code",
+    "VerificationCodeHasBeenSentToYourEmail": "Verification code has been sent to your email, please enter the verification code to retrieve your password",
+    "VerificationCode": "Verification code",
+    "ForSecurityReasonsPleaseDoNotShareYourPasswordWithAnyone": "For security reasons please do not share your password with anyone, for any purpose.",
+    "ResetPassword": "Reset password"
 }
