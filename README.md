@@ -39,21 +39,21 @@
 ### **Installation Steps**
 
 1. **Clone from Github **
-    git clone https://github.com/HoangLong510/FPT_TechWiz5_LittleBoys
+    -git clone https://github.com/HoangLong510/FPT_TechWiz5_LittleBoys
 
 2.  ** Install packages **
     #### Client
-    cd client
-    npm install
-    cp .env.example .env
+    - cd client
+    - npm install
+    - cp .env.example .env
 
     #### Server
-    cd server
-    composer install
-    cp .env.example .env
+    - cd server
+    - composer install
+    - cp .env.example .env
     
 3.  ** Run project **
-    cd client
-    npm run dev
+    - cd client
+    - npm run dev
    
 
