@@ -141,6 +141,17 @@ export default function NavbarMenu() {
                                     </span>
                                 </Button>
                             </Link>
+                            {user.data.role === 'admin' && (
+                                <Link onClick={toggleDrawer(false)} to="/management" style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <Button sx={{ width: '100%' }}>
+                                        {t("Management")}
+                                    </Button>
+                                </Link>
+                            )}
                             <Button sx={{ width: '100%' }} onClick={() => {
                                 setOpen(false)
                                 dispatch(setLogout())

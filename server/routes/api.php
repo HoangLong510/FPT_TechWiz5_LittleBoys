@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ManagementController;
 
 Route::group([
     'middleware' => 'api',
@@ -15,4 +16,11 @@ Route::group([
     Route::post('send-verification-code', [AuthController::class, 'sendVerificationCode']);
     Route::post('check-verification-code', [AuthController::class, 'checkVerificationCode']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'management'
+], function ($router) {
+    Route::post('/get-accounts', [ManagementController::class,'getAccounts']);
 });

@@ -34,5 +34,12 @@
     "VerificationCodeHasBeenSentToYourEmail": "Mã xác thực đã được gửi đến email của bạn, vui lòng nhập mã xác thực để lấy lại mật khẩu",
     "VerificationCode": "Mã xác thực",
     "ForSecurityReasonsPleaseDoNotShareYourPasswordWithAnyone": "Vì vấn đề bảo mật vui lòng không chia sẽ mật khẩu cho bất kì ai, dù bất kì mục đích gì.",
-    "ResetPassword": "Đặt lại mật khẩu"
+    "ResetPassword": "Đặt lại mật khẩu",
+    "Management": "Quản lý",
+    "PleaseWaitAMoment": "Vui lòng đợi trong giây lát...",
+    "Gender": "Giới tính",
+    "Male": "Nam",
+    "Female": "Nữ",
+    "Role": "Vai trò",
+    "ManagementAccount": "Quản lý tài khoản"
 }

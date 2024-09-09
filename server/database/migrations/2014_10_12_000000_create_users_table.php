@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('password');
+            $table->enum('gender', ['male', 'female']);
             $table->string('address');
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('verificationCode')->nullable();

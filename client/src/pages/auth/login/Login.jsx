@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { clearLoading, setLoading } from '~/libs/features/loading/loadingSlice'
@@ -7,6 +7,7 @@ import { fetchDataUserApi, loginApi } from './service'
 import { setPopup } from '~/libs/features/popup/popupSlice'
 import { setUser } from '~/libs/features/user/userSlice'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet'
 
 export default function Login() {
     const { t } = useTranslation()
@@ -44,8 +45,8 @@ export default function Login() {
             dispatch(setPopup(dataPopup))
 
             dispatch(clearLoading())
-            
-            if (user){
+
+            if (user) {
                 dispatch(setUser(user))
             }
         } else {
@@ -58,90 +59,92 @@ export default function Login() {
         }
     }
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
-
     return (
-        <Box sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '20px'
-        }}>
+        <>
+            <Helmet>
+                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("Login")}</title>
+            </Helmet>
+
             <Box sx={{
+                width: '100%',
                 display: 'flex',
-                flexDirection: 'column',
-                width: { xs: '100%', md: '600px' },
-                maxWidth: '600px',
-                padding: '20px',
-                backgroundColor: '#fff',
-                borderRadius: '10px',
-                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
+                justifyContent: 'center',
+                padding: '20px'
             }}>
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    userSelect: 'none'
+                    width: { xs: '100%', md: '600px' },
+                    maxWidth: '600px',
+                    padding: '20px',
+                    backgroundColor: '#fff',
+                    borderRadius: '10px',
+                    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
                 }}>
-                    <span style={{
-                        fontSize: '18px',
-                        fontWeight: 'bold',
-                        textTransform: 'uppercase',
-                        paddingBottom: '5px'
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        userSelect: 'none'
                     }}>
-                        {t("Login")}
-                    </span>
-                    <span style={{
-                        fontSize: '15px',
-                        paddingBottom: '20px'
+                        <span style={{
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            paddingBottom: '5px'
+                        }}>
+                            {t("Login")}
+                        </span>
+                        <span style={{
+                            fontSize: '15px',
+                            paddingBottom: '20px'
+                        }}>
+                            {t("LoginToShopAndTrackOrdersSaveFavoriteProductListsAndReceiveManyOffers")}
+                        </span>
+                    </Box>
+                    
+                    <form onSubmit={handleUserLogin} style={{
+                        padding: '10px 0px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '20px'
                     }}>
-                        {t("LoginToShopAndTrackOrdersSaveFavoriteProductListsAndReceiveManyOffers")}
-                    </span>
-                </Box>
+                        <TextField sx={{ width: '100%' }}
+                            id="email"
+                            autoComplete="off"
+                            label="Email"
+                            variant="outlined"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                        <TextField sx={{ width: '100%' }}
+                            type='password'
+                            id="password"
+                            label={t("Password")}
+                            variant="outlined"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
+                            <Link to='/auth/forgot-password' style={{ fontSize: '15px', color: '#000' }}>
+                                {t("ForgotPassword")}?
+                            </Link>
+                        </Box>
+                        <Button type='submit' variant='contained' disabled={loading}>
+                            {t("Login")}
+                        </Button>
+                    </form>
 
-                <form onSubmit={handleUserLogin} style={{
-                    padding: '10px 0px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '20px'
-                }}>
-                    <TextField sx={{ width: '100%' }}
-                        id="email"
-                        autoComplete="off"
-                        label="Email"
-                        variant="outlined"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <TextField sx={{ width: '100%' }}
-                        type='password'
-                        id="password"
-                        label={t("Password")}
-                        variant="outlined"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-                        <Link to='/auth/forgot-password' style={{ fontSize: '15px', color: '#000' }}>
-                            {t("ForgotPassword")}?
+                    <Box sx={{ paddingBottom: '10px' }}>
+                        <Link to='/auth/register' style={{ width: '100%' }}>
+                            <Button variant='outlined' style={{ width: '100%' }}>
+                                {t("DontHaveAnAccount")}
+                            </Button>
                         </Link>
                     </Box>
-                    <Button type='submit' variant='contained' disabled={loading}>
-                        {t("Login")}
-                    </Button>
-                </form>
-
-                <Box sx={{ paddingBottom: '10px' }}>
-                    <Link to='/auth/register' style={{ width: '100%' }}>
-                        <Button variant='outlined' style={{ width: '100%' }}>
-                            {t("DontHaveAnAccount")}
-                        </Button>
-                    </Link>
                 </Box>
             </Box>
-        </Box>
+        </>
     )
 }

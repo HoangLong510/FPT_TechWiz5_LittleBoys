@@ -87,9 +87,10 @@ class AuthController extends Controller
         $password = $req -> password;
         $confirmPassword = $req -> confirmPassword;
         $phone = $req -> phone;
+        $gender = $req -> gender;
         $address = $req -> address;
 
-        if(empty($fullname) || empty($email) || empty($password) || empty($confirmPassword) || empty($phone) || empty($address)){
+        if(empty($fullname) || empty($email) || empty($password) || empty($confirmPassword) || empty($phone) || empty($gender) || empty($address)){
             $msg = new \stdClass();
             $msg->en = "All fields are required!";
             $msg->vi = "Tất cả các trường đều bắt buộc!";
@@ -163,6 +164,7 @@ class AuthController extends Controller
             $user->email = $email;
             $user->password = Hash::make($password);
             $user->phone = $phone;
+            $user->gender = $gender;
             $user->address = $address;
             $user->save();
 

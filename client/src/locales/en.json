@@ -34,5 +34,12 @@
     "VerificationCodeHasBeenSentToYourEmail": "Verification code has been sent to your email, please enter the verification code to retrieve your password",
     "VerificationCode": "Verification code",
     "ForSecurityReasonsPleaseDoNotShareYourPasswordWithAnyone": "For security reasons please do not share your password with anyone, for any purpose.",
-    "ResetPassword": "Reset password"
+    "ResetPassword": "Reset password",
+    "Management": "Management",
+    "PleaseWaitAMoment": "Please wait a moment...",
+    "Gender": "Gender",
+    "Male": "Male",
+    "Female": "Female",
+    "Role": "Role",
+    "ManagementAccount": "Management account"
 }

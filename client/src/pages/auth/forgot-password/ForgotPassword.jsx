@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setPopup } from "~/libs/features/popup/popupSlice"
 import { clearLoading, setLoading } from "~/libs/features/loading/loadingSlice"
 import { Link, useNavigate } from "react-router-dom"
+import { Helmet } from "react-helmet"
 
 export default function ForgotPassword() {
 
@@ -110,177 +111,183 @@ export default function ForgotPassword() {
     }
 
     return (
-        <Box sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '20px'
-        }}>
+        <>
+            <Helmet>
+                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("ForgotPassword")}</title>
+            </Helmet>
+
             <Box sx={{
+                width: '100%',
                 display: 'flex',
-                flexDirection: 'column',
-                width: { xs: '100%', md: '600px' },
-                maxWidth: '600px',
-                padding: '20px 20px 30px 20px',
-                backgroundColor: '#fff',
-                borderRadius: '10px',
-                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
+                justifyContent: 'center',
+                padding: '20px'
             }}>
-                {/*  */}
-                {step === 1 && (
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%'
-                    }}>
-                        <span style={{
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            textTransform: 'uppercase',
-                            paddingBottom: '5px'
-                        }}>
-                            {t("ForgotPassword")}
-                        </span>
-                        <span style={{
-                            fontSize: '15px',
-                            paddingBottom: '10px',
-                            userSelect: 'none'
-                        }}>
-                            {t("EnterEmailToContinue")}
-                        </span>
-                        <form onSubmit={handleSendVerificationCode} style={{
-                            padding: '10px 0px',
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: { xs: '100%', md: '600px' },
+                    maxWidth: '600px',
+                    padding: '20px 20px 30px 20px',
+                    backgroundColor: '#fff',
+                    borderRadius: '10px',
+                    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
+                }}>
+                    {/*  */}
+                    {step === 1 && (
+                        <Box sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: '20px'
+                            width: '100%'
                         }}>
-                            <TextField sx={{ width: '100%' }}
-                                id="email"
-                                autoComplete="off"
-                                label="Email"
-                                variant="outlined"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                            <Button type='submit' variant='contained' disabled={loading}>
-                                {t("Agree")}
-                            </Button>
-                        </form>
-                        <Link to='/auth/login' style={{ width: '100%' }}>
-                            <Button variant='outlined' style={{ width: '100%' }}>
-                                {t("BackToLoginPage")}
-                            </Button>
-                        </Link>
-                    </Box>
-                )}
-                {step === 2 && (
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%'
-                    }}>
-                        <span style={{
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            textTransform: 'uppercase',
-                            paddingBottom: '5px'
-                        }}>
-                            {t("EnterVerificationCode")}
-                        </span>
-                        <span style={{
-                            fontSize: '15px',
-                            paddingBottom: '10px',
-                            userSelect: 'none'
-                        }}>
-                            {t("VerificationCodeHasBeenSentToYourEmail")}
-                        </span>
-                        <form onSubmit={handleCheckVerificationCode} style={{
-                            padding: '10px 0px',
+                            <span style={{
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                                paddingBottom: '5px'
+                            }}>
+                                {t("ForgotPassword")}
+                            </span>
+                            <span style={{
+                                fontSize: '15px',
+                                paddingBottom: '10px',
+                                userSelect: 'none'
+                            }}>
+                                {t("EnterEmailToContinue")}
+                            </span>
+                            <form onSubmit={handleSendVerificationCode} style={{
+                                padding: '10px 0px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '20px'
+                            }}>
+                                <TextField sx={{ width: '100%' }}
+                                    id="email"
+                                    autoComplete="off"
+                                    label="Email"
+                                    variant="outlined"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                                <Button type='submit' variant='contained' disabled={loading}>
+                                    {t("Agree")}
+                                </Button>
+                            </form>
+                            <Link to='/auth/login' style={{ width: '100%' }}>
+                                <Button variant='outlined' style={{ width: '100%' }}>
+                                    {t("BackToLoginPage")}
+                                </Button>
+                            </Link>
+                        </Box>
+                    )}
+                    {step === 2 && (
+                        <Box sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: '20px'
+                            width: '100%'
                         }}>
-                            <TextField sx={{ width: '100%' }}
-                                id="verificationCode"
-                                autoComplete="off"
-                                label={t("VerificationCode")}
-                                variant="outlined"
-                                value={verificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                                required
-                            />
-                            <Button type='submit' variant='contained' disabled={loading}>
-                                {t("Agree")}
-                            </Button>
-                        </form>
-                        <Link to='/auth/login' style={{ width: '100%' }}>
-                            <Button variant='outlined' style={{ width: '100%' }}>
-                                {t("BackToLoginPage")}
-                            </Button>
-                        </Link>
-                    </Box>
-                )}
-                {step === 3 && (
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%'
-                    }}>
-                        <span style={{
-                            fontSize: '18px',
-                            fontWeight: 'bold',
-                            textTransform: 'uppercase',
-                            paddingBottom: '5px'
-                        }}>
-                            {t("ResetPassword")}
-                        </span>
-                        <span style={{
-                            fontSize: '15px',
-                            paddingBottom: '10px',
-                            userSelect: 'none'
-                        }}>
-                            {t("ForSecurityReasonsPleaseDoNotShareYourPasswordWithAnyone")}
-                        </span>
-                        <form onSubmit={handleResetPassword} style={{
-                            padding: '10px 0px',
+                            <span style={{
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                                paddingBottom: '5px'
+                            }}>
+                                {t("EnterVerificationCode")}
+                            </span>
+                            <span style={{
+                                fontSize: '15px',
+                                paddingBottom: '10px',
+                                userSelect: 'none'
+                            }}>
+                                {t("VerificationCodeHasBeenSentToYourEmail")}
+                            </span>
+                            <form onSubmit={handleCheckVerificationCode} style={{
+                                padding: '10px 0px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '20px'
+                            }}>
+                                <TextField sx={{ width: '100%' }}
+                                    id="verificationCode"
+                                    autoComplete="off"
+                                    label={t("VerificationCode")}
+                                    variant="outlined"
+                                    value={verificationCode}
+                                    onChange={(e) => setVerificationCode(e.target.value)}
+                                    required
+                                />
+                                <Button type='submit' variant='contained' disabled={loading}>
+                                    {t("Agree")}
+                                </Button>
+                            </form>
+                            <Link to='/auth/login' style={{ width: '100%' }}>
+                                <Button variant='outlined' style={{ width: '100%' }}>
+                                    {t("BackToLoginPage")}
+                                </Button>
+                            </Link>
+                        </Box>
+                    )}
+                    {step === 3 && (
+                        <Box sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: '20px'
+                            width: '100%'
                         }}>
-                            <TextField sx={{ width: '100%' }}
-                                id="password"
-                                type="password"
-                                autoComplete="off"
-                                label={t("Password")}
-                                variant="outlined"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                            <TextField sx={{ width: '100%' }}
-                                id="confirmPassword"
-                                type="password"
-                                autoComplete="off"
-                                label={t("ConfirmPassword")}
-                                variant="outlined"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
-                            <Button type='submit' variant='contained' disabled={loading}>
-                                {t("Agree")}
-                            </Button>
-                        </form>
-                        <Link to='/auth/login' style={{ width: '100%' }}>
-                            <Button variant='outlined' style={{ width: '100%' }}>
-                                {t("BackToLoginPage")}
-                            </Button>
-                        </Link>
-                    </Box>
-                )}
-                {/*  */}
+                            <span style={{
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                                paddingBottom: '5px'
+                            }}>
+                                {t("ResetPassword")}
+                            </span>
+                            <span style={{
+                                fontSize: '15px',
+                                paddingBottom: '10px',
+                                userSelect: 'none'
+                            }}>
+                                {t("ForSecurityReasonsPleaseDoNotShareYourPasswordWithAnyone")}
+                            </span>
+                            <form onSubmit={handleResetPassword} style={{
+                                padding: '10px 0px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '20px'
+                            }}>
+                                <TextField sx={{ width: '100%' }}
+                                    id="password"
+                                    type="password"
+                                    autoComplete="off"
+                                    label={t("Password")}
+                                    variant="outlined"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <TextField sx={{ width: '100%' }}
+                                    id="confirmPassword"
+                                    type="password"
+                                    autoComplete="off"
+                                    label={t("ConfirmPassword")}
+                                    variant="outlined"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                                <Button type='submit' variant='contained' disabled={loading}>
+                                    {t("Agree")}
+                                </Button>
+                            </form>
+                            <Link to='/auth/login' style={{ width: '100%' }}>
+                                <Button variant='outlined' style={{ width: '100%' }}>
+                                    {t("BackToLoginPage")}
+                                </Button>
+                            </Link>
+                        </Box>
+                    )}
+                    {/*  */}
+                </Box>
             </Box>
-        </Box>
+        </>
     )
 }
