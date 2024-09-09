@@ -6,7 +6,6 @@ import Homepage from "~/pages/home/Homepage"
 import Management from "~/pages/management/Management"
 import ManagementLayout from "~/layouts/ManagementLayout"
 import AccountManagement from "~/pages/management/account/Account"
-import ForgotPassword from "~/pages/auth/forgot-password/ForgotPassword"
 
 const publicRoutes = [
     { path: '/', component: Homepage, layout: DefaultLayout }
