@@ -1,4 +1,3 @@
-import React from 'react'
 import { LinearProgress } from "@mui/material"
 import { useSelector } from "react-redux"
 import Navbar from '~/components/Navbar/Navbar'
