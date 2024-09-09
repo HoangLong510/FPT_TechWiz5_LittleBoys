@@ -14,7 +14,10 @@ export const registerApi = async (data) => {
         } else {
             return {
                 success: false,
-                message: ['Server is busy. Please try again later!']
+                message: [{
+                    en: 'Server is busy. Please try again later!',
+                    vi: 'Máy chủ đang gặp sự cố. Vui lòng thử lại sau!'
+                }]
             }
         }
     }
