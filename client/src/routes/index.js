@@ -6,9 +6,14 @@ import Homepage from "~/pages/home/Homepage"
 import Management from "~/pages/management/Management"
 import ManagementLayout from "~/layouts/ManagementLayout"
 import AccountManagement from "~/pages/management/account/Account"
+import AboutUs from "~/pages/about-us/AboutUs"
+import ContactUs from "~/pages/contact-us/ContactUs"
+
 
 const publicRoutes = [
-    { path: '/', component: Homepage, layout: DefaultLayout }
+    { path: '/', component: Homepage, layout: DefaultLayout },
+    { path: '/about-us', component: AboutUs, layout: DefaultLayout },
+    { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
 ]
 
 const authRoutes = [
