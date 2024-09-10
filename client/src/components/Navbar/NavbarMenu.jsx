@@ -41,7 +41,7 @@ export default function NavbarMenu() {
                         height: '61px',
                         padding: '0px 20px',
                     }}>
-                        <Box className='btn' onClick={toggleDrawer(false)} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box className='button' onClick={toggleDrawer(false)} sx={{ display: 'flex', alignItems: 'center' }}>
                             <CloseIcon sx={{ fontSize: '30px' }} />
                         </Box>
                     </Box>

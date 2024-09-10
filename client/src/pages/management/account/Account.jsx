@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material"
+import { Box, CircularProgress, Pagination, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material"
 import Paper from '@mui/material/Paper'
 import { useEffect, useState } from "react"
 import { getAccountsManagementApi } from "./service"
@@ -9,29 +9,47 @@ export default function Account() {
 
     const { t } = useTranslation()
 
+    const [totalPage, setTotalPage] = useState(1)
+    const [page, setPage] = useState(1)
+
     const [loading, setLoading] = useState(false)
     const [accounts, setAccounts] = useState([])
     const [search, setSearch] = useState("")
 
-    const getAllAccount = async () => {
+    const getAccounts = async () => {
         setLoading(true)
-        const res = await getAccountsManagementApi("")
-        if (res) {
-            setAccounts(res)
+        const data = {
+            search,
+            page
+        }
+        const res = await getAccountsManagementApi(data)
+        if (res.accounts) {
+            setAccounts(res.accounts)
+            setTotalPage(res.totalPage)
         }
         setLoading(false)
     }
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage)
+    }
+
     useEffect(() => {
-        getAllAccount()
+        getAccounts()
     }, [])
 
     useEffect(() => {
+        getAccounts()
+    }, [page])
+
+    useEffect(() => {
         setLoading(true)
+        setPage(1)
         const handleSearchChange = setTimeout(async () => {
-            const res = await getAccountsManagementApi(search)
-            if (res) {
-                setAccounts(res)
+            const res = await getAccountsManagementApi({search, page: 1})
+            if (res.accounts) {
+                setTotalPage(res.totalPage)
+                setAccounts(res.accounts)
             }
             setLoading(false)
         }, 1000)
@@ -77,7 +95,7 @@ export default function Account() {
                     />
                 </Box>
 
-                <TableContainer component={Paper} sx={{ minHeight: '300px', border: '1px solid #e6e6e6', boxShadow: 'none' }}>
+                <TableContainer component={Paper} sx={{ border: '1px solid #e6e6e6', boxShadow: 'none' }}>
                     <Table sx={{ height: (loading || accounts.length === 0) ? "100%" : "" }}>
                         <TableHead sx={{ height: '60px' }}>
                             <TableRow sx={{ textTransform: 'uppercase', backgroundColor: '#000' }}>
@@ -145,6 +163,12 @@ export default function Account() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
+                    <Stack spacing={2}>
+                        <Pagination count={totalPage} page={page} onChange={handleChangePage}  color="primary" />
+                    </Stack>
+                </Box>
             </Box>
         </>
     )

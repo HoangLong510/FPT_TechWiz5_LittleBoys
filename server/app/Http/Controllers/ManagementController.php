@@ -20,16 +20,30 @@ class ManagementController extends Controller
     {
         $user = auth()->user();
         $search = request('search');
+        
 
         if ($user && $user->role === 'admin') {
+            $count = User::where('fullname', 'LIKE', "%{$search}%")
+            ->orWhere('email', 'LIKE', "%{$search}%")
+            ->orWhere('phone', 'LIKE', "%{$search}%")
+            ->count();
+
+            $perPage = 10;
+            $totalPage = ceil($count / $perPage);
+            $page = request('page');
+            $offset = ($page - 1) * $perPage;
+
             $accounts = User::where('fullname', 'LIKE', "%{$search}%")
                 ->orWhere('email', 'LIKE', "%{$search}%")
                 ->orWhere('phone', 'LIKE', "%{$search}%")
                 ->orderBy('fullname', 'asc')
+                ->skip($offset)
+                ->take($perPage)
                 ->get();
             return response()->json([
                 'success' => true,
-                'accounts' => $accounts
+                'accounts' => $accounts,
+                'totalPage'=> $totalPage
             ]);
         } else {
             return response()->json([
