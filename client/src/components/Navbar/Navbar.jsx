@@ -32,9 +32,14 @@ export default function Navbar() {
                             {t("Products")}
                         </Button>
                     </Link>
-                    <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+                    <Link to="/about-us" style={{ display: 'flex', alignItems: 'center' }}>
                         <Button>
                             {t("AboutUs")}
+                        </Button>
+                    </Link>
+                    <Link to="/contact-us" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            {t("ContactUs")}
                         </Button>
                     </Link>
                     <Link to="https://www.facebook.com/aptech.fpt" style={{ display: 'flex', alignItems: 'center' }} target='_blank'>
