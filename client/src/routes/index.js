@@ -4,10 +4,12 @@ import Login from "~/pages/auth/login/Login";
 import Register from "~/pages/auth/register/Register";
 import Homepage from "~/pages/home/Homepage";
 import AboutUs from "~/pages/about-us/AboutUs";
+import ContactUs from "~/pages/contact-us/ContactUs";
 
 const publicRoutes = [
   { path: "/", component: Homepage, layout: DefaultLayout },
   { path: "/about-us", component: AboutUs, layout: DefaultLayout },
+  { path: "/contact-us", component: ContactUs, layout: DefaultLayout },
 ];
 
 const authRoutes = [
