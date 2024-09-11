@@ -70,19 +70,15 @@ const TeamSwiper = () => {
               <div className="col-md-5">
                 <Typography  className="card-name">{member.name}</Typography>
                 <hr />
-                <div className="row" >
-                  <div className="col-md-4">
+                <div className="information" >
                     <div className="phone-info">
                       <PhoneIcon />
                       <span className="info">{member.phone}</span>
                     </div>
-                  </div>
-                  <div className="col-md-8">
                     <div className="email-info">
                       <EmailIcon />
                       <span className="info">{member.email}</span>
                     </div>
-                  </div>
                 </div>
               </div>
               <div className="col-md-7">

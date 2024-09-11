@@ -10,7 +10,6 @@ function ContactUs() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor: "secondary.main",
         color: "primary.main",
       }}
     >
