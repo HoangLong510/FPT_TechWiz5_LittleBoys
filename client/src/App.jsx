@@ -6,6 +6,7 @@ import { useSelector } from "react-redux"
 import PopupLogout from "./components/PopupLogout/PopupLogout"
 import { Helmet } from "react-helmet"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
+import ManagementLayout from "./layouts/ManagementLayout"
 
 function App() {
 
@@ -50,7 +51,9 @@ function App() {
 							return (
 								<Route key={index} path={route.path} element={user.exist && user.data.role === 'admin' ? (
 									<Layout>
-										<Page />
+										<ManagementLayout>
+											<Page />
+										</ManagementLayout>
 									</Layout>
 								) : (<Navigate to="/" replace />)} />
 							)

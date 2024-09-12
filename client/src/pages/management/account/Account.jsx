@@ -4,13 +4,16 @@ import { useEffect, useState } from "react"
 import { getAccountsManagementApi } from "./service"
 import { useTranslation } from "react-i18next"
 import { Helmet } from "react-helmet"
+import { useNavigate } from "react-router-dom"
 
 export default function Account() {
 
     const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const [totalPage, setTotalPage] = useState(1)
     const [page, setPage] = useState(1)
+    const [firstRender, setFirstRender] = useState(true)
 
     const [loading, setLoading] = useState(false)
     const [accounts, setAccounts] = useState([])
@@ -24,8 +27,10 @@ export default function Account() {
         }
         const res = await getAccountsManagementApi(data)
         if (res.accounts) {
-            setAccounts(res.accounts)
-            setTotalPage(res.totalPage)
+            await Promise.all([
+                setAccounts(res.accounts),
+                setTotalPage(res.totalPage)
+            ])
         }
         setLoading(false)
     }
@@ -36,26 +41,28 @@ export default function Account() {
 
     useEffect(() => {
         getAccounts()
-    }, [])
-
-    useEffect(() => {
-        getAccounts()
     }, [page])
 
     useEffect(() => {
-        setLoading(true)
-        setPage(1)
-        const handleSearchChange = setTimeout(async () => {
-            const res = await getAccountsManagementApi({search, page: 1})
-            if (res.accounts) {
-                setTotalPage(res.totalPage)
-                setAccounts(res.accounts)
-            }
-            setLoading(false)
-        }, 1000)
+        if (!firstRender) {
+            setLoading(true)
+            setPage(1)
+            const handleSearchChange = setTimeout(async () => {
+                const res = await getAccountsManagementApi({ search, page: 1 })
+                if (res.accounts) {
+                    await Promise.all([
+                        setAccounts(res.accounts),
+                        setTotalPage(res.totalPage)
+                    ])
+                }
+                setLoading(false)
+            }, 1000)
 
-        return () => {
-            clearTimeout(handleSearchChange)
+            return () => {
+                clearTimeout(handleSearchChange)
+            }
+        } else {
+            setFirstRender(false)
         }
     }, [search])
 
@@ -76,7 +83,8 @@ export default function Account() {
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    height: '40px'
                 }}>
                     <Box sx={{ fontWeight: 'bold' }}>
                         ACCOUNT MANAGEMENT
@@ -118,7 +126,7 @@ export default function Account() {
                         </TableHead>
                         <TableBody>
                             {!loading && accounts.length > 0 && accounts.map((account) => (
-                                <TableRow
+                                <TableRow onClick={() => navigate(`/management/account/${account.id}`)}
                                     key={account.id}
                                     sx={{
                                         '&:last-child td, &:last-child th': { border: 0, borderBottom: '1px solid #e6e6e6' },
@@ -166,7 +174,7 @@ export default function Account() {
 
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
                     <Stack spacing={2}>
-                        <Pagination count={totalPage} page={page} onChange={handleChangePage}  color="primary" />
+                        <Pagination count={totalPage} page={page} onChange={handleChangePage} color="primary" />
                     </Stack>
                 </Box>
             </Box>

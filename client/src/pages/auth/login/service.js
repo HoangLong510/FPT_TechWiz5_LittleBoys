@@ -22,20 +22,3 @@ export const loginApi = async (data) => {
         }
     }
 }
-
-export const fetchDataUserApi = async (token) => {
-    try {
-        const res = await axios.get('/auth/fetch-data', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        if (res.data.user){
-            return res.data.user
-        } else {
-            return null
-        }
-    } catch (error) {
-        return null
-    }
-}
