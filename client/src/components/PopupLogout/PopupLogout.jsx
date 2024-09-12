@@ -11,6 +11,7 @@ import { clearLoading, setLoading } from '~/libs/features/loading/loadingSlice'
 import { clearLogout } from '~/libs/features/logout/logoutSlice'
 import { clearUser } from '~/libs/features/user/userSlice'
 import { useTranslation } from 'react-i18next'
+import { logoutApi } from './service'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />
@@ -26,8 +27,10 @@ export default function PopupLogout() {
     const handleLogout = async () => {
         dispatch(setLoading())
 
-        localStorage.removeItem('token')
-        dispatch(clearUser())
+        const res = await logoutApi()
+        if (res.success) {
+            dispatch(clearUser())
+        }
 
         handleClose()
         dispatch(clearLoading())

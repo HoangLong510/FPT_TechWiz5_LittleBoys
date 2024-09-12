@@ -1,10 +1,10 @@
 import axios from '~/axios'
 
-export const fetchDataUserApi = async (token) => {
+export const fetchDataUserApi = async () => {
     try {
         const res = await axios.get('/auth/fetch-data', {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             }
         })
         if (res.data.user){
@@ -12,19 +12,6 @@ export const fetchDataUserApi = async (token) => {
         } else {
             return null
         }
-    } catch (error) {
-        return null
-    }
-}
-
-export const refreshTokenApi = async (token) => {
-    try {
-        const res = await axios.get('/auth/refresh', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        return res.data
     } catch (error) {
         return null
     }

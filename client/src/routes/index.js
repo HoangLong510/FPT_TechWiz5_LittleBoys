@@ -1,14 +1,14 @@
-import DefaultLayout from "~/layouts/DefaultLayout"
 import ForgotPassword from "~/pages/auth/forgot-password/ForgotPassword"
 import Login from "~/pages/auth/login/Login"
 import Register from "~/pages/auth/register/Register"
 import Homepage from "~/pages/home/Homepage"
 import Management from "~/pages/management/Management"
-import ManagementLayout from "~/layouts/ManagementLayout"
 import AccountManagement from "~/pages/management/account/Account"
 import AboutUs from "~/pages/about-us/AboutUs"
 import ContactUs from "~/pages/contact-us/ContactUs"
 import AboutusLayout from "~/layouts/AboutusLayout"
+import AccountDetail from "~/pages/management/account/AccountDetail"
+import DefaultLayout from "~/layouts/DefaultLayout"
 
 
 const publicRoutes = [
@@ -28,8 +28,9 @@ const userRoutes = [
 ]
 
 const managementRoutes = [
-    { path: '/management', component: Management, layout: ManagementLayout },
-    { path: '/management/account', component: AccountManagement, layout: ManagementLayout }
+    { path: '/management', component: Management, layout: DefaultLayout },
+    { path: '/management/account', component: AccountManagement, layout: DefaultLayout },
+    { path: '/management/account/:userId', component: AccountDetail, layout: DefaultLayout }
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes }

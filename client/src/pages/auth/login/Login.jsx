@@ -1,13 +1,15 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, FormControl, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { clearLoading, setLoading } from '~/libs/features/loading/loadingSlice'
-import { fetchDataUserApi, loginApi } from './service'
+import { loginApi } from './service'
 import { setPopup } from '~/libs/features/popup/popupSlice'
 import { setUser } from '~/libs/features/user/userSlice'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 export default function Login() {
     const { t } = useTranslation()
@@ -16,6 +18,7 @@ export default function Login() {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleUserLogin = async (event) => {
         event.preventDefault()
@@ -29,15 +32,6 @@ export default function Login() {
         const res = await loginApi(data)
 
         if (res.success) {
-            const token = {
-                value: res.token,
-                expIn: Date.now() + res.expIn * 1000
-            }
-
-            localStorage.setItem('token', JSON.stringify(token))
-
-            const user = await fetchDataUserApi(res.token)
-
             const dataPopup = {
                 type: "success",
                 message: res.message
@@ -46,9 +40,7 @@ export default function Login() {
 
             dispatch(clearLoading())
 
-            if (user) {
-                dispatch(setUser(user))
-            }
+            dispatch(setUser(res.user))
         } else {
             const dataPopup = {
                 type: "error",
@@ -101,31 +93,42 @@ export default function Login() {
                             {t("LoginToShopAndTrackOrdersSaveFavoriteProductListsAndReceiveManyOffers")}
                         </span>
                     </Box>
-                    
+
                     <form onSubmit={handleUserLogin} style={{
                         padding: '10px 0px',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '20px'
+                        gap: '30px'
                     }}>
-                        <TextField sx={{ width: '100%' }}
-                            id="email"
-                            autoComplete="off"
-                            label="Email"
-                            variant="outlined"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <TextField sx={{ width: '100%' }}
-                            type='password'
-                            id="password"
-                            label={t("Password")}
-                            variant="outlined"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel>Email</InputLabel>
+                            <OutlinedInput
+                                label="Email"
+                                autoComplete="off"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel>{t("Password")}</InputLabel>
+                            <OutlinedInput
+                                endAdornment={
+                                    <InputAdornment position="end"
+                                        sx={{ cursor: 'pointer' }}
+                                        onClick={() => {
+                                            setShowPassword(!showPassword)
+
+                                        }}>
+                                        {!showPassword ? (<VisibilityIcon />) : (<VisibilityOffIcon />)}
+                                    </InputAdornment>
+                                }
+                                type={!showPassword ? 'password' : 'text'}
+                                label={t("Password")}
+                                autoComplete="off"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </FormControl>
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
                             <Link to='/auth/forgot-password' style={{ fontSize: '15px', color: '#000' }}>
                                 {t("ForgotPassword")}?

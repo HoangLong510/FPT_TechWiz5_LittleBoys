@@ -10,6 +10,7 @@ Route::group([
     'prefix' => 'auth'
 ], function ($router) {
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
     Route::get('fetch-data', [AuthController::class, 'fetchData']);
     Route::post('register', [AuthController::class, 'register']);
     Route::get('refresh', [AuthController::class, 'refresh']);
@@ -23,4 +24,8 @@ Route::group([
     'prefix' => 'management'
 ], function ($router) {
     Route::post('/get-accounts', [ManagementController::class,'getAccounts']);
+    Route::get('/get-account-detail/{id}', [ManagementController::class,'getAccountDetail']);
+    Route::post('/update-role', [ManagementController::class,'updateAccountRole']);
+    Route::get('/lock-account/{id}', [ManagementController::class,'lockAccount']);
+    Route::get('/unlock-account/{id}', [ManagementController::class,'unlockAccount']);
 });
