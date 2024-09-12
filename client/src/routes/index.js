@@ -8,11 +8,12 @@ import ManagementLayout from "~/layouts/ManagementLayout"
 import AccountManagement from "~/pages/management/account/Account"
 import AboutUs from "~/pages/about-us/AboutUs"
 import ContactUs from "~/pages/contact-us/ContactUs"
+import AboutusLayout from "~/layouts/AboutusLayout"
 
 
 const publicRoutes = [
     { path: '/', component: Homepage, layout: DefaultLayout },
-    { path: '/about-us', component: AboutUs, layout: DefaultLayout },
+    { path: '/about-us', component: AboutUs, layout: AboutusLayout },
     { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
 ]
 
