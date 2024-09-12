@@ -1,3 +1,30 @@
+:root {
+  --btn-create-color: transparent; 
+  --btn-create-text-color: white;
+  --text-color: white; 
+  --hover-button-color: gray; 
+}
+
+.scroll-button-create{
+  background-color: var(--btn-create-color) !important;
+  color: var(--btn-create-text-color) !important;
+  transition: background-color 0.3s;
+  
+}
+
+.scroll-button-create:hover{
+  background-color: var(--hover-button-color) !important;
+  
+}
+
+.scroll-button{
+  color: var(--text-color) !important;
+}
+
+.scroll-button:hover {
+  background-color: var(--hover-button-color) !important;
+}
+
 /* Mobile (dưới 600px) */
 @media (max-width: 600px) {
   .team-slider .slick-slide {
