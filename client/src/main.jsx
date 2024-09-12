@@ -8,6 +8,7 @@ import theme from './theme'
 import './i18n'
 import './index.css'
 import "bootstrap/dist/css/bootstrap.min.css";
+// Slick-About-Us
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
