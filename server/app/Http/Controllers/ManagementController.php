@@ -38,6 +38,7 @@ class ManagementController extends Controller
                 ->orWhere('email', 'LIKE', "%{$search}%")
                 ->orWhere('phone', 'LIKE', "%{$search}%")
                 ->orderBy('fullname', 'asc')
+                ->orderBy('role', 'asc')
                 ->skip($offset)
                 ->take($perPage)
                 ->get();
