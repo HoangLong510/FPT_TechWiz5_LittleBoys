@@ -2,6 +2,7 @@ import { LinearProgress } from "@mui/material"
 import { useSelector } from "react-redux"
 import Navbar from '~/components/Navbar/Navbar'
 import Footer from '~/components/Footer/Footer'
+import Backtotop from "~/components/Backtotop/Backtotop"
 
 export default function DefaultLayout({ children }) {
 
@@ -21,6 +22,7 @@ export default function DefaultLayout({ children }) {
                 {children}
             </div>
             <Footer />
+            <Backtotop/>
         </div>
     )
 }

@@ -37,6 +37,7 @@ import locales from "~/locales";
 import Footer from "~/components/Footer/Footer";
 import './style.css'
 
+
 const teamMembers = [
   {
     name: "Nguyễn Văn A",
