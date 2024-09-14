@@ -40,6 +40,15 @@ export default function ManagementLayout({ children }) {
                         Account
                     </Button>
                 </Link>
+                <Link to='/management/brands'>
+                    <Button
+                        sx={{ width: '100%' }}
+                        variant={pathname.startsWith('/management/brands') ? "contained" : "text"}
+                    >
+                        Brands
+                    </Button>
+                </Link>
+                
             </Box>
 
             <Box sx={{
