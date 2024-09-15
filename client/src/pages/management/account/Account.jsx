@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Pagination, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material"
 import Paper from '@mui/material/Paper'
 import { useEffect, useState } from "react"
-import { getAccountsManagementApi } from "./service"
+import { fetchAccountsManagementApi } from "./service"
 import { useTranslation } from "react-i18next"
 import { Helmet } from "react-helmet"
 import { useNavigate } from "react-router-dom"
@@ -19,13 +19,13 @@ export default function Account() {
     const [accounts, setAccounts] = useState([])
     const [search, setSearch] = useState("")
 
-    const getAccounts = async () => {
+    const handleFetchAccounts = async () => {
         setLoading(true)
         const data = {
             search,
             page
         }
-        const res = await getAccountsManagementApi(data)
+        const res = await fetchAccountsManagementApi(data)
         if (res.accounts) {
             await Promise.all([
                 setAccounts(res.accounts),
@@ -40,7 +40,7 @@ export default function Account() {
     }
 
     useEffect(() => {
-        getAccounts()
+        handleFetchAccounts()
     }, [page])
 
     useEffect(() => {
@@ -48,7 +48,7 @@ export default function Account() {
             setLoading(true)
             setPage(1)
             const handleSearchChange = setTimeout(async () => {
-                const res = await getAccountsManagementApi({ search, page: 1 })
+                const res = await fetchAccountsManagementApi({ search, page: 1 })
                 if (res.accounts) {
                     await Promise.all([
                         setAccounts(res.accounts),
@@ -86,8 +86,8 @@ export default function Account() {
                     alignItems: 'center',
                     height: '40px'
                 }}>
-                    <Box sx={{ fontWeight: 'bold' }}>
-                        ACCOUNT MANAGEMENT
+                    <Box sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
+                        {t('AccountManagement')}
                     </Box>
                 </Box>
 
@@ -95,7 +95,7 @@ export default function Account() {
                     <TextField fullWidth
                         size="small"
                         id="search"
-                        label="Search..."
+                        label={t("Search") + "..."}
                         variant="outlined"
                         autoComplete="off"
                         value={search}
@@ -106,7 +106,7 @@ export default function Account() {
                 <TableContainer component={Paper} sx={{ border: '1px solid #e6e6e6', boxShadow: 'none' }}>
                     <Table sx={{ height: (loading || accounts.length === 0) ? "100%" : "" }}>
                         <TableHead sx={{ height: '60px' }}>
-                            <TableRow sx={{ textTransform: 'uppercase', backgroundColor: '#000' }}>
+                            <TableRow sx={{ textTransform: 'uppercase', backgroundColor: 'primary.main' }}>
                                 <TableCell sx={{ color: '#fff', width: '30%' }}>
                                     Email
                                 </TableCell>
@@ -115,9 +115,6 @@ export default function Account() {
                                 </TableCell>
                                 <TableCell align="center" sx={{ color: '#fff', width: '20%', display: { xs: 'none', md: 'revert' } }}>
                                     {t("PhoneNumber")}
-                                </TableCell>
-                                <TableCell align="center" sx={{ color: '#fff', width: '10%', display: { xs: 'none', md: 'revert' } }}>
-                                    {t("Gender")}
                                 </TableCell>
                                 <TableCell align="right" sx={{ color: '#fff', width: '10%' }}>
                                     {t("Role")}
@@ -146,9 +143,6 @@ export default function Account() {
                                     <TableCell align="center" sx={{ display: { xs: 'none', md: 'revert' } }}>
                                         {account.phone}
                                     </TableCell>
-                                    <TableCell align="center" sx={{ textTransform: 'capitalize', display: { xs: 'none', md: 'revert' } }}>
-                                        {account.gender === 'male' ? t("Male") : t("Female")}
-                                    </TableCell>
                                     <TableCell align="right" style={{ textTransform: 'capitalize' }}>
                                         {account.role}
                                     </TableCell>
@@ -157,7 +151,7 @@ export default function Account() {
                             {!loading && accounts.length === 0 && (
                                 <TableRow>
                                     <TableCell colSpan={5} align="center">
-                                        No data
+                                        {t("NoData")}
                                     </TableCell>
                                 </TableRow>
                             )}

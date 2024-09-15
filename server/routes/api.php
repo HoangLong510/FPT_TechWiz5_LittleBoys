@@ -23,9 +23,9 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'management'
 ], function ($router) {
-    Route::post('/get-accounts', [ManagementController::class,'getAccounts']);
-    Route::get('/get-account-detail/{id}', [ManagementController::class,'getAccountDetail']);
-    Route::post('/update-role', [ManagementController::class,'updateAccountRole']);
+    Route::post('/fetch-accounts', [ManagementController::class,'fetchAccounts']);
+    Route::get('/fetch-account-detail/{id}', [ManagementController::class,'fetchAccountDetail']);
+    Route::post('/account/update', [ManagementController::class,'updateAccount']);
     Route::get('/lock-account/{id}', [ManagementController::class,'lockAccount']);
     Route::get('/unlock-account/{id}', [ManagementController::class,'unlockAccount']);
 
