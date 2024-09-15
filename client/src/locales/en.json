@@ -43,5 +43,18 @@
     "Female": "Female",
     "Role": "Role",
     "ManagementAccount": "Management account",
-    "Asoftwareengineerwithapassionforbuildingscalableandefficientsystems." : "A soft ware engineer with a passion for  building scalable and efficient systems."
+    "Asoftwareengineerwithapassionforbuildingscalableandefficientsystems." : "A soft ware engineer with a passion for  building scalable and efficient systems.",
+    "NoData": "No data",
+    "Search": "Search",
+    "AccountManagement": "Account management",
+    "AccountDetail": "Account detail",
+    "ViewAllAccounts": "View all accounts",
+    "CreatedAt": "Created at",
+    "UpdatedAt": "Updated at",
+    "LockAccount": "Lock account",
+    "UnlockAccount": "Unlock account",
+    "Active": "Active",
+    "Yes": "Yes",
+    "No": "No",
+    "Update": "Update"
 }

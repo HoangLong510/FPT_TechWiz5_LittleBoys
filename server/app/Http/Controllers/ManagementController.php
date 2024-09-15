@@ -18,7 +18,7 @@ class ManagementController extends Controller
     }
 
     // Account management
-    public function getAccounts()
+    public function fetchAccounts()
     {
         $user = auth()->user();
         $search = request('search');
@@ -55,7 +55,7 @@ class ManagementController extends Controller
         }
     }
 
-    public function getAccountDetail($id)
+    public function fetchAccountDetail($id)
     {
         $user = auth()->user();
 
@@ -78,12 +78,17 @@ class ManagementController extends Controller
         }
     }
 
-    public function updateAccountRole()
+    public function updateAccount()
     {
         $error = [];
         $user = auth()->user();
+
         $id = request('id');
+        $fullname = request('fullname');
+        $gender = request('gender');
+        $address = request('address');
         $role = request('role');
+        $active = request('active');
 
         if (!$user || $user->role !== 'admin') {
             $msg = new \stdClass();
@@ -100,61 +105,24 @@ class ManagementController extends Controller
             } else {
                 if ($account->email === "admin") {
                     $msg = new \stdClass();
-                    $msg->vi = "Bạn không thể cập nhật vai trò cho tài khoản quản trị!";
-                    $msg->en = "You cannot update admin account role!";
-                    array_push($error, $msg);
-                }
-            }
-        }
-
-        if (count($error) > 0) {
-            return response()->json([
-                "success" => false,
-                "message" => $error
-            ], 400);
-        } else {
-            User::where("id", $id)->update([
-                "role" => $role
-            ]);
-            $msg = new \stdClass();
-            $msg->en = "Role update successfully!";
-            $msg->vi = "Cập nhật vai trò thành công!";
-            return response()->json([
-                "success" => true,
-                "message" => [$msg]
-            ], 200);
-        }
-    }
-
-    function lockAccount($id)
-    {
-        $error = [];
-        $user = auth()->user();
-
-        if (!$user || $user->role !== 'admin') {
-            $msg = new \stdClass();
-            $msg->vi = "Bạn không thể thực hiện hành động này!";
-            $msg->en = "You cannot perform this action!!";
-            array_push($error, $msg);
-        } else {
-            $account = User::where("id", $id)->first();
-            if (!$account) {
-                $msg = new \stdClass();
-                $msg->vi = "Không tìm thấy tài khoản!";
-                $msg->en = "Account not found!";
-                array_push($error, $msg);
-            } else {
-                if ($account->email === "admin") {
-                    $msg = new \stdClass();
-                    $msg->vi = "Bạn không thể khóa tài khoản quản trị!";
-                    $msg->en = "You cannot lock admin account!";
+                    $msg->vi = "Bạn không thể cập nhật tài khoản quản trị!";
+                    $msg->en = "You cannot update admin account!";
                     array_push($error, $msg);
                 } else {
-                    if ($user->id == $id) {
+                    $regexFullname = "/^(?! )[a-zA-Z\s\u{0080}-\u{FFFF}]{2,50}(?<! )$/u";
+
+                    if (empty($fullname) || empty($gender) || empty($address) || empty($role)) {
                         $msg = new \stdClass();
-                        $msg->vi = "Bạn không thể khóa chính bạn!";
-                        $msg->en = "You cannot lock your own account!";
+                        $msg->en = "All fields are required!";
+                        $msg->vi = "Tất cả các trường đều bắt buộc!";
                         array_push($error, $msg);
+                    } else {
+                        if (!preg_match($regexFullname, $fullname)) {
+                            $msg = new \stdClass();
+                            $msg->en = "The name must be from 2 to 50 characters long. Numbers and special characters are not allowed.";
+                            $msg->vi = "Tên phải dài từ 2 đến 50 ký tự. Không được phép sử dụng số và ký tự đặc biệt.";
+                            array_push($error, $msg);
+                        }
                     }
                 }
             }
@@ -167,45 +135,28 @@ class ManagementController extends Controller
             ], 400);
         } else {
             User::where("id", $id)->update([
-                "active" => 0
+                "fullname" => $fullname,
+                "gender" => $gender,
+                "address" => $address,
+                "role" => $role,
+                "active" => $active
             ]);
             $msg = new \stdClass();
-            $msg->en = "Account locked successfully!";
-            $msg->vi = "Khóa tài khoản thành công!";
-            return response()->json([
-                "success" => true,
-                "message" => [$msg]
-            ], 200);
-        }
-    }
-
-    function unlockAccount($id)
-    {
-        $error = [];
-        $user = auth()->user();
-        if (!$user || $user->role !== 'admin') {
-            $msg = new \stdClass();
-            $msg->vi = "Bạn không thể thực hiện hành động này!";
-            $msg->en = "You cannot perform this action!!";
-            array_push($error, $msg);
-        }
-
-        if (count($error) > 0) {
-            return response()->json([
-                "success" => false,
-                "message" => $error
-            ], 400);
-        } else {
-            User::where("id", $id)->update([
-                "active" => 1
-            ]);
-            $msg = new \stdClass();
-            $msg->en = "Account unlocked successfully!";
-            $msg->vi = "Mở khóa tài khoản thành công!";
-            return response()->json([
-                "success" => true,
-                "message" => [$msg]
-            ], 200);
+            $msg->en = "Update account successfully!";
+            $msg->vi = "Cập nhật tài khoản thành công!";
+            if ($user->id != $id) {
+                return response()->json([
+                    "success" => true,
+                    "message" => [$msg]
+                ], 200);
+            } else {
+                $user = User::where("id", $id)->first();
+                return response()->json([
+                    "success" => true,
+                    "message" => [$msg],
+                    "user" => $user
+                ], 200);
+            }
         }
     }
 
