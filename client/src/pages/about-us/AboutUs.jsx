@@ -120,7 +120,7 @@ export default function AboutUs  () {
 
   const loading = useSelector((state) => state.loading.value);
   const user = useSelector((state) => state.user.value);
-  const { t } = useTranslation();
+
 
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -129,7 +129,7 @@ export default function AboutUs  () {
     setOpen(newOpen);
   };
 
-  const { i18n } = useTranslation();
+  const {t, i18n } = useTranslation();
   const locale = i18n.language;
 
   const handleChange = (event) => {
@@ -653,7 +653,7 @@ export default function AboutUs  () {
                         <Box>
                           <Typography variant="h6">{member.name}</Typography>
                           <Typography variant="body2" color="textSecondary">
-                            {member.position}
+                             {member.position}{[i18n.language]}
                           </Typography>
                           <Box display="flex" alignItems="center" mt={1}>
                             <EmailIcon
