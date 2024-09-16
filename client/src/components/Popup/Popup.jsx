@@ -46,7 +46,7 @@ export default function Popup() {
                 <DialogContent sx={{
                     width: { xs: '100%', md: '500px' }
                 }}>
-                    {popup.data.message && (
+                    {popup.data.message && Array.isArray(popup.data.message) && (
                         <DialogContentText sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                             {popup.data.message.map((msg, index) => {
                                 return <span key={index}>{msg[i18n.language]}</span>

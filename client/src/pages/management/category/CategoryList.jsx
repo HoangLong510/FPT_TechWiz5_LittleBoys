@@ -1,39 +1,37 @@
 import { useEffect, useState } from 'react';
 import { Box, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Pagination, Stack, Button, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getBrandsApi, deleteBrandApi } from './service'; // Import API services
+import { getCategoriesApi, deleteCategoryApi } from './service'; // Import API services
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function BrandList() {
-    const [brands, setBrands] = useState([]);
+export default function CategoryList() {
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [totalPage, setTotalPage] = useState(1);
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
-    const fetchBrands = async () => {
+    const fetchCategories = async () => {
         setLoading(true);
         try {
             const data = { search, page };
-            const res = await getBrandsApi(data);
-            console.log('API Response:', res); // Kiểm tra dữ liệu trả về từ API
-            if (res.brands) {
-                setBrands(res.brands);
-                setTotalPage(res.totalPages); // Đảm bảo giá trị tổng số trang chính xác
-                setPage(res.currentPage);     // Cập nhật trang hiện tại nếu cần
+            const res = await getCategoriesApi(data);
+            if (res.categories) {
+                setCategories(res.categories);
+                setTotalPage(res.totalPages);
             }
         } catch (error) {
-            console.error('Error fetching brands:', error);
+            console.error('Error fetching categories:', error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchBrands();
+        fetchCategories();
     }, [search, page]);
 
     const handleChangePage = (event, newPage) => {
@@ -42,18 +40,18 @@ export default function BrandList() {
 
     const { t } = useTranslation();
 
-    // Chuyển đến trang tạo mới thương hiệu
-    const handleCreateBrand = () => {
-        navigate('/management/brands/create'); // Điều hướng đến trang BrandCreate
+    // Chuyển đến trang tạo mới category
+    const handleCreateCategory = () => {
+        navigate('/management/categories/create'); // Điều hướng đến trang CategoryCreate
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this brand?')) {
+        if (window.confirm('Are you sure you want to delete this category?')) {
             try {
-                await deleteBrandApi(id);
-                fetchBrands(); // Refresh the list after deletion
+                await deleteCategoryApi(id);
+                fetchCategories(); // Refresh the list after deletion
             } catch (error) {
-                console.error('Error deleting brand:', error);
+                console.error('Error deleting category:', error);
             }
         }
     };
@@ -64,7 +62,7 @@ export default function BrandList() {
     return (
         <>
             <Helmet>
-                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("ManagementBrands")}</title>
+                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("ManagementCategories")}</title>
             </Helmet>
 
             <Box sx={{
@@ -82,10 +80,10 @@ export default function BrandList() {
                     height: '40px'
                 }}>
                     <Box sx={{ fontWeight: 'bold' }}>
-                        {t("BRANDMANAGEMENT")}
+                        {t("CATEGORYMANAGEMENT")}
                     </Box>
-                    <Button variant="contained" color="primary" onClick={handleCreateBrand}>
-                        Create Brand
+                    <Button variant="contained" color="primary" onClick={handleCreateCategory}>
+                        Create Category
                     </Button>
                 </Box>
 
@@ -114,10 +112,10 @@ export default function BrandList() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {!loading && brands.length > 0 && brands.map((brand) => (
+                            {!loading && categories.length > 0 && categories.map((category) => (
                                 <TableRow
-                                    key={brand.id}
-                                    onClick={() => navigate(`/management/brands/${brand.id}`)}
+                                    key={category.id}
+                                    onClick={() => navigate(`/management/categories/${category.id}`)}
                                     sx={{
                                         '&:last-child td, &:last-child th': { border: 0, borderBottom: '1px solid #e6e6e6' },
                                         '&:hover': {
@@ -126,23 +124,23 @@ export default function BrandList() {
                                         }
                                     }}
                                 >
-                                    <TableCell sx={{ fontSize: '14px' }}>{brand.id}</TableCell>
-                                    <TableCell sx={{ fontSize: '14px' }}>{brand.name}</TableCell>
+                                    <TableCell sx={{ fontSize: '14px' }}>{category.id}</TableCell>
+                                    <TableCell sx={{ fontSize: '14px' }}>{category.name}</TableCell>
                                     <TableCell sx={{ fontSize: '14px' }}>
-                                        {brand.image ? (
+                                        {category.image ? (
                                             <img
-                                                src={`${imageBaseUrl}${brand.image}?${new Date().getTime()}`} // Thêm tham số để tránh cache
-                                                alt={brand.name}
+                                                src={`${imageBaseUrl}${category.image}?${new Date().getTime()}`} // Thêm tham số để tránh cache
+                                                alt={category.name}
                                                 style={{ maxWidth: '100px', maxHeight: '60px', objectFit: 'cover' }}
                                             />
                                         ) : (
                                             'No image'
                                         )}
                                     </TableCell>
-                                    <TableCell sx={{ fontSize: '14px' }}>{brand.created_at}</TableCell>
+                                    <TableCell sx={{ fontSize: '14px' }}>{category.created_at}</TableCell>
                                     <TableCell sx={{ fontSize: '14px' }}>
                                         <IconButton
-                                            onClick={(e) => { e.stopPropagation(); handleDelete(brand.id); }}
+                                            onClick={(e) => { e.stopPropagation(); handleDelete(category.id); }}
                                             color="error" // Set color to red
                                         >
                                             <DeleteIcon />
@@ -150,7 +148,7 @@ export default function BrandList() {
                                     </TableCell>
                                 </TableRow>
                             ))}
-                            {!loading && brands.length === 0 && (
+                            {!loading && categories.length === 0 && (
                                 <TableRow>
                                     <TableCell colSpan={5} align="center">No data</TableCell>
                                 </TableRow>

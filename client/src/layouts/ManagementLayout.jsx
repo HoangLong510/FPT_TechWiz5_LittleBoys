@@ -48,6 +48,23 @@ export default function ManagementLayout({ children }) {
                         Brands
                     </Button>
                 </Link>
+                <Link to='/management/categories'>
+                    <Button
+                        sx={{ width: '100%' }}
+                        variant={pathname.startsWith('/management/categories') ? "contained" : "text"}
+                    >
+                        Categories
+                    </Button>
+                </Link>
+
+                <Link to='/management/products'>
+                    <Button
+                        sx={{ width: '100%' }}
+                        variant={pathname.startsWith('/management/products') ? "contained" : "text"}
+                    >
+                        Products
+                    </Button>
+                </Link>
                 
             </Box>
 
