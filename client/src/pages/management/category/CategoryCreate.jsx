@@ -3,14 +3,14 @@ import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { createBrandApi } from "./service"; // Import API service để tạo thương hiệu mới
+import { createCategoryApi } from "./service"; // Import API service để tạo danh mục mới
 
-export default function BrandCreate() {
+export default function CategoryCreate() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const [name, setName] = useState(''); // Tên thương hiệu
-    const [image, setImage] = useState(null); // Hình ảnh thương hiệu
+    const [name, setName] = useState(''); // Tên danh mục
+    const [image, setImage] = useState(null); // Hình ảnh danh mục
     const [loading, setLoading] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -26,26 +26,20 @@ export default function BrandCreate() {
             formData.append('image', image);
         }
 
-        // Ghi lại dữ liệu trước khi gửi
-        console.log('FormData Entries:', [...formData.entries()]);
-
         try {
-            const res = await createBrandApi(formData);
+            const res = await createCategoryApi(formData);
             if (res.success) {
-                setSnackbarMessage(t("Brand created successfully!"));
+                setSnackbarMessage(t("Category created successfully!"));
                 setSnackbarSeverity('success');
                 setOpenSnackbar(true);
-                // Thực hiện điều hướng sau 1000ms (1 giây)
-                setTimeout(() => navigate('/management/brands'), 1000);
+                setTimeout(() => navigate('/management/categories'), 500);
             } else {
-                setSnackbarMessage(res.message || 'Failed to create brand.');
+                setSnackbarMessage(res.message || 'Failed to create category.');
                 setSnackbarSeverity('error');
                 setOpenSnackbar(true);
             }
         } catch (err) {
-            // Hiển thị chi tiết lỗi
-            console.error('Error creating brand:', err);
-            setSnackbarMessage('Failed to create brand. Please try again later.');
+            setSnackbarMessage('Failed to create category. Please try again later.');
             setSnackbarSeverity('error');
             setOpenSnackbar(true);
         } finally {
@@ -54,7 +48,7 @@ export default function BrandCreate() {
     };
 
     const handleBack = () => {
-        navigate('/management/brands'); // Quay lại danh sách thương hiệu
+        navigate('/management/categories'); // Quay lại danh sách danh mục
     };
 
     const handleCloseSnackbar = () => {
@@ -64,7 +58,7 @@ export default function BrandCreate() {
     return (
         <>
             <Helmet>
-                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("CreateBrand")}</title>
+                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("CreateCategory")}</title>
             </Helmet>
             <Box sx={{
                 display: 'flex',
@@ -81,7 +75,7 @@ export default function BrandCreate() {
                     height: '40px'
                 }}>
                     <Box sx={{ fontWeight: 'bold' }}>
-                        {t("CreateBrand")}
+                        {t("CreateCategory")}
                     </Box>
                     <Button onClick={handleBack}>
                         {t("Back to List")}
@@ -112,7 +106,7 @@ export default function BrandCreate() {
                             fullWidth
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            label={t("Brand Name")}
+                            label={t("Category Name")}
                             variant="standard"
                             required
                         />
@@ -154,14 +148,12 @@ export default function BrandCreate() {
                 {/* Snackbar for notifications */}
                 <Snackbar
                     open={openSnackbar}
-                    autoHideDuration={10000}
+                    autoHideDuration={6000}
                     onClose={handleCloseSnackbar}
                     sx={{ 
                         '& .MuiSnackbarContent-root': { 
                             width: 'auto', 
-                            maxWidth: '600px',
-                            height: 'auto', // Đảm bảo chiều cao tự động thay đổi
-                            minHeight: '80px' // Tùy chỉnh kích thước rộng nhất của Snackbar
+                            maxWidth: '600px' // Tùy chỉnh kích thước rộng nhất của Snackbar
                         }
                     }}
                 >
@@ -171,8 +163,7 @@ export default function BrandCreate() {
                         sx={{ 
                             width: '100%', 
                             fontSize: '1rem', // Tăng kích thước font chữ
-                            padding: '16px', // Tăng padding để làm cho Alert to hơn
-                            borderRadius: '8px' // Thay đổi bo góc nếu cần
+                            padding: '16px' // Tăng padding để làm cho Alert to hơn
                         }}
                     >
                         {snackbarMessage}

@@ -3,17 +3,17 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { getBrandDetailApi, updateBrandApi } from "./service";
+import { getCategoryDetailApi, updateCategoryApi } from "./service";
 import { useDispatch } from "react-redux";
 import { setPopup } from "~/libs/features/popup/popupSlice";
 
-export default function BrandDetail() {
+export default function CategoryDetail() {
     const { t } = useTranslation();
-    const { brandId } = useParams();
+    const { categoryId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [brand, setBrand] = useState(null);
+    const [category, setCategory] = useState(null);
     const [name, setName] = useState('');
     const [image, setImage] = useState(null); // Trạng thái lưu hình ảnh
     const [loading, setLoading] = useState(false);
@@ -21,26 +21,26 @@ export default function BrandDetail() {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const fetchBrand = async () => {
+        const fetchCategory = async () => {
             setLoading(true);
             try {
-                const res = await getBrandDetailApi(brandId);
-                if (res && res.brand) {
-                    setBrand(res.brand);
-                    setName(res.brand.name);
+                const res = await getCategoryDetailApi(categoryId);
+                if (res && res.category) {
+                    setCategory(res.category);
+                    setName(res.category.name);
                     setImage(null); // Reset image state
                 } else {
-                    setError('Brand not found.');
+                    setError('Category not found.');
                 }
             } catch (err) {
-                setError('Failed to fetch brand details.');
+                setError('Failed to fetch category details.');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchBrand();
-    }, [brandId]);
+        fetchCategory();
+    }, [categoryId]);
 
     const handleSave = async () => {
         setLoading(true);
@@ -55,19 +55,18 @@ export default function BrandDetail() {
         }
 
         try {
-            const res = await updateBrandApi(brandId, formData); // Sử dụng formData khi gọi API
+            const res = await updateCategoryApi(categoryId, formData); // Sử dụng formData khi gọi API
             if (res.success) {
-                setBrand({ ...brand, name });
                 setSuccess(true);
                 dispatch(setPopup({ type: 'success', message: res.message }));
-                navigate('/management/brands'); // Chuyển hướng sau khi cập nhật thành công
+                navigate('/management/categories'); // Chuyển hướng sau khi cập nhật thành công
             } else {
                 setError(res.message);
                 dispatch(setPopup({ type: 'error', message: res.message }));
             }
         } catch (err) {
-            setError('Failed to update brand.');
-            dispatch(setPopup({ type: 'error', message: 'Failed to update brand.' }));
+            setError('Failed to update category.');
+            dispatch(setPopup({ type: 'error', message: 'Failed to update category.' }));
         } finally {
             setLoading(false);
         }
@@ -80,7 +79,7 @@ export default function BrandDetail() {
     return (
         <>
             <Helmet>
-                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("BrandDetail")}</title>
+                <title>{import.meta.env.VITE_PROJECT_NAME} | {t("CategoryDetail")}</title>
             </Helmet>
             <Box sx={{
                 display: 'flex',
@@ -97,11 +96,11 @@ export default function BrandDetail() {
                     height: '40px'
                 }}>
                     <Box sx={{ fontWeight: 'bold' }}>
-                        Brand Detail
+                        {t("CategoryDetail")}
                     </Box>
-                    <Link to="/management/brands">
+                    <Link to="/management/categories">
                         <Button>
-                            View all brands
+                            {t("View all categories")}
                         </Button>
                     </Link>
                 </Box>
@@ -118,7 +117,7 @@ export default function BrandDetail() {
                     </Box>
                 )}
 
-                {!loading && brand && (
+                {!loading && category && (
                     <Box sx={{
                         width: '100%',
                         display: 'flex',
@@ -128,7 +127,7 @@ export default function BrandDetail() {
                     }}>
                         {success && (
                             <Alert severity="success" sx={{ marginBottom: 2 }}>
-                                Brand updated successfully!
+                                {t("Category updated successfully!")}
                             </Alert>
                         )}
 
@@ -139,11 +138,11 @@ export default function BrandDetail() {
                         )}
 
                         {/* Hiển thị hình ảnh cũ nếu có */}
-                        {brand.image && (
+                        {category.image && (
                             <Box sx={{ mb: 2 }}>
                                 <img
-                                    src={`/Images/${brand.image}`} // Đảm bảo đường dẫn đúng với cấu trúc của bạn
-                                    alt="Brand"
+                                    src={`/Images/${category.image}`} // Đảm bảo đường dẫn đúng với cấu trúc của bạn
+                                    alt="Category"
                                     style={{ maxWidth: '100%', maxHeight: '200px' }}
                                 />
                             </Box>
@@ -153,7 +152,7 @@ export default function BrandDetail() {
                             fullWidth
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            label="Brand Name"
+                            label={t("CategoryName")}
                             variant="standard"
                         />
 
@@ -166,10 +165,11 @@ export default function BrandDetail() {
                             sx={{ marginTop: 2 }}
                         />
 
+                        {/* Thêm thông tin về ngày tạo và cập nhật */}
                         <TextField
                             fullWidth
-                            value={brand?.created_at}
-                            label="Created At"
+                            value={category?.created_at}
+                            label={t("Created At")}
                             variant="standard"
                             InputProps={{
                                 readOnly: true
@@ -178,8 +178,8 @@ export default function BrandDetail() {
 
                         <TextField
                             fullWidth
-                            value={brand?.updated_at}
-                            label="Updated At"
+                            value={category?.updated_at}
+                            label={t("Updated At")}
                             variant="standard"
                             InputProps={{
                                 readOnly: true
@@ -194,7 +194,7 @@ export default function BrandDetail() {
                                 onClick={handleSave}
                                 disabled={loading}
                             >
-                                Save
+                                {t("Save")}
                             </Button>
                         </Box>
 
@@ -205,7 +205,7 @@ export default function BrandDetail() {
                                 color="secondary"
                                 onClick={handleBack}
                             >
-                                Back
+                                {t("Back")}
                             </Button>
                         </Box>
                     </Box>
