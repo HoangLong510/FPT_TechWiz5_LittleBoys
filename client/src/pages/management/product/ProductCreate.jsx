@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, TextField, Snackbar, Alert, Input } from "@mui/material";
+import { Box, Button, CircularProgress, TextField, Snackbar, Alert, Input, MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -147,36 +147,35 @@ export default function ProductCreate() {
                             variant="standard"
                             multiline
                         />
-                        <TextField
-                            select
-                            fullWidth
-                            value={brandId}
-                            onChange={(e) => setBrandId(e.target.value)}
-                            label={t("Brand")}
-                            SelectProps={{ native: true }}
-                            variant="standard"
-                            required
-                        >
-                            <option value="">{t("Select Brand")}</option>
-                            {brands.map(brand => (
-                                <option key={brand.id} value={brand.id}>{brand.name}</option>
+                        
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel id="select-Brand">{t("Brand")}</InputLabel>
+                            <Select
+                                labelId="select-Brand"
+                                value={brandId}
+                                label={t("Brand")}
+                                onChange={(e) => setBrandId(e.target.value)}
+                            >
+                                <MenuItem value={""}>{t("Select Brand")}</MenuItem>
+                                {brands.map(brand => (
+                                <MenuItem key={brand.id} value={brand.id}>{brand.name}</MenuItem>
                             ))}
-                        </TextField>
-                        <TextField
-                            select
-                            fullWidth
-                            value={categoryId}
-                            onChange={(e) => setCategoryId(e.target.value)}
-                            label={t("Category")}
-                            SelectProps={{ native: true }}
-                            variant="standard"
-                            required
-                        >
-                            <option value="">{t("Select Category")}</option>
-                            {categories.map(category => (
-                                <option key={category.id} value={category.id}>{category.name}</option>
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel id="select-Category">{t("Category")}</InputLabel>
+                            <Select
+                                labelId="select-Category"
+                                value={categoryId}
+                                label={t("Category")}
+                                onChange={(e) => setCategoryId(e.target.value)}
+                            >
+                                <MenuItem value={""}>{t("Select Category")}</MenuItem>
+                                {categories.map(category => (
+                                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
                             ))}
-                        </TextField>
+                            </Select>
+                        </FormControl>
                         <Input
                             type="file"
                             onChange={(e) => setImage(e.target.files[0])}
@@ -184,24 +183,20 @@ export default function ProductCreate() {
                             fullWidth
                             sx={{ marginTop: 2 }}
                         />
-                        <Box sx={{ width: '100%', display: 'flex', gap: '10px' }}>
+                        <Box sx={{ width: '100%', display: 'flex', gap: '10px', justifyContent:'flex-end' }}>
                             <Button
-                                fullWidth
+                                sx={{
+                                    width:'160px'
+                                }}
                                 variant="contained"
                                 color="primary"
                                 onClick={handleCreate}
                                 disabled={loading}
+                                
                             >
                                 {loading ? <CircularProgress size={24} /> : t("Create")}
                             </Button>
-                            <Button
-                                fullWidth
-                                variant="outlined"
-                                color="secondary"
-                                onClick={handleBack}
-                            >
-                                {t("Back")}
-                            </Button>
+                            
                         </Box>
                     </Box>
                 )}
