@@ -46,4 +46,17 @@
     "Asoftwareengineerwithapassionforbuildingscalableandefficientsystems." : "Một kỹ sư phần mềm có niềm đam mê xây dựng các hệ thống hiệu quả và có thể mở rộng.",
     "Name" : "Tên",
     "BRANDMANAGEMENT" : " Quản lý thương hiệu"
+    "NoData": "Không có dữ liệu",
+    "Search": "Tìm kiếm",
+    "AccountManagement": "Quản lý tài khoản",
+    "AccountDetail": "Chi tiết tài khoản",
+    "ViewAllAccounts": "Tất cả tài khoản",
+    "CreatedAt": "Thời gian tạo",
+    "UpdatedAt": "Thời gian cập nhật",
+    "LockAccount": "Khóa tài khoản",
+    "UnlockAccount": "Mở khóa tài khoản",
+    "Active": "Hiệu lực",
+    "Yes": "Có",
+    "No": "Không",
+    "Update": "Cập nhật"
 }

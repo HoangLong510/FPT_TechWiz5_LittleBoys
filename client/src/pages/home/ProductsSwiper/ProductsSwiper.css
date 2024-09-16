@@ -1,0 +1,146 @@
+.card-image {
+    width: 100%;
+    object-fit: cover;
+    min-height: 180px;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    margin-top: auto; 
+    margin-right: 80px;
+
+}
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 80px;
+    margin-bottom: 10px;
+}
+
+.icon-single {
+    position: relative;
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+    background-color: rgb(77, 104, 153);
+    margin-left: 10px;
+}
+
+.icon-singlesp {
+    position: relative;
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+    background-color: rgb(77, 104, 153);
+}
+
+.icon-single:hover, .icon-singlesp:hover {
+    background-color: rgb(246, 190, 105);
+}
+
+.icon-button-with-text {
+    position: relative;
+    margin-right: 5px;
+}
+
+.icon-button-with-text .hover-text {
+    position: absolute;
+    top: 10%;
+    left: 80%;
+    white-space: nowrap;
+    color: #000000;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    visibility: hidden;
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+    z-index: 1;
+}
+
+.icon-single:hover .icon-button-with-text .hover-text,
+.icon-singlesp:hover .icon-button-with-text .hover-text {
+    transform: translateX(20px) translateY(0) scale(1);
+    visibility: visible;
+    
+}
+
+.icon-single:hover ~ .icon-single{
+    transform: translateX(70px);
+    transition: transform 0.3s ease-out; 
+}
+.icon-singlesp:hover ~ .icon-single{
+    transform: translateX(80px);
+    transition: transform 0.3s ease-out;
+}
+
+.icon-single:hover ~ .icon-single.returning,
+.icon-singlesp:hover ~ .icon-singlesp.returning {
+    transition: transform 0.6s ease-in; /* Moving back */
+}
+
+.slick-slide{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider-content .slick-slide{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: fit-content;
+}
+
+.slick-list {
+    overflow: hidden;
+}
+
+.slider-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.slick-prev,
+.slick-next {
+    position: absolute;
+    top: 4%;
+    transform: translateY(-50%);
+    font-size: 0;
+    color: #000;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.slick-prev {
+    left: 400px;
+}
+
+.slick-next {
+    right: 400px;
+}
+
+@media (max-width: 1024px) {
+    .slick-prev {
+        left: 150px;
+    }
+
+    .slick-next {
+        right: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .slick-prev {
+        left: 100px;
+    }
+
+    .slick-next {
+        right: 100px;
+    }
+}

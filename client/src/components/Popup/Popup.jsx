@@ -26,7 +26,7 @@ export default function Popup() {
 
     return (
         <React.Fragment>
-            <Dialog sx={{ zIndex: 9999 }}
+            <Dialog sx={{ zIndex: 9999, userSelect: 'none' }}
                 open={popup.open}
                 TransitionComponent={Transition}
                 keepMounted
@@ -34,12 +34,12 @@ export default function Popup() {
                 aria-describedby="alert-dialog-slide-description"
             >
                 {popup.data.type === 'error' && (
-                    <DialogTitle color={'primary'}>
+                    <DialogTitle color='error'>
                         {t("Error")}
                     </DialogTitle>
                 )}
                 {popup.data.type === 'success' && (
-                    <DialogTitle color={'primary'}>
+                    <DialogTitle>
                         {t("Success")}
                     </DialogTitle>
                 )}
@@ -56,12 +56,12 @@ export default function Popup() {
                 </DialogContent>
                 <DialogActions>
                     {popup.data.type === 'success' && (
-                        <Button variant='contained' onClick={handleClose}>
+                        <Button variant='contained' color='primary' onClick={handleClose}>
                             {t("Agree")}
                         </Button>
                     )}
                     {popup.data.type === 'error' && (
-                        <Button onClick={handleClose} color='primary' variant='outlined'>
+                        <Button onClick={handleClose} color='error' variant='outlined'>
                             {t("Close")}
                         </Button>
                     )}

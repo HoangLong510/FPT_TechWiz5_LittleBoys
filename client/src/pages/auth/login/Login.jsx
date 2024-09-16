@@ -78,14 +78,14 @@ export default function Login() {
                         flexDirection: 'column',
                         userSelect: 'none'
                     }}>
-                        <span style={{
+                        <Box sx={{
                             fontSize: '18px',
                             fontWeight: 'bold',
                             textTransform: 'uppercase',
-                            paddingBottom: '5px'
+                            paddingBottom: '5px',
                         }}>
                             {t("Login")}
-                        </span>
+                        </Box>
                         <span style={{
                             fontSize: '15px',
                             paddingBottom: '20px'
@@ -130,8 +130,10 @@ export default function Login() {
                             />
                         </FormControl>
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
-                            <Link to='/auth/forgot-password' style={{ fontSize: '15px', color: '#000' }}>
-                                {t("ForgotPassword")}?
+                            <Link to='/auth/forgot-password' style={{ fontSize: '15px' }}>
+                                <Box sx={{ color: 'primary.main' }}>
+                                    {t("ForgotPassword")}?
+                                </Box>
                             </Link>
                         </Box>
                         <Button type='submit' variant='contained' disabled={loading}>

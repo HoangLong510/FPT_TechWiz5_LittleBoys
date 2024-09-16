@@ -1,35 +1,61 @@
-import { Helmet } from 'react-helmet'
-import { useTranslation } from 'react-i18next'
-import React from 'react';
-import { AppBar, Toolbar, Typography, Container, Grid, Card, CardContent, CardMedia, Button, Box, Paper } from '@mui/material';
-import { Carousel } from 'react-responsive-carousel';
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
+import React from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  Box,
+  Paper,
+} from "@mui/material";
+import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import SecurityIcon from '@mui/icons-material/Security';
-import ReplayIcon from '@mui/icons-material/Replay';
-import Gallery from '~/components/Gallery/Gallery';
-
-
-const oldProducts = [
-    { name: 'Old Product 1', price: '$50', image: 'https://via.placeholder.com/150' },
-    { name: 'Old Product 2', price: '$70', image: 'https://via.placeholder.com/150' },
-    { name: 'Old Product 3', price: '$80', image: 'https://via.placeholder.com/150' },
-    { name: 'Old Product 4', price: '$90', image: 'https://via.placeholder.com/150' },
-  ];
-
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import SecurityIcon from "@mui/icons-material/Security";
+import ReplayIcon from "@mui/icons-material/Replay";
+import Gallery from "~/pages/home/Gallery/Gallery";
+import ProductsSwiper from "./ProductsSwiper/ProductsSwiper";
 export default function Homepage() {
+  const { t } = useTranslation();
+  const services = [
+    {
+      title: "Giao hàng nhanh",
+      description: "Nhận hàng nhanh chóng trong vòng 24 giờ.",
+      icon: <LocalShippingIcon fontSize="large" />,
+    },
+    {
+      title: "Hỗ trợ 24/7",
+      description: "Dịch vụ hỗ trợ khách hàng mọi lúc mọi nơi.",
+      icon: <SupportAgentIcon fontSize="large" />,
+    },
+    {
+      title: "Thanh toán an toàn",
+      description: "Đảm bảo an toàn và bảo mật cho mọi giao dịch.",
+      icon: <SecurityIcon fontSize="large" />,
+    },
+    {
+      title: "Chính sách hoàn trả",
+      description: "Dễ dàng trả lại sản phẩm nếu không hài lòng.",
+      icon: <ReplayIcon fontSize="large" />,
+    },
+  ];
+  return (
+    <>
+      <Helmet>
+        <title>
+          {import.meta.env.VITE_PROJECT_NAME} | {t("Homepage")}
+        </title>
+      </Helmet>
 
-    const { t } = useTranslation()
-
-    return (
-        <>
-            <Helmet>
-				<title>{import.meta.env.VITE_PROJECT_NAME} | {t("Homepage")}</title>
-			</Helmet>
-
-             {/* Banner + Slider */}
-      <Box sx={{ maxWidth: '100%', mb: 4 }}>
+      {/* Banner + Slider */}
+      <Box sx={{ maxWidth: "100%", mb: 4 }}>
         <Carousel autoPlay infiniteLoop showThumbs={false}>
           <div>
             <img src="https://via.placeholder.com/1500x500" alt="Banner 1" />
@@ -45,67 +71,47 @@ export default function Homepage() {
 
       {/* 4 Service Icons */}
       <Container sx={{ mb: 4 }}>
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 2, textAlign: 'center' }}>
-              <LocalShippingIcon fontSize="large" />
-              <Typography variant="h6">Giao hàng nhanh</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 2, textAlign: 'center' }}>
-              <SupportAgentIcon fontSize="large" />
-              <Typography variant="h6">Hỗ trợ 24/7</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 2, textAlign: 'center' }}>
-              <SecurityIcon fontSize="large" />
-              <Typography variant="h6">Thanh toán an toàn</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 2, textAlign: 'center' }}>
-              <ReplayIcon fontSize="large" />
-              <Typography variant="h6">Chính sách hoàn trả</Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-
-      {/* Gallery */}
-      <Gallery/>
-      {/* Old Products Section */}
-      <Container sx={{ py: 8 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Sản phẩm cũ (Giảm giá mạnh)
-        </Typography>
-        <Grid container spacing={4}>
-          {oldProducts.map((product, index) => (
-            <Grid item key={index} xs={12} sm={6} md={3}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardMedia
-                  component="img"
-                  sx={{ height: 200 }}
-                  image={product.image}
-                  alt={product.name}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6">
-                    {product.name}
-                  </Typography>
-                  <Typography>
-                    {product.price}
-                  </Typography>
-                  <Button variant="contained" color="primary" fullWidth>
-                    Mua ngay
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="space-between"
+          gap={4}
+        >
+          {services.map((service, index) => (
+            <Box
+              key={index}
+              sx={{
+                flex: "1 1 calc(25% - 16px)",
+                minWidth: 200,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                p: 2,
+                border: "1px solid #ddd",
+                borderRadius: 1,
+                boxShadow: 1,
+              }}
+            >
+              {service.icon}
+              <Typography variant="h6" sx={{ mt: 2 }}>
+                {service.title}
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 1 }}>
+                {service.description}
+              </Typography>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </Container>
-        </>
-    )
+      {/* Gallery */}
+      <Container>
+        <Gallery />
+      </Container>
+      {/* ProductsSwiper */}
+      <Container>
+        <ProductsSwiper />
+      </Container>
+    </>
+  );
 }
