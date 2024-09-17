@@ -129,7 +129,7 @@ export default function NavbarMenu() {
                             padding: '20px',
                             gap: { xs: '20px', md: '10px' }
                         }}>
-                            <Link onClick={toggleDrawer(false)} to="/" style={{
+                            <Link onClick={toggleDrawer(false)} to="/user" style={{
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'

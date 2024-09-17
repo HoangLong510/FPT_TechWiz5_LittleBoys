@@ -18,6 +18,7 @@ import ProductList from "~/pages/management/product/ProductList";
 import ProductCreate from "~/pages/management/product/ProductCreate";
 import ProductDetail from "~/pages/management/product/ProductDetail";
 import DefaultLayout from "~/layouts/DefaultLayout"
+import Profile from "~/pages/user/profile/Profile"
 
 
 
@@ -35,6 +36,7 @@ const authRoutes = [
 ]
 
 const userRoutes = [
+    { path: '/user', component: Profile, layout: DefaultLayout},
     { path: '/payments', component: Payments, layout: PaymentsLayout },
 ]
 

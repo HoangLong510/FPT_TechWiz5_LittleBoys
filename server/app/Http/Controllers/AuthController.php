@@ -155,8 +155,8 @@ class AuthController extends Controller
             array_push($error, $msg);
         } else {
             $regexFullname = "/^(?! )[a-zA-Z\s\u{0080}-\u{FFFF}]{2,50}(?<! )$/u";
-            $regexEmail = "/^[a-z0-9]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/";
-            $regexPassword = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+-])[a-zA-Z0-9!@#$%^&*()_+-]{8,30}$/";
+            $regexEmail = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+            $regexPassword = "/^(?!\s)[\S\s]{6,30}$/";
             $regexPhone = "/^0[9|8|1|7|3|5]([-. ]?[0-9]{7,9})$/";
 
             if (!preg_match($regexFullname, $fullname)) {
@@ -183,8 +183,8 @@ class AuthController extends Controller
 
             if (!preg_match($regexPassword, $password)) {
                 $msg = new \stdClass();
-                $msg->en = "The password must be from 8 to 30 characters long. It must include one uppercase letter, one number, and one special character from the following list: ['!', '@', '#', ''', ''', '%', '^', '&', '*', '(', ')', '_', '+', '-']";
-                $msg->vi = "Mật khẩu phải dài từ 8 đến 30 ký tự. Mật khẩu phải bao gồm một chữ cái viết hoa, một số và một ký tự đặc biệt từ danh sách sau: ['!', '@', '#', ''', ''', '%', '^', '&', '*', '(', ')', '_', '+', '-']";
+                $msg->en = "The password must be from 6 to 30 characters long.";
+                $msg->vi = "Mật khẩu phải dài từ 6 đến 30 ký tự.";
                 array_push($error, $msg);
             } else {
                 if ($password != $confirmPassword) {
@@ -370,11 +370,11 @@ class AuthController extends Controller
                     $msg->vi = "Mã xác nhận không đúng!";
                     array_push($error, $msg);
                 } else {
-                    $regexPassword = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+-])[a-zA-Z0-9!@#$%^&*()_+-]{8,30}$/";
+                    $regexPassword = "/^(?!\s)[\S\s]{6,30}$/";
                     if (!preg_match($regexPassword, $password)) {
                         $msg = new \stdClass();
-                        $msg->en = "The password must be from 8 to 30 characters long. It must include one uppercase letter, one number, and one special character from the following list: ['!', '@', '#', ''', ''', '%', '^', '&', '*', '(', ')', '_', '+', '-']";
-                        $msg->vi = "Mật khẩu phải dài từ 8 đến 30 ký tự. Mật khẩu phải bao gồm một chữ cái viết hoa, một số và một ký tự đặc biệt từ danh sách sau: ['!', '@', '#', ''', ''', '%', '^', '&', '*', '(', ')', '_', '+', '-']";
+                        $msg->en = "The password must be from 6 to 30 characters long.";
+                        $msg->vi = "Mật khẩu phải dài từ 6 đến 30 ký tự.";
                         array_push($error, $msg);
                     } else {
                         if ($password != $confirmPassword) {
