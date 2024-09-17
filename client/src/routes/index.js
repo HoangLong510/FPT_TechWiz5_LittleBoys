@@ -12,12 +12,19 @@ import BrandList from "~/pages/management/brand/BrandList";
 import BrandCreate from "~/pages/management/brand/BrandCreate";
 import BrandDetail from "~/pages/management/brand/BrandDetail";
 import DefaultLayout from "~/layouts/DefaultLayout"
+import Product from "~/pages/productPages/Product"
+import ProductDetail from "~/pages/productPages/ProductDetail"
+
+
 
 
 const publicRoutes = [
     { path: '/', component: Homepage, layout: DefaultLayout },
     { path: '/about-us', component: AboutUs, layout: AboutusLayout },
-    { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
+    { path: '/contact-us', component: ContactUs, layout: DefaultLayout }, 
+    { path: '/product', component: Product, layout: DefaultLayout },  
+    { path: '/product/:productId', component: ProductDetail, layout: DefaultLayout }
+    
 ]
 
 const authRoutes = [
