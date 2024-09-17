@@ -1,9 +1,10 @@
+import { Box, Button, CircularProgress, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, Input, TextField } from "@mui/material";
 import { Box, Button, CircularProgress, TextField, Snackbar, Alert, Input, MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { getBrandsApi, getCategoriesApi, createProductApi } from "./service"; // Đảm bảo tên hàm đúng
+import { getBrandsApi, getCategoriesApi, createProductApi } from "./service";
 
 export default function ProductCreate() {
     const { t } = useTranslation();
@@ -69,7 +70,7 @@ export default function ProductCreate() {
                 setSnackbarMessage(t("Product created successfully!"));
                 setSnackbarSeverity('success');
                 setOpenSnackbar(true);
-                // Thực hiện điều hướng sau 1000ms (1 giây)
+                // Thực hiện điều hướng sau 500ms
                 setTimeout(() => navigate('/management/products'), 500);
             } else {
                 setSnackbarMessage(message || 'Failed to create product.');
@@ -147,6 +148,30 @@ export default function ProductCreate() {
                             variant="standard"
                             multiline
                         />
+                        <FormControl fullWidth variant="standard" required sx={{ marginTop: 2 }}>
+                            <InputLabel>{t("Brand")}</InputLabel>
+                            <Select
+                                value={brandId}
+                                onChange={(e) => setBrandId(e.target.value)}
+                                label={t("Brand")}
+                            >
+                                <MenuItem value="">{t("Select Brand")}</MenuItem>
+                                {brands.map(brand => (
+                                    <MenuItem key={brand.id} value={brand.id}>{brand.name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth variant="standard" required sx={{ marginTop: 2 }}>
+                            <InputLabel>{t("Category")}</InputLabel>
+                            <Select
+                                value={categoryId}
+                                onChange={(e) => setCategoryId(e.target.value)}
+                                label={t("Category")}
+                            >
+                                <MenuItem value="">{t("Select Category")}</MenuItem>
+                                {categories.map(category => (
+                                    <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                                ))}
                         
                         <FormControl variant="standard" fullWidth>
                             <InputLabel id="select-Brand">{t("Brand")}</InputLabel>
@@ -183,6 +208,7 @@ export default function ProductCreate() {
                             fullWidth
                             sx={{ marginTop: 2 }}
                         />
+                        <Box sx={{ width: '100%', display: 'flex', gap: '10px', marginTop: 2 }}>
                         <Box sx={{ width: '100%', display: 'flex', gap: '10px', justifyContent:'flex-end' }}>
                             <Button
                                 sx={{
@@ -209,7 +235,7 @@ export default function ProductCreate() {
                     sx={{ 
                         '& .MuiSnackbarContent-root': { 
                             width: 'auto', 
-                            maxWidth: '600px' // Tùy chỉnh kích thước rộng nhất của Snackbar
+                            maxWidth: '600px' 
                         }
                     }}
                 >
@@ -218,8 +244,8 @@ export default function ProductCreate() {
                         severity={snackbarSeverity}
                         sx={{ 
                             width: '100%', 
-                            fontSize: '1rem', // Tăng kích thước font chữ
-                            padding: '16px' // Tăng padding để làm cho Alert to hơn
+                            fontSize: '1rem', 
+                            padding: '16px' 
                         }}
                     >
                         {snackbarMessage}

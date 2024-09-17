@@ -78,7 +78,7 @@ export const updateBrandApi = async (id, formData) => {
 // Xóa một thương hiệu
 export const deleteBrandApi = async (id) => {
     try {
-        await axios.delete(`/management/delete-brand/${id}`);
+        const response = await axios.delete(`/management/delete-brand/${id}`);
         return { success: true };
     } catch (error) {
         console.error('Error deleting brand:', error);

@@ -156,9 +156,9 @@ export default function BrandCreate() {
                     open={openSnackbar}
                     autoHideDuration={10000}
                     onClose={handleCloseSnackbar}
-                    sx={{ 
-                        '& .MuiSnackbarContent-root': { 
-                            width: 'auto', 
+                    sx={{
+                        '& .MuiSnackbarContent-root': {
+                            width: 'auto',
                             maxWidth: '600px',
                             height: 'auto', // Đảm bảo chiều cao tự động thay đổi
                             minHeight: '80px' // Tùy chỉnh kích thước rộng nhất của Snackbar
@@ -168,8 +168,8 @@ export default function BrandCreate() {
                     <Alert
                         onClose={handleCloseSnackbar}
                         severity={snackbarSeverity}
-                        sx={{ 
-                            width: '100%', 
+                        sx={{
+                            width: '100%',
                             fontSize: '1rem', // Tăng kích thước font chữ
                             padding: '16px', // Tăng padding để làm cho Alert to hơn
                             borderRadius: '8px' // Thay đổi bo góc nếu cần

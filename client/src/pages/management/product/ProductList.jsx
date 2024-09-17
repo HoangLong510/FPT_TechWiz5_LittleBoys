@@ -28,7 +28,6 @@ export default function ProductList() {
       const res = await getProductsApi(data);
       if (res.success) {
         if (res.data.length === 0 && search) {
-          setError(t("No products found."));
           setProducts([]);
           setTotalPage(1);
         } else {
@@ -74,7 +73,6 @@ export default function ProductList() {
     }
   };
 
-  const imageBaseUrl = '/Images/';
 
   return (
     <>
@@ -150,7 +148,7 @@ export default function ProductList() {
                     <TableCell sx={{ fontSize: '14px' }}>
                       {product.image ? (
                         <img
-                          src={`${imageBaseUrl}${product.image}?${new Date().getTime()}`}
+                          src={`${product.image}?${new Date().getTime()}`}
                           alt={product.name}
                           style={{ maxWidth: '100px', maxHeight: '60px', objectFit: 'cover' }}
                         />
@@ -175,11 +173,11 @@ export default function ProductList() {
                   </TableRow>
                 ))
               ) : (
-                search && (
-                  <TableRow>
-                    <TableCell colSpan={8} align="center">{t("No data")}</TableCell>
-                  </TableRow>
-                )
+                <TableRow>
+                  <TableCell colSpan={8} align="center">
+                    {search ? t("No data") : t("No products available")}
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </Table>
