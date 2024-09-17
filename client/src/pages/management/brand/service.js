@@ -1,4 +1,5 @@
 // src/pages/management/brand/service.js
+
 import axios from "~/axios";
 
 // Lấy danh sách tất cả các thương hiệu
@@ -27,18 +28,24 @@ export const getBrandDetailApi = async (id) => {
 };
 
 // Tạo một thương hiệu mới
-export const createBrandApi = async (data) => {
+export const createBrandApi = async (formData) => {
     try {
-        const res = await axios.post('/management/create-brand', data, {
+        const res = await axios.post('/management/create-brand', formData, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data' // Đảm bảo đúng Content-Type
             }
         });
         return res.data;
     } catch (error) {
+        // Xử lý lỗi cụ thể
         if (error.response) {
+            // Log chi tiết lỗi từ phản hồi của server
+            console.error('Error response:', error.response.data);
+            console.error('Error status:', error.response.status);
+            console.error('Error headers:', error.response.headers);
             return error.response.data;
         } else {
+            console.error('Error message:', error.message);
             return {
                 success: false,
                 message: [
@@ -53,16 +60,28 @@ export const createBrandApi = async (data) => {
 };
 
 // Cập nhật một thương hiệu
-export const updateBrandApi = async (data) => {
+export const updateBrandApi = async (id, formData) => {
     try {
-        const response = await axios.post('/management/update-brand', data, {
+        const response = await axios.post(`/management/update-brand/${id}`, formData, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }
         });
-        return response.data; // Điều chỉnh nếu dữ liệu trả về có cấu trúc khác
+        console.log('API Response:', response.data); // Xem dữ liệu trả về từ API
+        return response.data;
     } catch (error) {
         console.error('Error updating brand:', error);
+        throw error;
+    }
+};
+
+// Xóa một thương hiệu
+export const deleteBrandApi = async (id) => {
+    try {
+        const response = await axios.delete(`/management/delete-brand/${id}`);
+        return { success: true };
+    } catch (error) {
+        console.error('Error deleting brand:', error);
         throw error; // Đẩy lỗi lên để xử lý trong component
     }
 };

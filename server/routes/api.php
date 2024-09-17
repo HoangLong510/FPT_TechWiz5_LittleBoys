@@ -35,6 +35,20 @@ Route::group([
     Route::get('/get-brand-detail/{id}', [ManagementController::class, 'getBrandDetail']);
     Route::post('/update-brand/{id}', [ManagementController::class, 'updateBrand']);
     Route::delete('/delete-brand/{id}', [ManagementController::class, 'deleteBrand']);
+  
+    // Các route cho Category
+    Route::post('/create-category', [ManagementController::class, 'createCategory']);
+    Route::get('/categories', [ManagementController::class, 'getCategories']);
+    Route::get('/get-category-detail/{id}', [ManagementController::class, 'getCategoryDetail']);
+    Route::post('/update-category/{id}', [ManagementController::class, 'updateCategory']);
+    Route::delete('/delete-category/{id}', [ManagementController::class, 'deleteCategory']);
+
+    //product
+    Route::post('/products', [ManagementController::class, 'createProduct']);
+    Route::post('/products/{id}', [ManagementController::class, 'updateProduct']);
+    Route::delete('/products/{id}', [ManagementController::class, 'deleteProduct']);
+    Route::get('/products', [ManagementController::class, 'getProducts']);
+    Route::get('/products/{id}', [ManagementController::class, 'getProduct']);
 });
 
 Route::group([

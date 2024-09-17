@@ -4,6 +4,7 @@ import Navbar from '~/components/Navbar/Navbar'
 import Footer from '~/components/Footer/Footer'
 import Backtotop from "~/components/Backtotop/Backtotop"
 
+
 export default function DefaultLayout({ children }) {
 
     const loading = useSelector(state => state.loading.value)

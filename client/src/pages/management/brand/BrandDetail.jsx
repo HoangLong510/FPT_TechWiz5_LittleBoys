@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, TextField, Alert } from "@mui/material";
+import { Box, Button, CircularProgress, TextField, Alert, Input } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,7 @@ export default function BrandDetail() {
 
     const [brand, setBrand] = useState(null);
     const [name, setName] = useState('');
+    const [image, setImage] = useState(null); // Trạng thái lưu hình ảnh
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -24,15 +25,14 @@ export default function BrandDetail() {
             setLoading(true);
             try {
                 const res = await getBrandDetailApi(brandId);
-                console.log('Brand detail response:', res); // Debugging log
                 if (res && res.brand) {
                     setBrand(res.brand);
                     setName(res.brand.name);
+                    setImage(null); // Reset image state
                 } else {
                     setError('Brand not found.');
                 }
             } catch (err) {
-                console.error('Error fetching brand detail:', err); // Debugging log
                 setError('Failed to fetch brand details.');
             } finally {
                 setLoading(false);
@@ -47,19 +47,32 @@ export default function BrandDetail() {
         setError(null);
         setSuccess(false);
 
+        const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+
+        if (image && image.size > MAX_FILE_SIZE) {
+            setError("The image size must not exceed 2 MB.");
+            setLoading(false);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('name', name);
+        if (image) {
+            formData.append('image', image);
+        }
+
         try {
-            const res = await updateBrandApi({ id: brandId, name });
-            console.log('Update brand response:', res); // Debugging log
+            const res = await updateBrandApi(brandId, formData); // Sử dụng formData khi gọi API
             if (res.success) {
                 setBrand({ ...brand, name });
                 setSuccess(true);
                 dispatch(setPopup({ type: 'success', message: res.message }));
+                navigate('/management/brands'); // Chuyển hướng sau khi cập nhật thành công
             } else {
                 setError(res.message);
                 dispatch(setPopup({ type: 'error', message: res.message }));
             }
         } catch (err) {
-            console.error('Error updating brand:', err); // Debugging log
             setError('Failed to update brand.');
             dispatch(setPopup({ type: 'error', message: 'Failed to update brand.' }));
         } finally {
@@ -91,11 +104,11 @@ export default function BrandDetail() {
                     height: '40px'
                 }}>
                     <Box sx={{ fontWeight: 'bold' }}>
-                        Brand Detail
+                        {t("BrandDetail")}
                     </Box>
                     <Link to="/management/brands">
                         <Button>
-                            View all brands
+                            {t("View all brands")}
                         </Button>
                     </Link>
                 </Box>
@@ -122,7 +135,7 @@ export default function BrandDetail() {
                     }}>
                         {success && (
                             <Alert severity="success" sx={{ marginBottom: 2 }}>
-                                Brand updated successfully!
+                                {t("Brand updated successfully!")}
                             </Alert>
                         )}
 
@@ -132,18 +145,37 @@ export default function BrandDetail() {
                             </Alert>
                         )}
 
+                        {brand.image && (
+                            <Box sx={{ mb: 2 }}>
+                                <img
+                                    src={brand.image}
+                                    alt="Brand"
+                                    style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'cover' }}
+                                />
+                            </Box>
+                        )}
+
                         <TextField
                             fullWidth
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            label="Brand Name"
+                            label={t("BrandName")}
                             variant="standard"
+                        />
+
+                        <Input
+                            type="file"
+                            onChange={(e) => setImage(e.target.files[0])}
+                            inputProps={{ accept: 'image/*' }}
+                            fullWidth
+                            margin="none"
+                            sx={{ marginTop: 2 }}
                         />
 
                         <TextField
                             fullWidth
                             value={brand?.created_at}
-                            label="Created At"
+                            label={t("CreatedAt")}
                             variant="standard"
                             InputProps={{
                                 readOnly: true
@@ -153,7 +185,7 @@ export default function BrandDetail() {
                         <TextField
                             fullWidth
                             value={brand?.updated_at}
-                            label="Updated At"
+                            label={t("UpdatedAt")}
                             variant="standard"
                             InputProps={{
                                 readOnly: true
@@ -168,7 +200,7 @@ export default function BrandDetail() {
                                 onClick={handleSave}
                                 disabled={loading}
                             >
-                                Save
+                                {t("Save")}
                             </Button>
                         </Box>
 
@@ -179,7 +211,7 @@ export default function BrandDetail() {
                                 color="secondary"
                                 onClick={handleBack}
                             >
-                                Back
+                                {t("Back")}
                             </Button>
                         </Box>
                     </Box>
