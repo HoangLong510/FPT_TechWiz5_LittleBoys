@@ -1,132 +1,132 @@
-import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material"
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
 import { Helmet } from "react-helmet"
 import { useTranslation } from "react-i18next"
 import { Link, useParams } from "react-router-dom"
-import { getAccountDetailApi, lockAccountApi, unlockAccountApi, updateAccountRoleApi } from "./service"
+import { updateAccountApi, fetchAccountDetailApi } from "./service"
 import { formatDate } from "~/function"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { setPopup } from "~/libs/features/popup/popupSlice"
-import { setUser } from "~/libs/features/user/userSlice"
+import { clearLoading, setLoading } from "~/libs/features/loading/loadingSlice"
+import { clearUser, setUser } from "~/libs/features/user/userSlice"
 
 export default function AccountDetail() {
 
     const { t } = useTranslation()
     const { userId } = useParams()
     const dispatch = useDispatch()
-    const user = useSelector((state) => state.user.value)
 
-    const [account, setAccount] = useState()
-    const [loading, setLoading] = useState(false)
+    const [disabled, setDisabled] = useState(true)
 
-    const getAccountDetail = async () => {
-        setLoading(true)
-        const res = await getAccountDetailApi(userId)
+    const [account, setAccount] = useState(false)
+    const [fullname, setFullname] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [gender, setGender] = useState("")
+    const [address, setAddress] = useState("")
+    const [role, setRole] = useState("")
+    const [createdAt, setCreatedAt] = useState("")
+    const [updatedAt, setUpdatedAt] = useState("")
+    const [active, setActive] = useState(0)
+
+    const setData = (data) => {
+        setFullname(data.fullname)
+        setEmail(data.email)
+        setPhone(data.phone)
+        setGender(data.gender)
+        setAddress(data.address)
+        setRole(data.role)
+        setCreatedAt(formatDate(data.created_at))
+        setUpdatedAt(formatDate(data.updated_at))
+        setActive(data.active)
+    }
+
+    const fetchAccountDetail = async () => {
+        dispatch(setLoading())
+        const res = await fetchAccountDetailApi(userId)
 
         if (res) {
             setAccount(res.account)
+            setData(res.account)
         }
 
-        setLoading(false)
+        dispatch(clearLoading())
     }
 
-    const handleupdateAccountRole = async (event) => {
-        setLoading(true)
+    const handleUpdateAccount = async (event) => {
+        event.preventDefault()
 
-        if (event.target.value === account.role) {
-            setLoading(false)
-        } else {
+        if (
+            fullname !== account.fullname ||
+            phone !== account.phone ||
+            gender !== account.gender ||
+            address !== account.address ||
+            role !== account.role
+        ) {
+            dispatch(setLoading())
+
             const data = {
                 id: userId,
-                role: event.target.value
+                fullname,
+                gender,
+                address,
+                role,
+                active
             }
 
-            const res = await updateAccountRoleApi(data)
+            const res = await updateAccountApi(data)
+            dispatch(clearLoading())
 
             if (res.success) {
-                if (user.data.id == userId) {
-                    dispatch(setUser({
-                        ...user.data,
-                        role: event.target.value
-                    }))
-                } else {
-                    setAccount({
-                        ...account,
-                        role: event.target.value
-                    })
+                if (res.user) {
+                    if (!res.user.active) {
+                        dispatch(clearUser())
+                    } else {
+                        dispatch(setUser(res.user))
+                    }
+                }
+                if (!res.user || (res.user && res.user.role === 'admin')) {
+                    await fetchAccountDetail()
                 }
                 const dataPopup = {
                     type: "success",
                     message: res.message
                 }
                 dispatch(setPopup(dataPopup))
-                setLoading(false)
             } else {
+                setData(account)
                 const dataPopup = {
                     type: "error",
                     message: res.message
                 }
                 dispatch(setPopup(dataPopup))
-                setLoading(false)
             }
-        }
-    }
-
-    const handleLockAccount = async () => {
-        setLoading(true)
-
-        const res = await lockAccountApi(userId)
-
-        if (res.success) {
-            setAccount({
-                ...account,
-                active: 0
-            })
-            const dataPopup = {
-                type: "success",
-                message: res.message
-            }
-            dispatch(setPopup(dataPopup))
-            setLoading(false)
-        } else {
-            const dataPopup = {
-                type: "error",
-                message: res.message
-            }
-            dispatch(setPopup(dataPopup))
-            setLoading(false)
-        }
-    }
-
-    const handleUnlockAccount = async () => {
-        setLoading(true)
-
-        const res = await unlockAccountApi(userId)
-
-        if (res.success) {
-            setAccount({
-                ...account,
-                active: 1
-            })
-            const dataPopup = {
-                type: "success",
-                message: res.message
-            }
-            dispatch(setPopup(dataPopup))
-            setLoading(false)
-        } else {
-            const dataPopup = {
-                type: "error",
-                message: res.message
-            }
-            dispatch(setPopup(dataPopup))
-            setLoading(false)
         }
     }
 
     useEffect(() => {
-        getAccountDetail()
+        fetchAccountDetail()
     }, [])
+
+    useEffect(() => {
+        if (
+            fullname !== account.fullname ||
+            phone !== account.phone ||
+            gender !== account.gender ||
+            address !== account.address ||
+            role !== account.role
+        ) {
+            setDisabled(false)
+        } else {
+            setDisabled(true)
+        }
+    }, [
+        fullname,
+        phone,
+        gender,
+        address,
+        role,
+    ])
 
     return (
         <>
@@ -147,17 +147,17 @@ export default function AccountDetail() {
                     alignItems: 'center',
                     height: '40px'
                 }}>
-                    <Box sx={{ fontWeight: 'bold' }}>
-                        ACCOUNT DETAIL
+                    <Box sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
+                        {t("AccountDetail")}
                     </Box>
                     <Link to="/management/account">
                         <Button>
-                            View all accounts
+                            {t("ViewAllAccounts")}
                         </Button>
                     </Link>
                 </Box>
 
-                {!loading && account && (
+                <form onSubmit={handleUpdateAccount}>
                     <Box sx={{
                         width: '100%',
                         display: 'flex',
@@ -166,13 +166,11 @@ export default function AccountDetail() {
                         gap: '20px',
                     }}>
                         <TextField fullWidth
-                            value={account?.fullname}
+                            value={fullname}
+                            onChange={e => setFullname(e.target.value)}
                             label={t("Fullname")}
                             variant="standard"
                             slotProps={{
-                                input: {
-                                    readOnly: true,
-                                },
                                 inputLabel: {
                                     shrink: true,
                                 }
@@ -180,12 +178,12 @@ export default function AccountDetail() {
                         />
 
                         <TextField fullWidth
-                            value={account?.email}
+                            value={email}
                             label="Email"
                             variant="standard"
                             slotProps={{
                                 input: {
-                                    readOnly: true,
+                                    disabled: true,
                                 },
                                 inputLabel: {
                                     shrink: true,
@@ -194,12 +192,12 @@ export default function AccountDetail() {
                         />
 
                         <TextField fullWidth
-                            value={account?.phone}
+                            value={phone}
                             label={t("PhoneNumber")}
                             variant="standard"
                             slotProps={{
                                 input: {
-                                    readOnly: true,
+                                    disabled: true,
                                 },
                                 inputLabel: {
                                     shrink: true,
@@ -207,14 +205,25 @@ export default function AccountDetail() {
                             }}
                         />
 
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel id="select-gender">{t("Gender")}</InputLabel>
+                            <Select
+                                labelId="select-gender"
+                                value={gender}
+                                label={t("Gender")}
+                                onChange={e => setGender(e.target.value)}
+                            >
+                                <MenuItem value={'male'}>{t("Male")}</MenuItem>
+                                <MenuItem value={'female'}>{t("Female")}</MenuItem>
+                            </Select>
+                        </FormControl>
+
                         <TextField fullWidth
-                            value={account?.gender === 'male' ? t("Male") : t("Female")}
-                            label={t("Gender")}
+                            value={address}
+                            onChange={e => setAddress(e.target.value)}
+                            label={t("Address")}
                             variant="standard"
                             slotProps={{
-                                input: {
-                                    readOnly: true,
-                                },
                                 inputLabel: {
                                     shrink: true,
                                 }
@@ -225,9 +234,9 @@ export default function AccountDetail() {
                             <InputLabel id="select-role">{t("Role")}</InputLabel>
                             <Select
                                 labelId="select-role"
-                                value={account?.role}
+                                value={role}
                                 label={t("Role")}
-                                onChange={handleupdateAccountRole}
+                                onChange={e => setRole(e.target.value)}
                             >
                                 <MenuItem value={'admin'}>Admin</MenuItem>
                                 <MenuItem value={'user'}>User</MenuItem>
@@ -235,12 +244,12 @@ export default function AccountDetail() {
                         </FormControl>
 
                         <TextField fullWidth
-                            value={formatDate(account?.created_at)}
-                            label="Created At"
+                            value={createdAt}
+                            label={t("CreatedAt")}
                             variant="standard"
                             slotProps={{
                                 input: {
-                                    readOnly: true,
+                                    disabled: true,
                                 },
                                 inputLabel: {
                                     shrink: true,
@@ -249,12 +258,12 @@ export default function AccountDetail() {
                         />
 
                         <TextField fullWidth
-                            value={formatDate(account?.updated_at)}
-                            label="Updated At"
+                            value={updatedAt}
+                            label={t("UpdatedAt")}
                             variant="standard"
                             slotProps={{
                                 input: {
-                                    readOnly: true,
+                                    disabled: true,
                                 },
                                 inputLabel: {
                                     shrink: true,
@@ -262,36 +271,27 @@ export default function AccountDetail() {
                             }}
                         />
 
-                        {account?.active === 1 && (
-                            <Box sx={{ width: '100%', padding: '5px 0px', gap: '10px' }}>
-                                <Button fullWidth variant="contained" color="error" onClick={handleLockAccount}>
-                                    Lock Account
-                                </Button>
-                            </Box>
-                        )}
-                        {account?.active === 0 && (
-                            <Box sx={{ width: '100%', padding: '5px 0px', gap: '10px' }}>
-                                <Button fullWidth variant="contained" color="success" onClick={handleUnlockAccount}>
-                                    Unlock Account
-                                </Button>
-                            </Box>
-                        )}
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel id="select-active">{t("Active")}</InputLabel>
+                            <Select
+                                labelId="select-active"
+                                value={active}
+                                label={t("Active")}
+                                onChange={e => setActive(e.target.value)}
+                            >
+                                <MenuItem value={1}>{t("Yes")}</MenuItem>
+                                <MenuItem value={0}>{t("No")}</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <Box sx={{ padding: '5px 0px', width: '100%' }}>
+                            <Button type="submit" fullWidth variant="contained" disabled={disabled}>
+                                {t("Update")}
+                            </Button>
+                        </Box>
                     </Box>
-                )}
-                {loading && (
-                    <Box sx={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '400px'
-                    }}>
-                        <CircularProgress />
-                    </Box>
-                )}
+                </form>
             </Box>
-
-
         </>
     )
 }

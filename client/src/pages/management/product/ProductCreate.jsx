@@ -1,4 +1,5 @@
 import { Box, Button, CircularProgress, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, Input, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, TextField, Snackbar, Alert, Input, MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -171,6 +172,33 @@ export default function ProductCreate() {
                                 {categories.map(category => (
                                     <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
                                 ))}
+                        
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel id="select-Brand">{t("Brand")}</InputLabel>
+                            <Select
+                                labelId="select-Brand"
+                                value={brandId}
+                                label={t("Brand")}
+                                onChange={(e) => setBrandId(e.target.value)}
+                            >
+                                <MenuItem value={""}>{t("Select Brand")}</MenuItem>
+                                {brands.map(brand => (
+                                <MenuItem key={brand.id} value={brand.id}>{brand.name}</MenuItem>
+                            ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel id="select-Category">{t("Category")}</InputLabel>
+                            <Select
+                                labelId="select-Category"
+                                value={categoryId}
+                                label={t("Category")}
+                                onChange={(e) => setCategoryId(e.target.value)}
+                            >
+                                <MenuItem value={""}>{t("Select Category")}</MenuItem>
+                                {categories.map(category => (
+                                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                            ))}
                             </Select>
                         </FormControl>
                         <Input
@@ -181,23 +209,20 @@ export default function ProductCreate() {
                             sx={{ marginTop: 2 }}
                         />
                         <Box sx={{ width: '100%', display: 'flex', gap: '10px', marginTop: 2 }}>
+                        <Box sx={{ width: '100%', display: 'flex', gap: '10px', justifyContent:'flex-end' }}>
                             <Button
-                                fullWidth
+                                sx={{
+                                    width:'160px'
+                                }}
                                 variant="contained"
                                 color="primary"
                                 onClick={handleCreate}
                                 disabled={loading}
+                                
                             >
                                 {loading ? <CircularProgress size={24} /> : t("Create")}
                             </Button>
-                            <Button
-                                fullWidth
-                                variant="outlined"
-                                color="secondary"
-                                onClick={handleBack}
-                            >
-                                {t("Back")}
-                            </Button>
+                            
                         </Box>
                     </Box>
                 )}

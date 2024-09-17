@@ -32,15 +32,17 @@ export default function Footer() {
                     width: { xs: '100%', md: '25%' },
                     gap: '20px'
                 }}>
-                    <span style={{
+                    <Box sx={{
                         fontWeight: 'bold',
                         paddingBottom: '10px',
                         borderBottom: '2px solid #000',
+                        borderColor: 'primary.main',
                         fontSize: '16px',
-                        textTransform: 'uppercase'
+                        textTransform: 'uppercase',
+                        color: 'primary.main'
                     }}>
                         {t("Introduce")}
-                    </span>
+                    </Box>
                     <span>
                         {t("IntroduceValue")}
                     </span>
@@ -51,12 +53,14 @@ export default function Footer() {
                     width: { xs: '100%', md: '25%' },
                     gap: '20px'
                 }}>
-                    <Box style={{
+                    <Box sx={{
                         fontWeight: 'bold',
                         paddingBottom: '10px',
                         borderBottom: '2px solid #000',
+                        borderColor: 'primary.main',
                         fontSize: '16px',
-                        textTransform: 'uppercase'
+                        textTransform: 'uppercase',
+                        color: 'primary.main'
                     }}>
                         {t("Contact")}
                     </Box>
@@ -96,12 +100,14 @@ export default function Footer() {
                     gap: '20px',
                     paddingBottom: '10px'
                 }}>
-                    <Box style={{
+                    <Box sx={{
                         fontWeight: 'bold',
                         paddingBottom: '10px',
                         borderBottom: '2px solid #000',
+                        borderColor: 'primary.main',
                         fontSize: '16px',
-                        textTransform: 'uppercase'
+                        textTransform: 'uppercase',
+                        color: 'primary.main'
                     }}>
                         {t("Location")}
                     </Box>
@@ -116,7 +122,7 @@ export default function Footer() {
                     />
                 </Box>
             </Box>
-            <Box sx={{ textAlign: 'center', backgroundColor: '#000', padding: '20px', color: '#fff' }}>
+            <Box sx={{ textAlign: 'center', backgroundColor: 'primary.main', padding: '20px', color: '#fff' }}>
                 &copy; All Rights Reserved By {import.meta.env.VITE_PROJECT_NAME}
             </Box>
         </Box>
