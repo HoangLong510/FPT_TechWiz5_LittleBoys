@@ -47,7 +47,14 @@ export default function BrandDetail() {
         setError(null);
         setSuccess(false);
 
-        // Tạo FormData để gửi cả tên và hình ảnh
+        const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+
+        if (image && image.size > MAX_FILE_SIZE) {
+            setError("The image size must not exceed 2 MB.");
+            setLoading(false);
+            return;
+        }
+
         const formData = new FormData();
         formData.append('name', name);
         if (image) {
@@ -97,11 +104,11 @@ export default function BrandDetail() {
                     height: '40px'
                 }}>
                     <Box sx={{ fontWeight: 'bold' }}>
-                        Brand Detail
+                        {t("BrandDetail")}
                     </Box>
                     <Link to="/management/brands">
                         <Button>
-                            View all brands
+                            {t("View all brands")}
                         </Button>
                     </Link>
                 </Box>
@@ -128,7 +135,7 @@ export default function BrandDetail() {
                     }}>
                         {success && (
                             <Alert severity="success" sx={{ marginBottom: 2 }}>
-                                Brand updated successfully!
+                                {t("Brand updated successfully!")}
                             </Alert>
                         )}
 
@@ -138,13 +145,12 @@ export default function BrandDetail() {
                             </Alert>
                         )}
 
-                        {/* Hiển thị hình ảnh cũ nếu có */}
                         {brand.image && (
                             <Box sx={{ mb: 2 }}>
                                 <img
-                                    src={`/Images/${brand.image}`} // Đảm bảo đường dẫn đúng với cấu trúc của bạn
+                                    src={brand.image}
                                     alt="Brand"
-                                    style={{ maxWidth: '100%', maxHeight: '200px' }}
+                                    style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'cover' }}
                                 />
                             </Box>
                         )}
@@ -153,7 +159,7 @@ export default function BrandDetail() {
                             fullWidth
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            label="Brand Name"
+                            label={t("BrandName")}
                             variant="standard"
                         />
 
@@ -169,7 +175,7 @@ export default function BrandDetail() {
                         <TextField
                             fullWidth
                             value={brand?.created_at}
-                            label="Created At"
+                            label={t("CreatedAt")}
                             variant="standard"
                             InputProps={{
                                 readOnly: true
@@ -179,7 +185,7 @@ export default function BrandDetail() {
                         <TextField
                             fullWidth
                             value={brand?.updated_at}
-                            label="Updated At"
+                            label={t("UpdatedAt")}
                             variant="standard"
                             InputProps={{
                                 readOnly: true
@@ -194,7 +200,7 @@ export default function BrandDetail() {
                                 onClick={handleSave}
                                 disabled={loading}
                             >
-                                Save
+                                {t("Save")}
                             </Button>
                         </Box>
 
@@ -205,7 +211,7 @@ export default function BrandDetail() {
                                 color="secondary"
                                 onClick={handleBack}
                             >
-                                Back
+                                {t("Back")}
                             </Button>
                         </Box>
                     </Box>

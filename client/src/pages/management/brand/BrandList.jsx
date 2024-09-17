@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Box, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Pagination, Stack, Button, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Pagination, Stack, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getBrandsApi, deleteBrandApi } from './service'; // Import API services
+import { getBrandsApi, deleteBrandApi } from './service';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,11 +19,10 @@ export default function BrandList() {
         try {
             const data = { search, page };
             const res = await getBrandsApi(data);
-            console.log('API Response:', res); // Kiểm tra dữ liệu trả về từ API
             if (res.brands) {
                 setBrands(res.brands);
-                setTotalPage(res.totalPages); // Đảm bảo giá trị tổng số trang chính xác
-                setPage(res.currentPage);     // Cập nhật trang hiện tại nếu cần
+                setTotalPage(res.totalPages);
+                setPage(res.currentPage);
             }
         } catch (error) {
             console.error('Error fetching brands:', error);
@@ -42,24 +41,21 @@ export default function BrandList() {
 
     const { t } = useTranslation();
 
-    // Chuyển đến trang tạo mới thương hiệu
     const handleCreateBrand = () => {
-        navigate('/management/brands/create'); // Điều hướng đến trang BrandCreate
+        navigate('/management/brands/create');
     };
 
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this brand?')) {
             try {
                 await deleteBrandApi(id);
-                fetchBrands(); // Refresh the list after deletion
+                fetchBrands();
             } catch (error) {
                 console.error('Error deleting brand:', error);
             }
         }
     };
 
-    // Đặt URL gốc của máy chủ lưu trữ hình ảnh
-    const imageBaseUrl = '/Images/'; // Root directory
 
     return (
         <>
@@ -67,20 +63,8 @@ export default function BrandList() {
                 <title>{import.meta.env.VITE_PROJECT_NAME} | {t("ManagementBrands")}</title>
             </Helmet>
 
-            <Box sx={{
-                display: 'flex',
-                width: '100%',
-                flexDirection: 'column',
-                gap: '20px',
-                userSelect: 'none'
-            }}>
-                <Box sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    height: '40px'
-                }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '40px' }}>
                     <Box sx={{ fontWeight: 'bold' }}>
                         {t("BRANDMANAGEMENT")}
                     </Box>
@@ -89,18 +73,16 @@ export default function BrandList() {
                     </Button>
                 </Box>
 
-                <Box sx={{ marginBottom: '20px' }}>
-                    <TextField
-                        fullWidth
-                        size="small"
-                        id="search"
-                        label="Search..."
-                        variant="outlined"
-                        autoComplete="off"
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                    />
-                </Box>
+                <TextField
+                    fullWidth
+                    size="small"
+                    id="search"
+                    label="Search..."
+                    variant="outlined"
+                    autoComplete="off"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
                 <TableContainer component={Paper} sx={{ border: '1px solid #e6e6e6', boxShadow: 'none', maxHeight: '400px', overflow: 'auto' }}>
                     <Table sx={{ minWidth: 650, fontSize: '14px' }}>
@@ -120,10 +102,7 @@ export default function BrandList() {
                                     onClick={() => navigate(`/management/brands/${brand.id}`)}
                                     sx={{
                                         '&:last-child td, &:last-child th': { border: 0, borderBottom: '1px solid #e6e6e6' },
-                                        '&:hover': {
-                                            backgroundColor: '#f5f5f5',
-                                            cursor: 'pointer',
-                                        }
+                                        '&:hover': { backgroundColor: '#f5f5f5', cursor: 'pointer' }
                                     }}
                                 >
                                     <TableCell sx={{ fontSize: '14px' }}>{brand.id}</TableCell>
@@ -131,9 +110,10 @@ export default function BrandList() {
                                     <TableCell sx={{ fontSize: '14px' }}>
                                         {brand.image ? (
                                             <img
-                                                src={`${imageBaseUrl}${brand.image}?${new Date().getTime()}`} // Thêm tham số để tránh cache
+                                                src={brand.image} // Đường dẫn đã được cấu hình chính xác từ API
                                                 alt={brand.name}
                                                 style={{ maxWidth: '100px', maxHeight: '60px', objectFit: 'cover' }}
+                                                onError={() => console.log('Failed to load image:', brand.image)}
                                             />
                                         ) : (
                                             'No image'
@@ -143,7 +123,7 @@ export default function BrandList() {
                                     <TableCell sx={{ fontSize: '14px' }}>
                                         <IconButton
                                             onClick={(e) => { e.stopPropagation(); handleDelete(brand.id); }}
-                                            color="error" // Set color to red
+                                            color="error"
                                         >
                                             <DeleteIcon />
                                         </IconButton>
@@ -166,7 +146,7 @@ export default function BrandList() {
                     </Table>
                 </TableContainer>
 
-                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'end', width: '100%' }}>
                     <Stack spacing={2}>
                         <Pagination count={totalPage} page={page} onChange={handleChangePage} color="primary" />
                     </Stack>

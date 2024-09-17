@@ -40,7 +40,6 @@ export default function CategoryList() {
 
     const { t } = useTranslation();
 
-    // Chuyển đến trang tạo mới category
     const handleCreateCategory = () => {
         navigate('/management/categories/create'); // Điều hướng đến trang CategoryCreate
     };
@@ -57,7 +56,6 @@ export default function CategoryList() {
     };
 
     // Đặt URL gốc của máy chủ lưu trữ hình ảnh
-    const imageBaseUrl = '/Images/'; // Root directory
 
     return (
         <>
@@ -83,7 +81,7 @@ export default function CategoryList() {
                         {t("CATEGORYMANAGEMENT")}
                     </Box>
                     <Button variant="contained" color="primary" onClick={handleCreateCategory}>
-                        Create Category
+                        {t("Create Category")}
                     </Button>
                 </Box>
 
@@ -92,7 +90,7 @@ export default function CategoryList() {
                         fullWidth
                         size="small"
                         id="search"
-                        label="Search..."
+                        label={t("Search...")}
                         variant="outlined"
                         autoComplete="off"
                         value={search}
@@ -129,7 +127,7 @@ export default function CategoryList() {
                                     <TableCell sx={{ fontSize: '14px' }}>
                                         {category.image ? (
                                             <img
-                                                src={`${imageBaseUrl}${category.image}?${new Date().getTime()}`} // Thêm tham số để tránh cache
+                                                src={category.image} // Sử dụng đường dẫn hình ảnh chính xác
                                                 alt={category.name}
                                                 style={{ maxWidth: '100px', maxHeight: '60px', objectFit: 'cover' }}
                                             />

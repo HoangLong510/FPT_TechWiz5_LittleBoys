@@ -42,7 +42,7 @@ export default function ProductDetail() {
                     setDescription(description || '');
                     setCategory(category?.id || ''); // Đảm bảo category có id
                     setBrand(brand?.id || ''); // Đảm bảo brand có id
-                    setImage(image || ''); 
+                    setImage(image || ''); // Lưu đường dẫn hình ảnh cũ
                 } else {
                     setError('Product not found.');
                 }
@@ -103,7 +103,6 @@ export default function ProductDetail() {
             setLoading(false);
         }
     };
-    
 
     const handleBack = () => {
         navigate(-1);
@@ -172,9 +171,9 @@ export default function ProductDetail() {
                         {product.image && (
                             <Box sx={{ mb: 2 }}>
                                 <img
-                                    src={`/Images/${product.image}`} // Đảm bảo đường dẫn đúng với cấu trúc của bạn
+                                    src={product.image} // Sử dụng đường dẫn hình ảnh từ API
                                     alt="Product"
-                                    style={{ maxWidth: '100%', maxHeight: '200px' }}
+                                    style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'contain' }}
                                 />
                             </Box>
                         )}
