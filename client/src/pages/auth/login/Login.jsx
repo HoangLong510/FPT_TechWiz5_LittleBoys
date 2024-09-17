@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { clearLoading, setLoading } from '~/libs/features/loading/loadingSlice'
@@ -16,6 +16,7 @@ export default function Login() {
     const dispatch = useDispatch()
     const loading = useSelector(state => state.loading.value)
 
+    const [error, setError] = useState(true)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -50,6 +51,14 @@ export default function Login() {
             dispatch(clearLoading())
         }
     }
+
+    useEffect(() => {
+        if(!email || email.trim() === "" || !password || password.trim() === "") {
+            setError(true)
+        } else {
+            setError(false)
+        }
+    }, [email, password])
 
     return (
         <>
@@ -136,7 +145,7 @@ export default function Login() {
                                 </Box>
                             </Link>
                         </Box>
-                        <Button type='submit' variant='contained' disabled={loading}>
+                        <Button type='submit' variant='contained' disabled={loading || error}>
                             {t("Login")}
                         </Button>
                     </form>

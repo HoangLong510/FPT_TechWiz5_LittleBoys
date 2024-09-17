@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagementController;
+use App\Http\Controllers\UserController;
 
 Route::group([
     'middleware' => 'api',
@@ -34,4 +35,11 @@ Route::group([
     Route::get('/get-brand-detail/{id}', [ManagementController::class, 'getBrandDetail']);
     Route::post('/update-brand/{id}', [ManagementController::class, 'updateBrand']);
     Route::delete('/delete-brand/{id}', [ManagementController::class, 'deleteBrand']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user'
+], function ($router) {
+    Route::post('update', [UserController::class, 'userUpdate']);
 });

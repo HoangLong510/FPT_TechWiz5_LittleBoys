@@ -12,6 +12,7 @@ import BrandList from "~/pages/management/brand/BrandList";
 import BrandCreate from "~/pages/management/brand/BrandCreate";
 import BrandDetail from "~/pages/management/brand/BrandDetail";
 import DefaultLayout from "~/layouts/DefaultLayout"
+import Profile from "~/pages/user/profile/Profile"
 
 
 const publicRoutes = [
@@ -27,7 +28,7 @@ const authRoutes = [
 ]
 
 const userRoutes = [
-
+    { path: '/user', component: Profile, layout: DefaultLayout}
 ]
 
 const managementRoutes = [

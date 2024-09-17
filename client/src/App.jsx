@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
-import { authRoutes, managementRoutes, publicRoutes } from "./routes"
+import { authRoutes, managementRoutes, publicRoutes, userRoutes } from "./routes"
 import Popup from "./components/Popup/Popup"
 import AuthProvider from "./provider/auth/AuthProvider"
 import { useSelector } from "react-redux"
@@ -7,6 +7,7 @@ import PopupLogout from "./components/PopupLogout/PopupLogout"
 import { Helmet } from "react-helmet"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
 import ManagementLayout from "./layouts/ManagementLayout"
+import UserLayout from "./layouts/UserLayout"
 
 function App() {
 
@@ -40,6 +41,20 @@ function App() {
 								<Route key={index} path={route.path} element={!user.exist ? (
 									<Layout>
 										<Page />
+									</Layout>
+								) : (<Navigate to="/" replace />)} />
+							)
+						})}
+
+						{userRoutes.map((route, index) => {
+							const Page = route.component
+							const Layout = route.layout
+							return (
+								<Route key={index} path={route.path} element={user.exist ? (
+									<Layout>
+										<UserLayout>
+											<Page />
+										</UserLayout>
 									</Layout>
 								) : (<Navigate to="/" replace />)} />
 							)

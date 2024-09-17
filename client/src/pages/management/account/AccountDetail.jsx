@@ -58,10 +58,10 @@ export default function AccountDetail() {
 
         if (
             fullname !== account.fullname ||
-            phone !== account.phone ||
             gender !== account.gender ||
             address !== account.address ||
-            role !== account.role
+            role !== account.role ||
+            active !== account.active
         ) {
             dispatch(setLoading())
 
@@ -93,6 +93,7 @@ export default function AccountDetail() {
                     message: res.message
                 }
                 dispatch(setPopup(dataPopup))
+                setDisabled(true)
             } else {
                 setData(account)
                 const dataPopup = {
@@ -100,6 +101,7 @@ export default function AccountDetail() {
                     message: res.message
                 }
                 dispatch(setPopup(dataPopup))
+                setDisabled(true)
             }
         }
     }
@@ -111,10 +113,10 @@ export default function AccountDetail() {
     useEffect(() => {
         if (
             fullname !== account.fullname ||
-            phone !== account.phone ||
             gender !== account.gender ||
             address !== account.address ||
-            role !== account.role
+            role != account.role ||
+            active !== account.active
         ) {
             setDisabled(false)
         } else {
@@ -122,10 +124,10 @@ export default function AccountDetail() {
         }
     }, [
         fullname,
-        phone,
         gender,
         address,
         role,
+        active
     ])
 
     return (
