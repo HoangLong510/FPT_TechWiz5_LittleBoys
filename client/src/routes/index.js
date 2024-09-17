@@ -18,14 +18,13 @@ import ProductList from "~/pages/management/product/ProductList";
 import ProductCreate from "~/pages/management/product/ProductCreate";
 import ProductDetail from "~/pages/management/product/ProductDetail";
 import DefaultLayout from "~/layouts/DefaultLayout"
-import PaymentsLayout from "~/layouts/PaymentsLayout"
-import Payments from "~/pages/payments/Payments"
+
 
 
 const publicRoutes = [
     { path: '/', component: Homepage, layout: DefaultLayout },
     { path: '/about-us', component: AboutUs, layout: AboutusLayout },
-    { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
+
     
 ]
 
