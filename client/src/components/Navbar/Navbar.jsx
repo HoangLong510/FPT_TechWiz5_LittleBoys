@@ -24,26 +24,26 @@ export default function Navbar() {
                 gap: '20px'
             }}>
                 <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src="/logo.png" alt="logo" width={'147px'} height={'40px'} />
+                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo"  height={'55px'} />
                 </Link>
                 <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
                     <Link to="/product" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
+                        <Button sx={{fontSize: '16px'}}>
                             {t("Products")}
                         </Button>
                     </Link>
                     <Link to="/about-us" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
+                        <Button sx={{fontSize: '16px'}}>
                             {t("AboutUs")}
                         </Button>
                     </Link>
                     <Link to="/contact-us" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
+                        <Button sx={{fontSize: '16px'}}>
                             {t("ContactUs")}
                         </Button>
                     </Link>
                     <Link to="https://www.facebook.com/aptech.fpt" style={{ display: 'flex', alignItems: 'center' }} target='_blank'>
-                        <Button>
+                        <Button sx={{fontSize: '16px'}}>
                             Fanpage
                         </Button>
                     </Link>
@@ -59,12 +59,12 @@ export default function Navbar() {
                 {!user.exist && (
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
                         <Link to="/auth/login" style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button>
+                            <Button sx={{fontSize: '16px'}}>
                                 {t("Login")}
                             </Button>
                         </Link>
                         <Link to="/auth/register" style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button variant="contained">
+                            <Button variant="contained" sx={{fontSize: '16px'}}>
                                 {t("CreateAccount")}
                             </Button>
                         </Link>

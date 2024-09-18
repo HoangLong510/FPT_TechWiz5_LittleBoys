@@ -147,7 +147,7 @@ export default function NavEffectLayout({ children }) {
                     <img
                       src="/Images/Logo/logo-navbar-white.png"
                       alt="logo"
-                      height={"50px"}
+                      height={"55px"}
                     />
                   ) : (
                     <img
@@ -169,26 +169,34 @@ export default function NavEffectLayout({ children }) {
                     to="/"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">{t("Products")}</Button>
+                    <Button className="scroll-button" sx={{fontSize: '16px'}}>
+                      {t("Products")}
+                      </Button>
                   </Link>
                   <Link
                     to="/about-us"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">{t("AboutUs")}</Button>
+                    <Button className="scroll-button" sx={{fontSize: '16px'}}>
+                      {t("AboutUs")}
+                      </Button>
                   </Link>
                   <Link
                     to="/contact-us"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">{t("ContactUs")}</Button>
+                    <Button className="scroll-button"sx={{fontSize: '16px'}}>
+                      {t("ContactUs")}
+                      </Button>
                   </Link>
                   <Link
                     to="https://www.facebook.com/aptech.fpt"
                     style={{ display: "flex", alignItems: "center" }}
                     target="_blank"
                   >
-                    <Button className="scroll-button">Fanpage</Button>
+                    <Button className="scroll-button" sx={{fontSize: '16px'}}>
+                      Fanpage
+                      </Button>
                   </Link>
                 </Box>
               </Box>
@@ -207,13 +215,15 @@ export default function NavEffectLayout({ children }) {
                       to="/auth/login"
                       style={{ display: "flex", alignItems: "center" }}
                     >
-                      <Button className="scroll-button">{t("Login")}</Button>
+                      <Button className="scroll-button" sx={{fontSize: '16px'}}>
+                        {t("Login")}
+                        </Button>
                     </Link>
                     <Link
                       to="/auth/register"
                       style={{ display: "flex", alignItems: "center" }}
                     >
-                      <Button variant="dk" className="scroll-button-create">
+                      <Button variant="dk" className="scroll-button-create" sx={{fontSize: '16px'}}>
                         {t("CreateAccount")}
                       </Button>
                     </Link>
