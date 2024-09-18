@@ -32,6 +32,30 @@ export default function UserLayout({ children }) {
                         Profile
                     </Button>
                 </Link>
+                <Link to='/user/favorite'>
+                    <Button
+                        sx={{ width: '100%' }}
+                        variant={pathname === '/user/favorite' ? "contained" : "text"}
+                    >
+                        Favorite
+                    </Button>
+                </Link>
+                <Link to='/user/notification'>
+                    <Button
+                        sx={{ width: '100%' }}
+                        variant={pathname === '/user/notification' ? "contained" : "text"}
+                    >
+                        Notification
+                    </Button>
+                </Link>
+                <Link to='/user/orders'>
+                    <Button
+                        sx={{ width: '100%' }}
+                        variant={pathname === '/user/orders' ? "contained" : "text"}
+                    >
+                        Orders
+                    </Button>
+                </Link>
                 <Link to='/user/security'>
                     <Button
                         sx={{ width: '100%' }}

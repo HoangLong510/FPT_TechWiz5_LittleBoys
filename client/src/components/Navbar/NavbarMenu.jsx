@@ -141,6 +141,17 @@ export default function NavbarMenu() {
                                     </span>
                                 </Button>
                             </Link>
+                            {user.data.role === 'user' && (
+                                <Link onClick={toggleDrawer(false)} to="/auth/register-supplirt" style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <Button sx={{ width: '100%' }}>
+                                        {t("RegisterSupplier")}
+                                    </Button>
+                                </Link>
+                            )}
                             {user.data.role === 'admin' && (
                                 <Link onClick={toggleDrawer(false)} to="/management" style={{
                                     display: 'flex',
@@ -152,12 +163,25 @@ export default function NavbarMenu() {
                                     </Button>
                                 </Link>
                             )}
+                             {user.data.role === 'supplier' && (
+                                <Link onClick={toggleDrawer(false)} to="/supplier/dashboard" style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <Button sx={{ width: '100%' }}>
+                                        {t("Supplier")}
+                                    </Button>
+                                </Link>
+                            )}
+                            
                             <Button sx={{ width: '100%' }} onClick={() => {
                                 setOpen(false)
                                 dispatch(setLogout())
                             }}>
                                 {t("Logout")}
                             </Button>
+                            
                         </List>
                     )}
                 </Box>

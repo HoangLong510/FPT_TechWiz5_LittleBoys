@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
-import {
-  Container,
-  Typography,
-  Card,
-  CardContent,
-  Avatar,
-  Box,
-  Divider,
-  Grid,
-} from "@mui/material";
+import { Container, Typography, Card, CardContent, Avatar, Box, Divider, Grid } from "@mui/material";
 import { deepPurple, lightBlue, teal } from "@mui/material/colors";
 import EmailIcon from "@mui/icons-material/Email";
 import TeamIcon from "@mui/icons-material/Groups";
@@ -19,71 +9,56 @@ import DevicesIcon from "@mui/icons-material/Devices";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
+import { teamMembers } from "./Members";
 import "./style.css";
-
-const teamMembers = [
-  {
-    name: "Nguyễn Văn A",
-    position: "CEO & Founder",
-    description:
-      "Nguyễn Văn A là người sáng lập công ty với tầm nhìn và kinh nghiệm trong ngành công nghệ.",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    email: "nguyenvana@company.com",
-  },
-  {
-    name: "Trần Thị B",
-    position: "CTO",
-    description: "",
-    avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-    email: "tranthib@company.com",
-  },
-  {
-    name: "Nguyễn Văn C",
-    position: "COO",
-    description:
-      "Nguyễn Văn C điều hành hoạt động hàng ngày của công ty và tối ưu hoá hiệu suất làm việc.",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-    email: "nguyenvanc@company.com",
-  },
-  {
-    name: "Nguyễn Văn D",
-    position: "COO",
-    description:
-      "Nguyễn Văn D điều hành hoạt động hàng ngày của công ty và tối ưu hoá hiệu suất làm việc.",
-    avatar: "https://randomuser.me/api/portraits/men/4.jpg",
-    email: "nguyenvanc@company.com",
-  },
-];
 
 const features = [
   {
     title: "Hiệu Suất Cao",
-    description:
-      "Các giải pháp của chúng tôi được tối ưu hóa cho hiệu suất cao, đảm bảo hoạt động mượt mà với lượng người dùng lớn.",
+    description: "Các giải pháp của chúng tôi được tối ưu hóa cho hiệu suất cao, đảm bảo hoạt động mượt mà với lượng người dùng lớn.",
     icon: <SpeedIcon sx={{ fontSize: 60, color: teal[500] }} />,
   },
   {
     title: "Bảo Mật Cao",
-    description:
-      "Chúng tôi luôn đặt sự bảo mật lên hàng đầu, bảo vệ thông tin người dùng với các tiêu chuẩn an ninh cao nhất.",
+    description: "Chúng tôi luôn đặt sự bảo mật lên hàng đầu, bảo vệ thông tin người dùng với các tiêu chuẩn an ninh cao nhất.",
     icon: <SecurityIcon sx={{ fontSize: 60, color: teal[500] }} />,
   },
   {
     title: "Tương Thích Mọi Thiết Bị",
-    description:
-      "Dịch vụ của chúng tôi hoạt động tốt trên mọi thiết bị, từ điện thoại, máy tính bảng cho đến máy tính bàn.",
+    description: "Dịch vụ của chúng tôi hoạt động tốt trên mọi thiết bị, từ điện thoại, máy tính bảng cho đến máy tính bàn.",
     icon: <DevicesIcon sx={{ fontSize: 60, color: teal[500] }} />,
   },
 ];
 
 export default function AboutUs() {
+  const [isVisible, setIsVisible] = useState(false);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -102,15 +77,13 @@ export default function AboutUs() {
     ],
   };
 
-  const { t, i18n } = useTranslation();
-  
-  const locale = i18n.language;
-    return (
-
+  return (
     <div className="about-us">
-      {/* BODY */}
-      <div className="body">
-        {/* Hình nền lớn ở đầu trang */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <Box
           sx={{
             position: "relative",
@@ -119,6 +92,7 @@ export default function AboutUs() {
             backgroundImage: `url('./test.png')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            backgroundAttachment: "fixed",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -136,30 +110,31 @@ export default function AboutUs() {
             Về Chúng Tôi
           </Typography>
         </Box>
-        <Container maxWidth="lg" sx={{ paddingTop: 8, paddingBottom: 8 }}>
-          {/* Phần Giới Thiệu */}
-          <Typography variant="body1" align="center" paragraph>
-            Chúng tôi là một công ty công nghệ với đội ngũ nhân viên tài năng,
-            đam mê và sáng tạo. Sứ mệnh của chúng tôi là cung cấp các giải pháp
-            công nghệ tiên tiến, mang lại giá trị thực sự cho khách hàng. Với sự
-            phát triển không ngừng, chúng tôi tự hào về những sản phẩm và dịch
-            vụ mà mình cung cấp, giúp đỡ hàng ngàn người dùng trên khắp thế
-            giới.
-          </Typography>
+      </motion.div>
 
-          {/* Tính Năng Nổi Bật */}
-          <Typography
-            variant="h5"
-            align="center"
-            gutterBottom
-            sx={{ marginTop: 6 }}
-          >
-            Tính Năng Nổi Bật
+      <Container maxWidth="lg" sx={{ paddingTop: 8, paddingBottom: 8 }}>
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <Typography variant="body1" align="center" paragraph>
+            Chúng tôi là một công ty công nghệ với đội ngũ nhân viên tài năng, đam mê và sáng tạo. Sứ mệnh của chúng tôi là cung cấp các giải pháp công nghệ tiên tiến, mang lại giá trị thực sự cho khách hàng. Với sự phát triển không ngừng, chúng tôi tự hào về những sản phẩm và dịch vụ mà mình cung cấp, giúp đỡ hàng ngàn người dùng trên khắp thế giới.
           </Typography>
-          <Grid container spacing={4} sx={{ marginBottom: 6 }}>
-            {features.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Box textAlign="center">
+        </motion.div>
+
+        <Typography variant="h5" align="center" gutterBottom sx={{ marginTop: 6 }}>
+          Tính Năng Nổi Bật
+        </Typography>
+        <Grid container spacing={4} sx={{ marginBottom: 6 }}>
+          {features.map((feature, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+              >
+                <Box textAlign="center" className="feature-box">
                   {feature.icon}
                   <Typography variant="h6" sx={{ marginTop: 2 }}>
                     {feature.title}
@@ -168,12 +143,17 @@ export default function AboutUs() {
                     {feature.description}
                   </Typography>
                 </Box>
-              </Grid>
-            ))}
-          </Grid>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
 
-          {/* Tầm Nhìn và Sứ Mệnh */}
-          <Divider sx={{ marginBottom: 4 }} />
+        <Divider sx={{ marginBottom: 4 }} />
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
           <Typography variant="h5" align="center" gutterBottom>
             <VisibilityIcon
               sx={{
@@ -188,38 +168,37 @@ export default function AboutUs() {
             Tầm Nhìn và Sứ Mệnh
           </Typography>
           <Typography variant="body1" align="center" paragraph>
-            Tầm nhìn của chúng tôi là trở thành công ty dẫn đầu trong lĩnh vực
-            công nghệ, mang lại những sản phẩm và dịch vụ chất lượng hàng đầu.
-            Chúng tôi luôn không ngừng đổi mới và sáng tạo để đáp ứng nhu cầu
-            ngày càng cao của khách hàng. Sứ mệnh của chúng tôi là giúp các
-            doanh nghiệp và cá nhân khai phá tiềm năng của họ thông qua các giải
-            pháp công nghệ tiên tiến, tạo nên một tương lai số hóa bền vững và
-            thành công.
+            Tầm nhìn của chúng tôi là trở thành công ty dẫn đầu trong lĩnh vực công nghệ, mang lại những sản phẩm và dịch vụ chất lượng hàng đầu. Chúng tôi luôn không ngừng đổi mới và sáng tạo để đáp ứng nhu cầu ngày càng cao của khách hàng. Sứ mệnh của chúng tôi là giúp các doanh nghiệp và cá nhân khai phá tiềm năng của họ thông qua các giải pháp công nghệ tiên tiến, tạo nên một tương lai số hóa bền vững và thành công.
           </Typography>
-          {/* Đội Ngũ */}
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            mt={5}
-          >
-            <TeamIcon sx={{ fontSize: 80, color: deepPurple[500] }} />
-          </Box>
-          <Typography variant="h5" align="center" gutterBottom mb={4} mt={2}>
-            Đội Ngũ Của Chúng Tôi
-          </Typography>
+        </motion.div>
 
-          <Slider {...sliderSettings}>
-            {teamMembers.map((member, index) => (
-              <div key={index}>
+        <Box display="flex" justifyContent="center" alignItems="center" mt={5}>
+          <TeamIcon sx={{ fontSize: 80, color: deepPurple[500] }} />
+        </Box>
+        <Typography variant="h5" align="center" gutterBottom mb={4} mt={2}>
+          Đội Ngũ Của Chúng Tôi
+        </Typography>
+
+        <Slider {...sliderSettings} className="team-slider">
+          {teamMembers.map((member, index) => (
+            <div key={index}>
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
                 <Card
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     margin: "10px",
                     minHeight: 230,
-                    display: "flex",
                     justifyContent: "space-between",
+                    transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                    "&:hover": {
+                      transform: "translateY(-10px)",
+                      boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                    },
                   }}
                 >
                   <CardContent sx={{ flexGrow: 1 }}>
@@ -238,22 +217,16 @@ export default function AboutUs() {
                         <Typography variant="h6">{member.name}</Typography>
                         <Typography variant="body2" color="textSecondary">
                           {member.position}
-                          {[i18n.language]}
                         </Typography>
                         <Box display="flex" alignItems="center" mt={1}>
                           <EmailIcon fontSize="small" sx={{ marginRight: 1 }} />
-                          <Typography
-                            variant="body2"
-                            sx={{ fontSize: "0.875rem" }}
-                          >
+                          <Typography variant="body2" sx={{ fontSize: "0.875rem" }}>
                             {member.email}
                           </Typography>
                         </Box>
                       </Box>
                     </Box>
-
                     <Divider sx={{ marginBottom: 2 }} />
-
                     <Typography
                       variant="body1"
                       sx={{
@@ -268,11 +241,27 @@ export default function AboutUs() {
                     </Typography>
                   </CardContent>
                 </Card>
-              </div>
-            ))}
-          </Slider>
-        </Container>
-      </div>
+              </motion.div>
+            </div>
+          ))}
+        </Slider>
+      </Container>
+
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 100 }}
+        transition={{ duration: 0.5 }}
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          zIndex: 1000,
+        }}
+      >
+        <Typography variant="body2" color="textSecondary" align="center">
+          © 2023 Your Company Name. All rights reserved.
+        </Typography>
+      </motion.div>
     </div>
   );
 }

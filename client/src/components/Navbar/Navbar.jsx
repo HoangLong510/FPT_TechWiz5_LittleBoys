@@ -1,9 +1,10 @@
-import { Box, Button } from '@mui/material'
+import { Box, Button, Tooltip, IconButton, Badge  } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import NavbarMenu from './NavbarMenu'
 import { useTranslation } from 'react-i18next'
 import Cart from '~/components/Cart/Cart'
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export default function Navbar() {
 
@@ -48,6 +49,19 @@ export default function Navbar() {
                             Fanpage
                         </Button>
                     </Link>
+                    {/* <Tooltip title="Upcoming Appointments">
+                          <IconButton
+                            aria-label="notifications"
+                            color="primary"
+                          >
+                            <Badge
+                              badgeContent={notifications.length}
+                              color="error"
+                            >
+                              <NotificationsIcon />
+                            </Badge>
+                          </IconButton>
+                        </Tooltip> */}
                 </Box>
             </Box>
 
@@ -74,7 +88,7 @@ export default function Navbar() {
                 {user.exist && (
                     <>
                         <Cart />
-                    </>
+                  <Box>
                 )}
                 <NavbarMenu />
             </Box>

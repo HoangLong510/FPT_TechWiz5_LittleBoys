@@ -124,7 +124,7 @@ export default function ProductList() {
                 <TableCell sx={{ color: '#fff', width: '15%' }}>{t("Brand")}</TableCell>
                 <TableCell sx={{ color: '#fff', width: '10%' }}>{t("Price")}</TableCell>
                 <TableCell sx={{ color: '#fff', width: '15%' }}>{t("Quantity")}</TableCell>
-                <TableCell sx={{ color: '#fff', width: '10%' }}>{t("Actions")}</TableCell>
+                <TableCell sx={{ color: '#fff', width: '10%' }}>{t("Action")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -150,7 +150,7 @@ export default function ProductList() {
                         <img
                           src={`${product.image}?${new Date().getTime()}`}
                           alt={product.name}
-                          style={{ maxWidth: '100px', maxHeight: '60px', objectFit: 'cover' }}
+                          style={{ width: '100px', height: '80px', objectFit: 'cover' }}
                         />
                       ) : 'No image'}
                     </TableCell>
@@ -175,7 +175,7 @@ export default function ProductList() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align="center">
-                    {search ? t("No data") : t("No products available")}
+                    {search ? t("No data") : t("No data")}
                   </TableCell>
                 </TableRow>
               )}
