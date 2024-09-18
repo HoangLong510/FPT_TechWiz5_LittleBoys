@@ -166,7 +166,7 @@ export default function NavEffectLayout({ children }) {
                   }}
                 >
                   <Link
-                    to="/"
+                    to="/product"
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <Button className="scroll-button" sx={{fontSize: '16px'}}>
