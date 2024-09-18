@@ -12,7 +12,8 @@ export default function Home() {
         sx={{ 
           position: "relative",
           overflow: "hidden", 
-          height: "100vh" 
+          height: "100vh", 
+          backgroundImage: "url('/video/bg-homepage-df.png')"
         }}
       >
         <video
