@@ -60,6 +60,9 @@ export default function BrandDetail() {
         if (image) {
             formData.append('image', image);
         }
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
 
         try {
             const res = await updateBrandApi(brandId, formData); // Sử dụng formData khi gọi API

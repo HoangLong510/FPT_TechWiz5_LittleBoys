@@ -197,56 +197,56 @@ class ManagementController extends Controller
     }
 
     public function getBrands(Request $request)
-{
-    $search = $request->query('search', '');
-    $page = $request->query('page', 1);
+    {
+        $search = $request->query('search', '');
+        $page = $request->query('page', 1);
 
-    try {
-        $brands = Brand::where('name', 'like', '%' . $search . '%')
-                       ->paginate(10, ['*'], 'page', $page);
+        try {
+            $brands = Brand::where('name', 'like', '%' . $search . '%')
+                ->paginate(10, ['*'], 'page', $page);
 
-        // Đảm bảo chỉ thêm 'storage/' một lần
-        $brands->getCollection()->transform(function($brand) {
-            $brand->image = $brand->image ? asset('storage/' . $brand->image) : null;
-            return $brand;
-        });
-
-        return response()->json([
-            'brands' => $brands->items(),
-            'totalPages' => $brands->lastPage(),
-            'currentPage' => $brands->currentPage(),
-            'totalItems' => $brands->total()
-        ]);
-    } catch (\Exception $e) {
-        \Log::error('Error fetching brands: ' . $e->getMessage());
-        return response()->json(['error' => 'Server Error'], 500);
-    }
-}
-
-public function getBrandDetail($id)
-{
-    try {
-        $brand = Brand::find($id);
-
-        if ($brand) {
-            // Xử lý hình ảnh nếu có
-            $brand->image = $brand->image ? asset('storage/' . $brand->image) : null;
+            // Đảm bảo chỉ thêm 'storage/' một lần
+            $brands->getCollection()->transform(function ($brand) {
+                $brand->image = $brand->image ? asset('storage/' . $brand->image) : null;
+                return $brand;
+            });
 
             return response()->json([
-                'success' => true,
-                'brand' => $brand
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Brand not found.'
-            ], 404);
+                'brands' => $brands->items(),
+                'totalPages' => $brands->lastPage(),
+                'currentPage' => $brands->currentPage(),
+                'totalItems' => $brands->total()
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching brands: ' . $e->getMessage());
+            return response()->json(['error' => 'Server Error'], 500);
         }
-    } catch (\Exception $e) {
-        \Log::error('Error fetching brand details: ' . $e->getMessage());
-        return response()->json(['error' => 'Server Error'], 500);
     }
-}
+
+    public function getBrandDetail($id)
+    {
+        try {
+            $brand = Brand::find($id);
+
+            if ($brand) {
+                // Xử lý hình ảnh nếu có
+                $brand->image = $brand->image ? asset('storage/' . $brand->image) : null;
+
+                return response()->json([
+                    'success' => true,
+                    'brand' => $brand
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Brand not found.'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error fetching brand details: ' . $e->getMessage());
+            return response()->json(['error' => 'Server Error'], 500);
+        }
+    }
 
     public function updateBrand(Request $request, $id)
     {
@@ -259,20 +259,27 @@ public function getBrandDetail($id)
             $brand = Brand::find($id);
 
             if ($brand) {
-                // Xóa hình ảnh cũ nếu có
-                if ($brand->image && Storage::exists('public/' . $brand->image)) {
-                    Storage::delete('public/' . $brand->image);
-                }
-
-                $imagePath = null;
                 if ($request->hasFile('image')) {
-                    $image = $request->file('image');
-                    // Lưu hình ảnh vào thư mục 'public/images'
-                    $imagePath = $image->store('images', 'public'); // Lưu vào 'storage/app/public/images'
-                    $validatedData['image'] = $imagePath; // Cập nhật đường dẫn hình ảnh
-                }
+                    // Delete old image if it exists
+                    if ($brand->image && Storage::exists('public/' . $brand->image)) {
+                        Storage::delete('public/' . $brand->image);
+                    }
 
-                $brand->update($validatedData);
+                    $imagePath = null;
+                    if ($request->hasFile('image')) {
+                        $image = $request->file('image');
+                        // Save the new image in the 'public/images' directory
+                        $imagePath = $image->store('images', 'public');
+                        $validatedData['image'] = $imagePath;
+                    }
+
+                    $brand->update($validatedData);
+                } else {
+                    $brand->update([
+                        'name' => $request->name,
+                        'image' => $brand->image
+                    ]);
+                }
 
                 return response()->json([
                     'success' => true,
@@ -281,7 +288,7 @@ public function getBrandDetail($id)
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Brand not found.'
+                    'message' => 'Category not found.'
                 ], 404);
             }
         } catch (\Exception $e) {
@@ -294,28 +301,28 @@ public function getBrandDetail($id)
     }
 
     public function deleteBrand($id)
-{
-    $brand = Brand::find($id);
+    {
+        $brand = Brand::find($id);
 
-    if ($brand) {
-        // Xóa hình ảnh nếu có
-        if ($brand->image && Storage::exists('public/' . $brand->image)) {
-            Storage::delete('public/' . $brand->image);
+        if ($brand) {
+            // Xóa hình ảnh nếu có
+            if ($brand->image && Storage::exists('public/' . $brand->image)) {
+                Storage::delete('public/' . $brand->image);
+            }
+
+            // Xóa thương hiệu
+            $brand->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Brand deleted successfully.'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Brand not found.'
+            ], 404);
         }
-
-        // Xóa thương hiệu
-        $brand->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'Brand deleted successfully.'
-        ], 200);
-    } else {
-        return response()->json([
-            'success' => false,
-            'message' => 'Brand not found.'
-        ], 404);
     }
-}
 
     //category
 
@@ -326,20 +333,20 @@ public function getBrandDetail($id)
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         try {
             $imagePath = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 // Save the image in the 'public/images' directory
-                $imagePath = $image->store('images/cate', 'public');
+                $imagePath = $image->store('images', 'public');
             }
-    
+
             $category = Category::create([
                 'name' => $validatedData['name'],
                 'image' => $imagePath ? $imagePath : null
             ]);
-    
+
             return response()->json([
                 'success' => true,
                 'data' => $category
@@ -353,89 +360,127 @@ public function getBrandDetail($id)
         }
     }
 
-// Lấy danh sách Category (Get Categories)
-public function getCategories(Request $request)
-{
-    $search = $request->query('search', '');
-    $page = $request->query('page', 1);
+    // Lấy danh sách Category (Get Categories)
+    public function getCategories(Request $request)
+    {
+        $search = $request->query('search', '');
+        $page = $request->query('page', 1);
 
-    try {
-        $categories = Category::where('name', 'like', '%' . $search . '%')
-                              ->paginate(10, ['*'], 'page', $page);
+        try {
+            $categories = Category::where('name', 'like', '%' . $search . '%')
+                ->paginate(10, ['*'], 'page', $page);
 
-        // Ensure 'storage/' is prefixed correctly
-        $categories->getCollection()->transform(function($category) {
-            $category->image = $category->image ? asset('storage/' . $category->image) : null;
-            return $category;
-        });
-
-        return response()->json([
-            'categories' => $categories->items(),
-            'totalPages' => $categories->lastPage(),
-            'currentPage' => $categories->currentPage(),
-            'totalItems' => $categories->total()
-        ]);
-    } catch (\Exception $e) {
-        \Log::error('Error fetching categories: ' . $e->getMessage());
-        return response()->json(['error' => 'Server Error'], 500);
-    }
-}
-
-// Lấy chi tiết Category (Get Category Detail)
-public function getCategoryDetail($id)
-{
-    try {
-        $category = Category::find($id);
-
-        if ($category) {
-            // Process the image path if available
-            $category->image = $category->image ? asset('storage/' . $category->image) : null;
+            // Ensure 'storage/' is prefixed correctly
+            $categories->getCollection()->transform(function ($category) {
+                $category->image = $category->image ? asset('storage/' . $category->image) : null;
+                return $category;
+            });
 
             return response()->json([
-                'success' => true,
-                'category' => $category
-            ], 200);
-        } else {
+                'categories' => $categories->items(),
+                'totalPages' => $categories->lastPage(),
+                'currentPage' => $categories->currentPage(),
+                'totalItems' => $categories->total()
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching categories: ' . $e->getMessage());
+            return response()->json(['error' => 'Server Error'], 500);
+        }
+    }
+
+    // Lấy chi tiết Category (Get Category Detail)
+    public function getCategoryDetail($id)
+    {
+        try {
+            $category = Category::find($id);
+
+            if ($category) {
+                // Process the image path if available
+                $category->image = $category->image ? asset('storage/' . $category->image) : null;
+
+                return response()->json([
+                    'success' => true,
+                    'category' => $category
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Category not found.'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error fetching category details: ' . $e->getMessage());
+            return response()->json(['error' => 'Server Error'], 500);
+        }
+    }
+    // Cập nhật Category (Update Category)
+    public function updateCategory(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        try {
+            $category = Category::find($id);
+
+            if ($category) {
+                if ($request->hasFile('image')) {
+                    // Delete old image if it exists
+                    if ($category->image && Storage::exists('public/' . $category->image)) {
+                        Storage::delete('public/' . $category->image);
+                    }
+
+                    $imagePath = null;
+                    if ($request->hasFile('image')) {
+                        $image = $request->file('image');
+                        // Save the new image in the 'public/images' directory
+                        $imagePath = $image->store('images', 'public');
+                        $validatedData['image'] = $imagePath;
+                    }
+
+                    $category->update($validatedData);
+                } else {
+                    $category->update([
+                        'name' => $request->name,
+                        'image' => $category->image
+                    ]);
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'data' => $category
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Category not found.'
+                ], 404);
+            }
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Category not found.'
-            ], 404);
+                'message' => 'An error occurred while updating the category.',
+                'error' => $e->getMessage()
+            ], 500);
         }
-    } catch (\Exception $e) {
-        \Log::error('Error fetching category details: ' . $e->getMessage());
-        return response()->json(['error' => 'Server Error'], 500);
     }
-}
-// Cập nhật Category (Update Category)
-public function updateCategory(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
-    try {
+    // Xóa Category (Delete Category)
+    public function deleteCategory($id)
+    {
         $category = Category::find($id);
 
         if ($category) {
-            // Delete old image if it exists
+            // Delete the image if it exists
             if ($category->image && Storage::exists('public/' . $category->image)) {
                 Storage::delete('public/' . $category->image);
             }
 
-            $imagePath = null;
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                // Save the new image in the 'public/images' directory
-                $imagePath = $image->store('images', 'public');
-                $validatedData['image'] = $imagePath;
-            }
-
-            $category->update($validatedData);
-
+            // Delete the category
+            $category->delete();
             return response()->json([
                 'success' => true,
-                'data' => $category
+                'message' => 'Category deleted successfully.'
             ], 200);
         } else {
             return response()->json([
@@ -443,198 +488,155 @@ public function updateCategory(Request $request, $id)
                 'message' => 'Category not found.'
             ], 404);
         }
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'An error occurred while updating the category.',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
-// Xóa Category (Delete Category)
-public function deleteCategory($id)
-{
-    $category = Category::find($id);
-
-    if ($category) {
-        // Delete the image if it exists
-        if ($category->image && Storage::exists('public/' . $category->image)) {
-            Storage::delete('public/' . $category->image);
-        }
-
-        // Delete the category
-        $category->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'Category deleted successfully.'
-        ], 200);
-    } else {
-        return response()->json([
-            'success' => false,
-            'message' => 'Category not found.'
-        ], 404);
-    }
-}
 
     //prodcut
 
     // Create a new product
     public function createProduct(Request $request)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'price' => 'required|numeric',
-        'quantity' => 'required|integer',
-        'description' => 'nullable|string',
-        'category_id' => 'required|exists:categories,id',
-        'brand_id' => 'required|exists:brands,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
-    try {
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('images', 'public'); // Lưu vào 'storage/app/public/images'
-        }
-
-        $product = Product::create([
-            'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
-            'quantity' => $validatedData['quantity'],
-            'description' => $validatedData['description'],
-            'category_id' => $validatedData['category_id'],
-            'brand_id' => $validatedData['brand_id'],
-            'image' => $imagePath
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        return response()->json([
-            'success' => true,
-            'data' => $product
-        ], 201);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'An error occurred while creating the product.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-}
-
-
- 
-     // Update the specified product
-     public function updateProduct(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'price' => 'required|numeric',
-        'quantity' => 'required|integer',
-        'description' => 'nullable|string',
-        'category_id' => 'required|exists:categories,id',
-        'brand_id' => 'required|exists:brands,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
-    try {
-        $product = Product::find($id);
-
-        if ($product) {
-            // Xóa hình ảnh cũ nếu có
-            if ($product->image && Storage::exists('public/' . $product->image)) {
-                Storage::delete('public/' . $product->image);
-            }
-
+        try {
             $imagePath = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imagePath = $image->store('images', 'public'); // Lưu vào 'storage/app/public/images'
             }
 
-            $product->update(array_merge($validatedData, ['image' => $imagePath]));
+            $product = Product::create([
+                'name' => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'quantity' => $validatedData['quantity'],
+                'description' => $validatedData['description'],
+                'category_id' => $validatedData['category_id'],
+                'brand_id' => $validatedData['brand_id'],
+                'image' => $imagePath
+            ]);
 
             return response()->json([
                 'success' => true,
                 'data' => $product
-            ], 200);
-        } else {
+            ], 201);
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Product not found.'
-            ], 404);
+                'message' => 'An error occurred while creating the product.',
+                'error' => $e->getMessage()
+            ], 500);
         }
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'An error occurred while updating the product.',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
 
-     
-     // Delete the specified product
-     public function deleteProduct($id)
-{
-    try {
-        $product = Product::findOrFail($id);
-        $product->delete();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Product deleted successfully.'
-        ], 200);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'An error occurred while deleting the product.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-}
 
- 
-     // Optionally, you might want to add methods to get products and product details
-     public function getProducts(Request $request)
-{
-    $search = $request->query('search', '');
-    $page = $request->query('page', 1);
 
-    // Lọc sản phẩm dựa trên từ khóa tìm kiếm
-    $productsQuery = Product::with(['brand', 'category'])
-        ->where(function ($query) use ($search) {
-            if ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
+    // Update the specified product
+    public function updateProduct(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        try {
+            $product = Product::find($id);
+
+            if ($product) {
+                if ($request->hasFile('image')) {
+                    // Delete old image if it exists
+                    if ($product->image && Storage::exists('public/' . $product->image)) {
+                        Storage::delete('public/' . $product->image);
+                    }
+
+                    $imagePath = null;
+                    if ($request->hasFile('image')) {
+                        $image = $request->file('image');
+                        // Save the new image in the 'public/images' directory
+                        $imagePath = $image->store('images', 'public');
+                        $validatedData['image'] = $imagePath;
+                    }
+
+                    $product->update($validatedData);
+                } else {
+                    $product->update([
+                        'name' => $request->name,
+                        'image' => $product->image
+                    ]);
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'data' => $product
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Category not found.'
+                ], 404);
             }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating the product.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    // Optionally, you might want to add methods to get products and product details
+    public function getProducts(Request $request)
+    {
+        $search = $request->query('search', '');
+        $page = $request->query('page', 1);
+
+        // Lọc sản phẩm dựa trên từ khóa tìm kiếm
+        $productsQuery = Product::with(['brand', 'category'])
+            ->where(function ($query) use ($search) {
+                if ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                }
+            });
+
+        // Phân trang
+        $products = $productsQuery->paginate(10, ['*'], 'page', $page);
+
+        // Đảm bảo chỉ thêm 'storage/' một lần
+        $products->getCollection()->transform(function ($product) {
+            $product->image = $product->image ? asset('storage/' . $product->image) : null;
+            return $product;
         });
 
-    // Phân trang
-    $products = $productsQuery->paginate(10, ['*'], 'page', $page);
+        return response()->json([
+            'success' => true,
+            'data' => $products->items(),
+            'totalPages' => $products->lastPage()
+        ]);
+    }
 
-    // Đảm bảo chỉ thêm 'storage/' một lần
-    $products->getCollection()->transform(function ($product) {
+    public function getProduct($id)
+    {
+        $product = Product::with(['brand', 'category'])->findOrFail($id);
+
+        // Xử lý hình ảnh nếu có
         $product->image = $product->image ? asset('storage/' . $product->image) : null;
-        return $product;
-    });
 
-    return response()->json([
-        'success' => true,
-        'data' => $products->items(),
-        'totalPages' => $products->lastPage()
-    ]);
-}
- 
-public function getProduct($id)
-{
-    $product = Product::with(['brand', 'category'])->findOrFail($id);
-
-    // Xử lý hình ảnh nếu có
-    $product->image = $product->image ? asset('storage/' . $product->image) : null;
-
-    return response()->json([
-        'success' => true,
-        'data' => $product
-    ]);
-}
+        return response()->json([
+            'success' => true,
+            'data' => $product
+        ]);
+    }
 
 }
