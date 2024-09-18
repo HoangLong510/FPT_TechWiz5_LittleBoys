@@ -22,11 +22,15 @@ import Payments from "~/pages/payments/Payments"
 import Home from "~/pages/home/Home"
 import NavEffectLayout from "~/layouts/NavEffectLayout"
 import Profile from "~/pages/user/profile/Profile"
+import Product from "~/pages/productPages/Product"
+import ProductDetailPage from "~/pages/productPages/ProductDetailPage"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
     { path: '/about-us', component: AboutUs, layout: NavEffectLayout },
     { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
+    { path: '/product', component: Product, layout: DefaultLayout },
+    { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout }
 ]
 
 const authRoutes = [
