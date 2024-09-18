@@ -1,5 +1,4 @@
 import { Box, Button, CircularProgress, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, Input, TextField } from "@mui/material";
-import { Box, Button, CircularProgress, TextField, Snackbar, Alert, Input, MenuItem, FormControl, InputLabel, Select } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -105,13 +104,13 @@ export default function ProductCreate() {
                     <Box sx={{ fontWeight: 'bold' }}>{t("CreateProduct")}</Box>
                     <Button onClick={handleBack}>{t("Back to List")}</Button>
                 </Box>
-
+    
                 {loading && (
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
                         <CircularProgress />
                     </Box>
                 )}
-
+    
                 {!loading && (
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
                         <TextField
@@ -172,33 +171,6 @@ export default function ProductCreate() {
                                 {categories.map(category => (
                                     <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
                                 ))}
-                        
-                        <FormControl variant="standard" fullWidth>
-                            <InputLabel id="select-Brand">{t("Brand")}</InputLabel>
-                            <Select
-                                labelId="select-Brand"
-                                value={brandId}
-                                label={t("Brand")}
-                                onChange={(e) => setBrandId(e.target.value)}
-                            >
-                                <MenuItem value={""}>{t("Select Brand")}</MenuItem>
-                                {brands.map(brand => (
-                                <MenuItem key={brand.id} value={brand.id}>{brand.name}</MenuItem>
-                            ))}
-                            </Select>
-                        </FormControl>
-                        <FormControl variant="standard" fullWidth>
-                            <InputLabel id="select-Category">{t("Category")}</InputLabel>
-                            <Select
-                                labelId="select-Category"
-                                value={categoryId}
-                                label={t("Category")}
-                                onChange={(e) => setCategoryId(e.target.value)}
-                            >
-                                <MenuItem value={""}>{t("Select Category")}</MenuItem>
-                                {categories.map(category => (
-                                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-                            ))}
                             </Select>
                         </FormControl>
                         <Input
@@ -208,45 +180,31 @@ export default function ProductCreate() {
                             fullWidth
                             sx={{ marginTop: 2 }}
                         />
-                        <Box sx={{ width: '100%', display: 'flex', gap: '10px', marginTop: 2 }}>
-                        <Box sx={{ width: '100%', display: 'flex', gap: '10px', justifyContent:'flex-end' }}>
+                        <Box sx={{ width: '100%', display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: 2 }}>
                             <Button
-                                sx={{
-                                    width:'160px'
-                                }}
+                                sx={{ width: '160px' }}
                                 variant="contained"
                                 color="primary"
                                 onClick={handleCreate}
                                 disabled={loading}
-                                
                             >
                                 {loading ? <CircularProgress size={24} /> : t("Create")}
                             </Button>
-                            
                         </Box>
                     </Box>
                 )}
-
+    
                 {/* Snackbar for notifications */}
                 <Snackbar
                     open={openSnackbar}
                     autoHideDuration={6000}
                     onClose={handleCloseSnackbar}
-                    sx={{ 
-                        '& .MuiSnackbarContent-root': { 
-                            width: 'auto', 
-                            maxWidth: '600px' 
-                        }
-                    }}
+                    sx={{ '& .MuiSnackbarContent-root': { width: 'auto', maxWidth: '600px' } }}
                 >
                     <Alert
                         onClose={handleCloseSnackbar}
                         severity={snackbarSeverity}
-                        sx={{ 
-                            width: '100%', 
-                            fontSize: '1rem', 
-                            padding: '16px' 
-                        }}
+                        sx={{ width: '100%', fontSize: '1rem', padding: '16px' }}
                     >
                         {snackbarMessage}
                     </Alert>
