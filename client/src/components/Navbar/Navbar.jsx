@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import NavbarMenu from './NavbarMenu'
 import { useTranslation } from 'react-i18next'
+import Cart from '~/components/Cart/Cart'
 import NotificationsIcon from '@mui/icons-material/Notifications';
-
 
 export default function Navbar() {
 
@@ -26,26 +26,26 @@ export default function Navbar() {
                 gap: '20px'
             }}>
                 <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo"  height={'55px'} />
+                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo"  height={'50px'} />
                 </Link>
                 <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
                     <Link to="/product" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button sx={{fontSize: '16px'}}>
+                        <Button>
                             {t("Products")}
                         </Button>
                     </Link>
                     <Link to="/about-us" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button sx={{fontSize: '16px'}}>
+                        <Button>
                             {t("AboutUs")}
                         </Button>
                     </Link>
                     <Link to="/contact-us" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button sx={{fontSize: '16px'}}>
+                        <Button>
                             {t("ContactUs")}
                         </Button>
                     </Link>
                     <Link to="https://www.facebook.com/aptech.fpt" style={{ display: 'flex', alignItems: 'center' }} target='_blank'>
-                        <Button sx={{fontSize: '16px'}}>
+                        <Button>
                             Fanpage
                         </Button>
                     </Link>
@@ -74,21 +74,21 @@ export default function Navbar() {
                 {!user.exist && (
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
                         <Link to="/auth/login" style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button sx={{fontSize: '16px'}}>
+                            <Button>
                                 {t("Login")}
                             </Button>
                         </Link>
                         <Link to="/auth/register" style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button variant="contained" sx={{fontSize: '16px'}}>
+                            <Button variant="contained">
                                 {t("CreateAccount")}
                             </Button>
                         </Link>
                     </Box>
                 )}
                 {user.exist && (
+                    <>
+                        <Cart />
                   <Box>
-                    
-                  </Box>
                 )}
                 <NavbarMenu />
             </Box>
