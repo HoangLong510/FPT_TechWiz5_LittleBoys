@@ -9,5 +9,5 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'image']; // Cập nhật các thuộc tính nếu cần
+    protected $fillable = ['name', 'image']; // Cập nhật các thuộc tính nếu cần
 }

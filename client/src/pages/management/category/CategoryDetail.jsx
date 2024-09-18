@@ -20,6 +20,9 @@ export default function CategoryDetail() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
+    // Đặt URL gốc của máy chủ lưu trữ hình ảnh
+    const imageBaseUrl = ''; // Thay đổi đường dẫn nếu cần thiết
+
     useEffect(() => {
         const fetchCategory = async () => {
             setLoading(true);
@@ -141,9 +144,9 @@ export default function CategoryDetail() {
                         {category.image && (
                             <Box sx={{ mb: 2 }}>
                                 <img
-                                    src={`/Images/${category.image}`} // Đảm bảo đường dẫn đúng với cấu trúc của bạn
+                                    src={imageBaseUrl + category.image} // Sử dụng đường dẫn hình ảnh chính xác
                                     alt="Category"
-                                    style={{ maxWidth: '100%', maxHeight: '200px' }}
+                                    style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'cover' }}
                                 />
                             </Box>
                         )}

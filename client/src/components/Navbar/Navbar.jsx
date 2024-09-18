@@ -27,7 +27,7 @@ export default function Navbar() {
                     <img src="/logo.png" alt="logo" width={'147px'} height={'40px'} />
                 </Link>
                 <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
-                    <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+                    <Link to="/product" style={{ display: 'flex', alignItems: 'center' }}>
                         <Button>
                             {t("Products")}
                         </Button>

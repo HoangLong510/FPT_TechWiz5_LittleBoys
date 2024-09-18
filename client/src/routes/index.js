@@ -21,13 +21,12 @@ import PaymentsLayout from "~/layouts/PaymentsLayout"
 import Payments from "~/pages/payments/Payments"
 import Home from "~/pages/home/Home"
 import NavEffectLayout from "~/layouts/NavEffectLayout"
-
+import Profile from "~/pages/user/profile/Profile"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
     { path: '/about-us', component: AboutUs, layout: NavEffectLayout },
     { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
-    
 ]
 
 const authRoutes = [
@@ -37,6 +36,7 @@ const authRoutes = [
 ]
 
 const userRoutes = [
+    { path: '/user', component: Profile, layout: DefaultLayout},
     { path: '/payments', component: Payments, layout: PaymentsLayout },
 ]
 
@@ -44,9 +44,11 @@ const managementRoutes = [
     { path: '/management', component: Management, layout: DefaultLayout },
     { path: '/management/account', component: AccountManagement, layout: DefaultLayout },
     { path: '/management/account/:userId', component: AccountDetail, layout: DefaultLayout },
+  
     { path: '/management/brands', component: BrandList, layout: DefaultLayout }, 
     { path: '/management/brands/create', component: BrandCreate, layout: DefaultLayout }, 
     { path: '/management/brands/:brandId', component: BrandDetail, layout: DefaultLayout }, 
+  
     { path: '/management/categories', component: CategoryList, layout: DefaultLayout }, 
     { path: '/management/categories/create', component: CategoryCreate, layout: DefaultLayout }, 
     { path: '/management/categories/:categoryId', component: CategoryDetail, layout: DefaultLayout }, 
