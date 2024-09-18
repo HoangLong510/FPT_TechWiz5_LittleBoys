@@ -330,8 +330,9 @@ export default function NavEffectLayout({ children }) {
                         >
                           <Button sx={{ width: "100%" }}>Fanpage</Button>
                         </Link>
+                        
                       </List>
-
+                      {/* Right   */}
                       <Box
                         sx={{
                           padding: { xs: "0px 20px", md: "20px 20px 0px 20px" },
@@ -405,7 +406,7 @@ export default function NavEffectLayout({ children }) {
                         >
                           <Link
                             onClick={toggleDrawer(false)}
-                            to="/"
+                            to="/user"
                             style={{
                               display: "flex",
                               alignItems: "center",
@@ -424,6 +425,17 @@ export default function NavEffectLayout({ children }) {
                               </span>
                             </Button>
                           </Link>
+                          {user.data.role === 'user' && (
+                                <Link onClick={toggleDrawer(false)} to="/auth/register-supplirt" style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <Button sx={{ width: '100%' }}>
+                                        {t("RegisterSupplier")}
+                                    </Button>
+                                </Link>
+                            )}
                           {user.data.role === "admin" && (
                             <Link
                               onClick={toggleDrawer(false)}
@@ -434,8 +446,25 @@ export default function NavEffectLayout({ children }) {
                                 justifyContent: "center",
                               }}
                             >
+                              
                               <Button sx={{ width: "100%" }}>
                                 {t("Management")}
+                              </Button>
+                            </Link>
+                          )}
+                          {user.data.role === "supplier" && (
+                            <Link
+                              onClick={toggleDrawer(false)}
+                              to="/supplier/dashboard"
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              
+                              <Button sx={{ width: "100%" }}>
+                                {t("Supplier")}
                               </Button>
                             </Link>
                           )}

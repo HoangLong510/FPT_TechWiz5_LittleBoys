@@ -75,5 +75,6 @@
     "EmailAlreadyExists": "Email already exists.",
     "PhoneNumberAlreadyExists": "Phone number already exists.",
     "PleaseEnterVerificationCode": "Please enter verification code",
-    "RegexVerificationCode": "Verification code must be 6 digits long"
+    "RegexVerificationCode": "Verification code must be 6 digits long",
+    "RegisterSupplier": "Register Supplier"
 }
