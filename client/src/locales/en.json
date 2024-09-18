@@ -76,6 +76,9 @@
     "PhoneNumberAlreadyExists": "Phone number already exists.",
     "PleaseEnterVerificationCode": "Please enter verification code",
     "RegexVerificationCode": "Verification code must be 6 digits long",
+
+    "RegisterSupplier": "Register Supplier"
+
     "CATEGORYMANAGEMENT" : "Management Categories",
     "Image": "Image",
     "Create Category" : "Create Category",

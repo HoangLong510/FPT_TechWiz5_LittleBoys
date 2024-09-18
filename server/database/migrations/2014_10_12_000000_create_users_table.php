@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('gender', ['male', 'female']);
             $table->string('address');
-            $table->enum('role', ['admin', 'user'])->default('user');
+            $table->enum('role', ['admin', 'user','supplier'])->default('user');
             $table->string('verificationCode')->nullable();
             $table->integer('verificationCodeExp')->nullable();
             $table->rememberToken();

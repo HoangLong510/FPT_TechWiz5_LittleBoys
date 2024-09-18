@@ -77,7 +77,7 @@ export default function Home() {
         </Box>
       </Box>
       {/* Category Image Slider */}
-      <Box sx={{  mt: 5 }}>
+      <Box sx={{  mt: 8 }}>
         <Gallery/>
       </Box>
       <Box

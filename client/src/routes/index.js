@@ -24,6 +24,10 @@ import NavEffectLayout from "~/layouts/NavEffectLayout"
 import Profile from "~/pages/user/profile/Profile"
 import Product from "~/pages/productPages/Product"
 import ProductDetailPage from "~/pages/productPages/ProductDetailPage"
+import dashboard from "../pages/supplier/dashboard"
+import SupplierLayout from "../layouts/SupplierLayout"
+import Security from "../pages/user/security/security"
+import noti from "../pages/user/notification/noti"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -42,6 +46,8 @@ const authRoutes = [
 const userRoutes = [
     { path: '/user', component: Profile, layout: DefaultLayout},
     { path: '/payments', component: Payments, layout: PaymentsLayout },
+    { path: '/user/security', component: Security, layout: DefaultLayout },
+    { path: '/user/notification', component: noti, layout: DefaultLayout },
 ]
 
 const managementRoutes = [
@@ -62,4 +68,9 @@ const managementRoutes = [
     { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout }, 
 ]
 
-export { publicRoutes, userRoutes, authRoutes, managementRoutes }
+const supplierRoutes =[
+    {path: '/supplier/dashboard', component: dashboard, layout: SupplierLayout }
+
+]
+
+export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }
