@@ -76,5 +76,17 @@
     "EmailAlreadyExists": "Email đã tồn tại.",
     "PhoneNumberAlreadyExists": "Số điện thoại đã tồn tại.",
     "PleaseEnterVerificationCode": "Vui lòng nhập mã xác thực",
-    "RegexVerificationCode": "Mã xác thực phải bao gồm 6 số"
+    "RegexVerificationCode": "Mã xác thực phải bao gồm 6 số",
+    "CATEGORYMANAGEMENT" : "Quản lý danh mục",
+    "Image" : "Hình ảnh",
+    "Create Category" : "Tạo danh mục",
+    "Created At" : "Được tạo lúc",
+    "Category" : "Danh mục",
+    "Brand" : "Thương hiệu",
+    "Price" : "Giá",
+    "Quantity" : "Số lượng",
+    "Action" : "Hoạt động",
+    "ProductList" : "Danh sách sản phẩm",
+    "Add New Product" : "Tạo sản phẩm",
+    "Add New Brand" : "Tạo thương hiệu"
 }

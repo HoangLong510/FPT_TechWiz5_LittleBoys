@@ -69,7 +69,7 @@ export default function BrandList() {
                         {t("BRANDMANAGEMENT")}
                     </Box>
                     <Button variant="contained" color="primary" onClick={handleCreateBrand}>
-                        Create Brand
+                        {t("Add New Brand")}
                     </Button>
                 </Box>
 
@@ -88,11 +88,11 @@ export default function BrandList() {
                     <Table sx={{ minWidth: 650, fontSize: '14px' }}>
                         <TableHead>
                             <TableRow sx={{ textTransform: 'uppercase', backgroundColor: '#000' }}>
-                                <TableCell sx={{ color: '#fff', width: '15%' }}>ID</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '40%' }}>Name</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '25%' }}>Image</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '20%' }}>Created At</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '10%' }}>Actions</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '15%' }}>{t("ID")}</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '40%' }}>{t("Name")}</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '25%' }}>{t("Image")}</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '20%' }}>{t("Created At")}</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '10%' }}>{t("Action")}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -112,7 +112,7 @@ export default function BrandList() {
                                             <img
                                                 src={brand.image} // Đường dẫn đã được cấu hình chính xác từ API
                                                 alt={brand.name}
-                                                style={{ maxWidth: '100px', maxHeight: '60px', objectFit: 'cover' }}
+                                                style={{ width:'100px', height:'80px' , objectFit: 'cover' }}
                                                 onError={() => console.log('Failed to load image:', brand.image)}
                                             />
                                         ) : (

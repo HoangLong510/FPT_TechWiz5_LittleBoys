@@ -147,7 +147,10 @@ export default function ProductCreate() {
                             variant="standard"
                             multiline
                         />
-                        <FormControl fullWidth variant="standard" required sx={{ marginTop: 2 }}>
+                        <FormControl fullWidth variant="standard" required sx={{
+                            marginTop: 2,
+                            maxHeight: '400px'
+                            }}>
                             <InputLabel>{t("Brand")}</InputLabel>
                             <Select
                                 value={brandId}

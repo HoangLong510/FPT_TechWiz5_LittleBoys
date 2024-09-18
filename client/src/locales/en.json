@@ -76,5 +76,19 @@
     "PhoneNumberAlreadyExists": "Phone number already exists.",
     "PleaseEnterVerificationCode": "Please enter verification code",
     "RegexVerificationCode": "Verification code must be 6 digits long",
+
     "RegisterSupplier": "Register Supplier"
+
+    "CATEGORYMANAGEMENT" : "Management Categories",
+    "Image": "Image",
+    "Create Category" : "Create Category",
+    "Created At" : " Created At",
+    "Category" : "Category",
+    "Brand" : "Brand",
+    "Price" : "Price",
+    "Quantity" : "Quantity",
+    "Action" : "Action",
+    "ProductList" : "ProductList",
+    "Add New Product" : " Add New Product",
+    "Add New Brand" : "Add New Brand"
 }
