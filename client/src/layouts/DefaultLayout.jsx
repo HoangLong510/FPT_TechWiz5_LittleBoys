@@ -19,7 +19,7 @@ export default function DefaultLayout({ children }) {
                 </div>
                 <Navbar />
             </div>
-            <div className="content">
+            <div className="content" >
                 {children}
             </div>
             <Footer />

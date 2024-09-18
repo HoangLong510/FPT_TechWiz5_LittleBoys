@@ -1,6 +1,6 @@
 export const data = [
     {
-      title: "Coming Soon",
+      title: "Explore the edit",
       products: [
         {
           name: "1",

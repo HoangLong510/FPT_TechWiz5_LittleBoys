@@ -49,7 +49,7 @@ export default function ProductsSwiper() {
     infinite: true,
     arrows: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     responsive: [
       {
@@ -80,7 +80,7 @@ export default function ProductsSwiper() {
                 sx={{
                   textAlign: "center",
                   marginBottom: "10px",
-                  fontSize: "1.5rem",
+                  fontSize: "2rem",
                   fontWeight: 600,
                 }}
               >
