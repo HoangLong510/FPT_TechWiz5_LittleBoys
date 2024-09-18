@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
 Route::group([
     'middleware' => 'api',
@@ -24,18 +25,18 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'management'
 ], function ($router) {
-    Route::post('/fetch-accounts', [ManagementController::class,'fetchAccounts']);
-    Route::get('/fetch-account-detail/{id}', [ManagementController::class,'fetchAccountDetail']);
-    Route::post('/account/update', [ManagementController::class,'updateAccount']);
-    Route::get('/lock-account/{id}', [ManagementController::class,'lockAccount']);
-    Route::get('/unlock-account/{id}', [ManagementController::class,'unlockAccount']);
+    Route::post('/fetch-accounts', [ManagementController::class, 'fetchAccounts']);
+    Route::get('/fetch-account-detail/{id}', [ManagementController::class, 'fetchAccountDetail']);
+    Route::post('/account/update', [ManagementController::class, 'updateAccount']);
+    Route::get('/lock-account/{id}', [ManagementController::class, 'lockAccount']);
+    Route::get('/unlock-account/{id}', [ManagementController::class, 'unlockAccount']);
 
     Route::post('/create-brand', [ManagementController::class, 'createBrand']);
     Route::get('/brands', [ManagementController::class, 'getBrands']);
     Route::get('/get-brand-detail/{id}', [ManagementController::class, 'getBrandDetail']);
     Route::post('/update-brand/{id}', [ManagementController::class, 'updateBrand']);
     Route::delete('/delete-brand/{id}', [ManagementController::class, 'deleteBrand']);
-  
+
     // Các route cho Category
     Route::post('/create-category', [ManagementController::class, 'createCategory']);
     Route::get('/categories', [ManagementController::class, 'getCategories']);
@@ -56,4 +57,14 @@ Route::group([
     'prefix' => 'user'
 ], function ($router) {
     Route::post('update', [UserController::class, 'userUpdate']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'product'
+], function ($router) {
+    Route::post('fetch-data-products', [ProductController::class, 'fetchDataProducts']);
+    Route::get('fetch-data-categories', [ProductController::class, 'fetchDataCategories']);
+    Route::get('fetch-data-product-detail/{id}', [ProductController::class, 'fetchDataProductDetails']);
+    Route::get('add-to-cart/{id}', [ProductController::class, 'addToCart']);
 });

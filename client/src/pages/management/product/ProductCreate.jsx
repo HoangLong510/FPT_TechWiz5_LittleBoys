@@ -154,7 +154,6 @@ export default function ProductCreate() {
                                 onChange={(e) => setBrandId(e.target.value)}
                                 label={t("Brand")}
                             >
-                                <MenuItem value="">{t("Select Brand")}</MenuItem>
                                 {brands.map(brand => (
                                     <MenuItem key={brand.id} value={brand.id}>{brand.name}</MenuItem>
                                 ))}
@@ -167,7 +166,6 @@ export default function ProductCreate() {
                                 onChange={(e) => setCategoryId(e.target.value)}
                                 label={t("Category")}
                             >
-                                <MenuItem value="">{t("Select Category")}</MenuItem>
                                 {categories.map(category => (
                                     <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
                                 ))}
