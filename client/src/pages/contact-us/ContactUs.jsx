@@ -21,12 +21,12 @@ function ContactUs() {
           <Typography>
             <span>General Inquiries</span>
             <br />
-            <span>shop@fearofgod.com</span>
+            <span>decorvistafpthcm@gmail.com</span>
             <br />
           </Typography>
           <Typography component="div" style={{ marginTop: "16px" }}>
             <a
-              href="https://returns.fearofgod.com/"
+              href="/"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -38,12 +38,12 @@ function ContactUs() {
               Returns
             </a>
             <a
-              href="https://returns.fearofgod.com/"
+              href="/"
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: "underline" }}
             >
-              returns.fearofgod.com
+              link of return page
             </a>
           </Typography>
           <Typography>
@@ -54,15 +54,15 @@ function ContactUs() {
             </span>
           </Typography>
           <Typography>
-            To ensure you receive emails from Fear of God, please check your
+            To ensure you receive emails from Decor Vista, please check your
             spam folder for messages from Fear of God. Make sure that your email
             settings are up to date by adding our{" "}
             <a
-              href="mailto:shop@fearofgod.com"
+              href="mailto: decorvistafpthcm@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
             >
-              shop@fearofgod.com
+              decorvistafpthcm@gmail.com
             </a>{" "}
             email address to your Safe Senders list.
           </Typography>

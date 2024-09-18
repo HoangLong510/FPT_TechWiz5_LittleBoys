@@ -1,7 +1,6 @@
 import ForgotPassword from "~/pages/auth/forgot-password/ForgotPassword"
 import Login from "~/pages/auth/login/Login"
 import Register from "~/pages/auth/register/Register"
-import Homepage from "~/pages/home/Homepage"
 import Management from "~/pages/management/Management"
 import AccountManagement from "~/pages/management/account/Account"
 import AboutUs from "~/pages/about-us/AboutUs"
@@ -18,15 +17,16 @@ import ProductList from "~/pages/management/product/ProductList";
 import ProductCreate from "~/pages/management/product/ProductCreate";
 import ProductDetail from "~/pages/management/product/ProductDetail";
 import DefaultLayout from "~/layouts/DefaultLayout"
+import PaymentsLayout from "~/layouts/PaymentsLayout"
+import Payments from "~/pages/payments/Payments"
+import Home from "~/pages/home/Home"
+import NavEffectLayout from "~/layouts/NavEffectLayout"
 import Profile from "~/pages/user/profile/Profile"
 
-
-
 const publicRoutes = [
-    { path: '/', component: Homepage, layout: DefaultLayout },
-    { path: '/about-us', component: AboutUs, layout: AboutusLayout },
-
-    
+    { path: '/', component: Home, layout: NavEffectLayout },
+    { path: '/about-us', component: AboutUs, layout: NavEffectLayout },
+    { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
 ]
 
 const authRoutes = [
@@ -44,17 +44,18 @@ const managementRoutes = [
     { path: '/management', component: Management, layout: DefaultLayout },
     { path: '/management/account', component: AccountManagement, layout: DefaultLayout },
     { path: '/management/account/:userId', component: AccountDetail, layout: DefaultLayout },
-    { path: '/management/brands', component: BrandList, layout: DefaultLayout }, // Route mới cho Brand
-    { path: '/management/brands/create', component: BrandCreate, layout: DefaultLayout }, // Route tạo thương hiệu
-    { path: '/management/brands/:brandId', component: BrandDetail, layout: DefaultLayout }, // Route mới cho Brand
+  
+    { path: '/management/brands', component: BrandList, layout: DefaultLayout }, 
+    { path: '/management/brands/create', component: BrandCreate, layout: DefaultLayout }, 
+    { path: '/management/brands/:brandId', component: BrandDetail, layout: DefaultLayout }, 
+  
+    { path: '/management/categories', component: CategoryList, layout: DefaultLayout }, 
+    { path: '/management/categories/create', component: CategoryCreate, layout: DefaultLayout }, 
+    { path: '/management/categories/:categoryId', component: CategoryDetail, layout: DefaultLayout }, 
 
-    { path: '/management/categories', component: CategoryList, layout: DefaultLayout }, // Route danh sách Category
-    { path: '/management/categories/create', component: CategoryCreate, layout: DefaultLayout }, // Route tạo Category
-    { path: '/management/categories/:categoryId', component: CategoryDetail, layout: DefaultLayout }, // Route chi tiết Category
-
-    { path: '/management/products', component: ProductList, layout: DefaultLayout }, // Route danh sách sản phẩm
-    { path: '/management/products/create', component: ProductCreate, layout: DefaultLayout }, // Route tạo sản phẩm
-    { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout }, // Route chi tiết sản phẩm
+    { path: '/management/products', component: ProductList, layout: DefaultLayout }, 
+    { path: '/management/products/create', component: ProductCreate, layout: DefaultLayout }, 
+    { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout }, 
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes }
