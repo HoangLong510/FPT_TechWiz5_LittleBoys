@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, TextField, Alert, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import { Box, Button, CircularProgress, TextField, Alert, MenuItem, Select, InputLabel, FormControl, Input  } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
@@ -72,31 +72,43 @@ export default function ProductDetail() {
         setError(null);
         setSuccess(false);
     
+        const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+    
+        if (image && image.size > MAX_FILE_SIZE) {
+            setError("The image size must not exceed 2 MB.");
+            setLoading(false);
+            return;
+        }
+    
         const formData = new FormData();
         formData.append('name', name);
         formData.append('price', price);
         formData.append('quantity', quantity);
-        formData.append('category_id', category); // Đảm bảo giá trị category là hợp lệ
-        formData.append('brand_id', brand); // Đảm bảo giá trị brand là hợp lệ
         formData.append('description', description);
+        formData.append('category_id', category);
+        formData.append('brand_id', brand);
     
-        // Chỉ thêm hình ảnh nếu có
         if (image) {
             formData.append('image', image);
         }
     
+        // Log formData contents
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+    
         try {
-            const res = await updateProductApi(productId, formData); // Sử dụng formData khi gọi API
+            const res = await updateProductApi(productId, formData);
             if (res.success) {
                 setSuccess(true);
                 dispatch(setPopup({ type: 'success', message: res.message }));
-                navigate('/management/products'); // Chuyển hướng sau khi cập nhật thành công
+                navigate('/management/products');
             } else {
                 setError(res.message);
                 dispatch(setPopup({ type: 'error', message: res.message }));
             }
         } catch (err) {
-            console.error('Error details:', err.response.data); // In ra chi tiết lỗi
+            console.error('Error details:', err.response.data); // Log lỗi chi tiết
             setError('Failed to update product.');
             dispatch(setPopup({ type: 'error', message: 'Failed to update product.' }));
         } finally {
@@ -234,11 +246,12 @@ export default function ProductDetail() {
                                 ))}
                             </Select>
                         </FormControl>
-                        <TextField
+                        <Input
                             type="file"
                             onChange={(e) => setImage(e.target.files[0])}
                             inputProps={{ accept: 'image/*' }}
                             fullWidth
+                            margin="none"
                             sx={{ marginTop: 2 }}
                         />
                         <Box sx={{ width: '100%', padding: '5px 0px', gap: '10px' }}>
@@ -257,7 +270,7 @@ export default function ProductDetail() {
                                 color="secondary"
                                 onClick={handleBack}
                             >
-                                {t("Cancel")}
+                                {t("Back")}
                             </Button>
                         </Box>
                     </Box>

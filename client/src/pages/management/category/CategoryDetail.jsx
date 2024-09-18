@@ -31,7 +31,6 @@ export default function CategoryDetail() {
                 if (res && res.category) {
                     setCategory(res.category);
                     setName(res.category.name);
-                    setImage(null); // Reset image state
                 } else {
                     setError('Category not found.');
                 }
@@ -55,6 +54,9 @@ export default function CategoryDetail() {
         formData.append('name', name);
         if (image) {
             formData.append('image', image);
+        }
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
         }
 
         try {
@@ -144,7 +146,7 @@ export default function CategoryDetail() {
                         {category.image && (
                             <Box sx={{ mb: 2 }}>
                                 <img
-                                    src={imageBaseUrl + category.image} // Sử dụng đường dẫn hình ảnh chính xác
+                                    src={`${import.meta.env.VITE_BACKEND_URL}/storge/` + category.image} // Sử dụng đường dẫn hình ảnh chính xác
                                     alt="Category"
                                     style={{ maxWidth: '100%', maxHeight: '200px', objectFit: 'cover' }}
                                 />

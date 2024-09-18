@@ -88,5 +88,18 @@
     "Action" : "Hoạt động",
     "ProductList" : "Danh sách sản phẩm",
     "Add New Product" : "Tạo sản phẩm",
-    "Add New Brand" : "Tạo thương hiệu"
+    "Add New Brand" : "Tạo thương hiệu",
+    "BrandDetail" : "Chi tiết thương hiệu",
+    "View all brands" : "Danh sách thương hiệu",
+    "BrandName" : "Tên thương hiệu",
+    "Save" : "Lưu",
+    "Back" : "Quay lại",
+    "CategoryDetail" : "Chi tiết danh mục",
+    "View all categories" : " Danh sách danh mục",
+    "CategoryName" : "Tên danh mục",
+    "Product Name" : "Tên sản phẩm",
+    "Description" : "Mô tả",
+    "ProductDetail" : "Chi tiết sản phẩm",
+    "View all products" : "Danh sách sản phẩm"
+
 }

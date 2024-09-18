@@ -90,5 +90,17 @@
     "Action" : "Action",
     "ProductList" : "ProductList",
     "Add New Product" : " Add New Product",
-    "Add New Brand" : "Add New Brand"
+    "Add New Brand" : "Add New Brand",
+    "BrandDetail" : "BrandDetail",
+    "View all brands" : "View all brands",
+    "BrandName" :"BrandName",
+    "Save" : "Save",
+    "Back" : "Back",
+    "CategoryDetail" : "CategoryDetail",
+    "View all categories" : "View all categories",
+    "CategoryName" : "CategoryName",
+    "Product Name" : "Product Name",
+    "Description" : "Description",
+    "ProductDetail" :"ProductDetail",
+    "View all products" : "View all products"
 }
