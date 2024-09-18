@@ -103,10 +103,10 @@ export default function CategoryList() {
                         <TableHead>
                             <TableRow sx={{ textTransform: 'uppercase', backgroundColor: '#000' }}>
                                 <TableCell sx={{ color: '#fff', width: '15%' }}>ID</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '40%' }}>Name</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '25%' }}>Image</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '20%' }}>Created At</TableCell>
-                                <TableCell sx={{ color: '#fff', width: '10%' }}>Actions</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '40%' }}>{t("Name")}</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '25%' }}>{t("Image")}</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '20%' }}>{t("Created At")}</TableCell>
+                                <TableCell sx={{ color: '#fff', width: '10%' }}>{t("Action")}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -129,7 +129,7 @@ export default function CategoryList() {
                                             <img
                                                 src={category.image} // Sử dụng đường dẫn hình ảnh chính xác
                                                 alt={category.name}
-                                                style={{ maxWidth: '100px', maxHeight: '60px', objectFit: 'cover' }}
+                                                style={{ width:'100px', height: '80px' ,  objectFit: 'cover' }}
                                             />
                                         ) : (
                                             'No image'
