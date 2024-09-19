@@ -190,12 +190,11 @@ export default function NavEffectLayout({ children }) {
                       </Button>
                   </Link>
                   <Link
-                    to="https://www.facebook.com/aptech.fpt"
+                    to="/blog"
                     style={{ display: "flex", alignItems: "center" }}
-                    target="_blank"
                   >
                     <Button className="scroll-button">
-                      Fanpage
+                      Blog
                       </Button>
                   </Link>
                 </Box>
