@@ -115,6 +115,7 @@ export default function NavEffectLayout({ children }) {
             backgroundColor: navbarColor,
             transition: "background-color 0.3s",
             color: textColor,
+            zIndex: "1"
           }}
         >
           {/* LOADING */}
@@ -521,7 +522,7 @@ export default function NavEffectLayout({ children }) {
           </div>
         </div>
       </div>
-      <div className="content">{children}</div>
+      <div className="content" style={{ padding:"0"}}>{children}</div>
       <Footer />
       <Backtotop />
     </div>

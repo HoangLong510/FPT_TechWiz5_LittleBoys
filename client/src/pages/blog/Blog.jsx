@@ -61,7 +61,7 @@ const blogPosts = [
     id: 1,
     title: "Xu hướng thiết kế nội thất Scandinavian 2023",
     excerpt: "Khám phá sự đơn giản và tinh tế trong phong cách Scandinavian...",
-    image: "/Images/img/bg/3617170_2.jpg?height=300&width=400",
+    image: "/Images/bg/3617170_2.jpg?height=300&width=400",
     category: "Xu hướng",
     date: "15 Tháng 5, 2023",
     author: "Nguyễn Văn A",
@@ -71,7 +71,7 @@ const blogPosts = [
     id: 2,
     title: "5 ý tưởng sáng tạo cho phòng khách nhỏ",
     excerpt: "Tối ưu hóa không gian sống với những giải pháp thông minh...",
-    image: "/Images/img/bg/phongkhachnho.png?height=300&width=400",
+    image: "/Images/bg/phongkhachnho.png?height=300&width=400",
     category: "Thiết kế",
     date: "10 Tháng 5, 2023",
     author: "Trần Thị B",
@@ -82,7 +82,7 @@ const blogPosts = [
     title: "Cách chọn sofa phù hợp cho phòng khách",
     excerpt:
       "Hướng dẫn chi tiết để lựa chọn sofa hoàn hảo cho không gian của bạn...",
-    image: "/Images/img/bg/phongkhachnho.png?height=300&width=400",
+    image: "/Images/bg/phongkhachnho.png?height=300&width=400",
     category: "Mua sắm",
     date: "5 Tháng 5, 2023",
     author: "Lê Văn C",
@@ -91,7 +91,7 @@ const blogPosts = [
     id: 4,
     title: "Nghệ thuật trang trí tường trong thiết kế nội thất",
     excerpt: "Khám phá các phương pháp sáng tạo để trang trí tường nhà bạn...",
-    image: "/Images/img/bg/phongkhachnho.png?height=300&width=400",
+    image: "/Images/bg/phongkhachnho.png?height=300&width=400",
     category: "DIY",
     date: "1 Tháng 5, 2023",
     author: "Phạm Thị D",
@@ -101,7 +101,7 @@ const blogPosts = [
     title: "Top 10 cây cảnh dễ chăm sóc cho không gian nội thất",
     excerpt:
       "Tìm hiểu về những loại cây cảnh phù hợp để trang trí và làm sạch không khí trong nhà...",
-    image: "/Images/img/bg/phongkhachnho.png?height=300&width=400",
+    image: "/Images/bg/phongkhachnho.png?height=300&width=400",
     category: "Cây cảnh",
     date: "25 Tháng 4, 2023",
     author: "Hoàng Văn E",
@@ -147,7 +147,7 @@ const FurnitureBlog = () => {
           position: "relative",
           overflow: "hidden",
           height: "80vh",
-          backgroundImage: "url('/video/bg-homepage-df.png')",
+          backgroundImage: "url('/video/blog-df.png')",
         }}
       >
         <video
@@ -161,7 +161,7 @@ const FurnitureBlog = () => {
             objectFit: "cover",
           }}
         >
-          <source src="/video/bg-homepage.mp4" type="video/mp4" />
+          <source src="/video/blog.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <Box

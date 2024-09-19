@@ -65,7 +65,7 @@ const ContactUs = () => {
         minHeight: '100vh',
         bgcolor: 'background.default',
         py: 4,
-        backgroundImage: "url('/Images/img/bg/living-room-2732939.jpg')",
+        backgroundImage: "url('/Images/bg/living-room-2732939.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
