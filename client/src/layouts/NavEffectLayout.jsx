@@ -244,6 +244,7 @@ export default function NavEffectLayout({ children }) {
                       display: { xs: "none", md: "flex" },
                       alignItems: "center",
                       gap: "8px",
+                      width: "100%"
                     }}
                   >
                     <Link
