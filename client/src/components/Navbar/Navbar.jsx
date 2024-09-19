@@ -86,9 +86,7 @@ export default function Navbar() {
                     </Box>
                 )}
                 {user.exist && (
-                    <>
-                        <Cart />
-                  <Box>
+                    <></>
                 )}
                 <NavbarMenu />
             </Box>

@@ -35,7 +35,7 @@ export default function Security() {
       </Typography>
 
       <TextField
-        label="Old Password"
+        label="Last Password"
         type="password"
         variant="outlined"
         fullWidth

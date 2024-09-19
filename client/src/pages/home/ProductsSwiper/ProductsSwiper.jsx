@@ -51,6 +51,7 @@ export default function ProductsSwiper() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    swipeToSlide: true,
     responsive: [
       {
         breakpoint: 1024,

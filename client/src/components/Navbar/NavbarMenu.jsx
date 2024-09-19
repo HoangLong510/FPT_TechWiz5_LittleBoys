@@ -142,7 +142,7 @@ export default function NavbarMenu() {
                                 </Button>
                             </Link>
                             {user.data.role === 'user' && (
-                                <Link onClick={toggleDrawer(false)} to="/auth/register-supplirt" style={{
+                                <Link onClick={toggleDrawer(false)} to="/auth/register-supplier" style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'
