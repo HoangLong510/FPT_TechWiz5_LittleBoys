@@ -73,7 +73,7 @@ const managementRoutes = [
 
     { path: '/management/products', component: ProductList, layout: DefaultLayout }, 
     { path: '/management/products/create', component: ProductCreate, layout: DefaultLayout }, 
-    { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout }, 
+    { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout },
 ]
 
 const supplierRoutes =[

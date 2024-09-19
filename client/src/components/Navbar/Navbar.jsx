@@ -1,5 +1,5 @@
 import { Box, Button, Tooltip, IconButton, Badge  } from '@mui/material'
-import { useSelector } from 'react-redux'
+import { useSelector  } from 'react-redux'
 import { Link } from 'react-router-dom'
 import NavbarMenu from './NavbarMenu'
 import { useTranslation } from 'react-i18next'
@@ -49,19 +49,19 @@ export default function Navbar() {
                             Fanpage
                         </Button>
                     </Link>
-                    {/* <Tooltip title="Upcoming Appointments">
+                    <Tooltip title="Upcoming Appointments">
                           <IconButton
                             aria-label="notifications"
                             color="primary"
                           >
                             <Badge
-                              badgeContent={notifications.length}
+                              badgeContent={activityLogs.length}
                               color="error"
                             >
                               <NotificationsIcon />
                             </Badge>
                           </IconButton>
-                        </Tooltip> */}
+                        </Tooltip>
                 </Box>
             </Box>
 

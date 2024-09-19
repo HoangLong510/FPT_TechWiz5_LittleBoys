@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ActivityLog;
+
 
 class ManagementController extends Controller
 {
@@ -637,6 +639,38 @@ class ManagementController extends Controller
             'success' => true,
             'data' => $product
         ]);
+    }
+
+
+    //hoạt động 
+    public function fetchActivityLogs(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            // Ghi log ID người dùng để kiểm tra
+            \Log::info('Fetching activity logs for user ID: ' . $user->id);
+
+            // Lấy log hoạt động cho người dùng
+            $activityLogs = ActivityLog::where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->take(10) // Lấy 10 bản ghi gần đây nhất
+                ->get();
+
+            // Trả về dữ liệu
+            return response()->json([
+                'success' => true,
+                'data' => $activityLogs
+            ]);
+        } catch (\Exception $e) {
+            // Ghi log lỗi
+            \Log::error('Error fetching activity logs: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching activity logs.'
+            ], 500);
+        }
     }
 
 }
