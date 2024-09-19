@@ -44,9 +44,9 @@ export default function Navbar() {
                             {t("ContactUs")}
                         </Button>
                     </Link>
-                    <Link to="https://www.facebook.com/aptech.fpt" style={{ display: 'flex', alignItems: 'center' }} target='_blank'>
+                    <Link to="/blog" style={{ display: 'flex', alignItems: 'center' }}>
                         <Button>
-                            Fanpage
+                            Blog
                         </Button>
                     </Link>
                     {/* <Tooltip title="Upcoming Appointments">
