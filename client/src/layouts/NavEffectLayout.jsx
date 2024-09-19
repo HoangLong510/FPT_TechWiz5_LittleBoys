@@ -10,8 +10,10 @@ import {
   MenuItem,
   FormControl,
   Select,
+  TextField,
+  InputAdornment
 } from "@mui/material";
-
+import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -153,9 +155,8 @@ export default function NavEffectLayout({ children }) {
                     <img
                       src="/Images/Logo/logo-navbar-black.png"
                       alt="logo"
-                     
-                      height={"50px"} 
-                      />
+                      height={"50px"}
+                    />
                   )}
                 </Link>
                 <Box
@@ -169,39 +170,73 @@ export default function NavEffectLayout({ children }) {
                     to="/product"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">
-                      {t("Products")}
-                      </Button>
+                    <Button className="scroll-button">{t("Products")}</Button>
                   </Link>
                   <Link
                     to="/about-us"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">
-                      {t("AboutUs")}
-                      </Button>
+                    <Button className="scroll-button">{t("AboutUs")}</Button>
                   </Link>
                   <Link
                     to="/contact-us"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">
-                      {t("ContactUs")}
-                      </Button>
+                    <Button className="scroll-button">{t("ContactUs")}</Button>
                   </Link>
                   <Link
                     to="/blog"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">
-                      Blog
-                      </Button>
+                    <Button className="scroll-button">Blog</Button>
                   </Link>
                 </Box>
               </Box>
 
               {/* Right */}
+              
               <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                {/* Search */}
+              <Box
+                className="search"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width:'100%'
+                }}
+              >
+                <TextField
+                  variant="standard"
+                  placeholder="What can we help you find?"
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <SearchIcon sx={{color:textColor}}/>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    
+                    "& .MuiInputBase-root": {
+                      height: "35px", 
+                      width: "350px",
+                      color: textColor, 
+                      backgroundColor: navbarColor, 
+                    },
+                    "& .MuiInput-underline:before": {
+                      borderBottom: "2px solid ", 
+                    },
+                    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                      borderBottom: "2px solid #fff", 
+                    },
+                    "& .MuiInput-underline:after": {
+                      borderBottom: "2px solid #e64a19", 
+                    },
+                  }}
+                />
+              </Box>
                 {!user.exist && (
                   <Box
                     sx={{
@@ -214,9 +249,7 @@ export default function NavEffectLayout({ children }) {
                       to="/auth/login"
                       style={{ display: "flex", alignItems: "center" }}
                     >
-                      <Button className="scroll-button">
-                        {t("Login")}
-                        </Button>
+                      <Button className="scroll-button">{t("Login")}</Button>
                     </Link>
                     <Link
                       to="/auth/register"
@@ -329,7 +362,6 @@ export default function NavEffectLayout({ children }) {
                         >
                           <Button sx={{ width: "100%" }}>Fanpage</Button>
                         </Link>
-                        
                       </List>
                       {/* Right   */}
                       <Box
@@ -424,19 +456,21 @@ export default function NavEffectLayout({ children }) {
                               </span>
                             </Button>
                           </Link>
-                          {user.data.role === 'user' && (
-                                <Link onClick={toggleDrawer(false)} 
-                                    to="/register-supplier" 
-                                    style={{
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center'
-                                  }}>
-                                    <Button sx={{ width: '100%' }}>
-                                        {t("RegisterSupplier")}
-                                    </Button>
-                                </Link>
-                            )}
+                          {user.data.role === "user" && (
+                            <Link
+                              onClick={toggleDrawer(false)}
+                              to="/register-supplier"
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Button sx={{ width: "100%" }}>
+                                {t("RegisterSupplier")}
+                              </Button>
+                            </Link>
+                          )}
                           {user.data.role === "admin" && (
                             <Link
                               onClick={toggleDrawer(false)}
@@ -447,7 +481,6 @@ export default function NavEffectLayout({ children }) {
                                 justifyContent: "center",
                               }}
                             >
-                              
                               <Button sx={{ width: "100%" }}>
                                 {t("Management")}
                               </Button>
@@ -463,7 +496,6 @@ export default function NavEffectLayout({ children }) {
                                 justifyContent: "center",
                               }}
                             >
-                              
                               <Button sx={{ width: "100%" }}>
                                 {t("Supplier")}
                               </Button>
