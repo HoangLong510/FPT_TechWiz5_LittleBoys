@@ -426,11 +426,13 @@ export default function NavEffectLayout({ children }) {
                             </Button>
                           </Link>
                           {user.data.role === 'user' && (
-                                <Link onClick={toggleDrawer(false)} to="/auth/register-supplirt" style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
+                                <Link onClick={toggleDrawer(false)} 
+                                    to="/register-supplier" 
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center'
+                                  }}>
                                     <Button sx={{ width: '100%' }}>
                                         {t("RegisterSupplier")}
                                     </Button>

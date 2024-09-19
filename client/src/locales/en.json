@@ -77,11 +77,10 @@
     "PleaseEnterVerificationCode": "Please enter verification code",
     "RegexVerificationCode": "Verification code must be 6 digits long",
 
-    "RegisterSupplier": "Register Supplier"
-
+    "RegisterSupplier": "Register Supplier",
     "CATEGORYMANAGEMENT" : "Management Categories",
     "Image": "Image",
-    "Create Category" : "Create Category",
+    "CreateCategory" : "Create Category",
     "Created At" : " Created At",
     "Category" : "Category",
     "Brand" : "Brand",

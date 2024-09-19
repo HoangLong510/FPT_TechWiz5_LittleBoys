@@ -27,19 +27,24 @@ import ProductDetailPage from "~/pages/productPages/ProductDetailPage"
 import dashboard from "../pages/supplier/dashboard"
 import SupplierLayout from "../layouts/SupplierLayout"
 import Security from "../pages/user/security/security"
-import noti from "../pages/user/notification/noti"
+import notification from "../pages/user/notification/notification"
+import favorite from "~/pages/user/favorite/favorite"
+import orders from "~/pages/user/orders/oders"
+import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
     { path: '/about-us', component: AboutUs, layout: NavEffectLayout },
     { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
     { path: '/product', component: Product, layout: DefaultLayout },
-    { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout }
+    { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout },
+    { path: '/register-supplier', component: RegisterSupplier , layout: DefaultLayout },
 ]
 
 const authRoutes = [
     { path: '/auth/login', component: Login, layout: DefaultLayout },
     { path: '/auth/register', component: Register, layout: DefaultLayout },
+   
     { path: '/auth/forgot-password', component: ForgotPassword, layout: DefaultLayout }
 ]
 
@@ -47,7 +52,10 @@ const userRoutes = [
     { path: '/user', component: Profile, layout: DefaultLayout},
     { path: '/payments', component: Payments, layout: PaymentsLayout },
     { path: '/user/security', component: Security, layout: DefaultLayout },
-    { path: '/user/notification', component: noti, layout: DefaultLayout },
+    { path: '/user/notification', component: notification, layout: DefaultLayout },
+    { path: '/user/favorite', component: favorite , layout: DefaultLayout },
+    { path: '/user/orders', component: orders , layout: DefaultLayout },
+    
 ]
 
 const managementRoutes = [
@@ -69,8 +77,8 @@ const managementRoutes = [
 ]
 
 const supplierRoutes =[
-    {path: '/supplier/dashboard', component: dashboard, layout: SupplierLayout }
-
+    {path: '/supplier', component: dashboard, layout: SupplierLayout },
+    
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }
