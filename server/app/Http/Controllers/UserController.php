@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\ActivityLog;
 class UserController extends Controller
 {
     public function __construct()
@@ -80,6 +80,13 @@ class UserController extends Controller
                 'address' => $address
             ]);
 
+            //ghi lại hoạt động
+            ActivityLog::create([
+                'user_id' => $user->id,
+                'activity_type' => 'profile_update',
+                'description' => 'User updated their profile.'
+            ]);
+
             $msg = new \stdClass();
             $msg->vi = "Cập nhật hồ sơ thành công!";
             $msg->en = "Update profile successfully!";
@@ -90,4 +97,5 @@ class UserController extends Controller
             ]);
         }
     }
+
 }

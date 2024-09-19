@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendVerificationCode;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\ActivityLog;
+
+
 
 class AuthController extends Controller
 {
@@ -85,6 +88,12 @@ class AuthController extends Controller
                     $msg->en = "Your account has been locked, if there is anything unsatisfactory please send feedback for support. Sorry for the inconvenience.";
                     $msg->vi = "Tài khoản của bạn đã bị khóa, nếu có gì không thỏa đáng xin vui lòng gửi phản hồi để được hỗ trợ. Xin lỗi vì sự bất tiện này.";
                     array_push($message, $msg);
+                } else {
+                    ActivityLog::create([
+                        'user_id' => $user->id,
+                        'activity_type' => 'login',
+                        'description' => 'User logged in successfully.',
+                    ]);
                 }
             }
         }
