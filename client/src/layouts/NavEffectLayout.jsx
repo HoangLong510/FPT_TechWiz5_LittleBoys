@@ -9,9 +9,11 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
-  Select
-
+  Select,
+  TextField,
+  InputAdornment
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -22,7 +24,7 @@ import { setLogout } from "~/libs/features/logout/logoutSlice";
 import locales from "~/locales";
 import Footer from "~/components/Footer/Footer";
 import Backtotop from "~/components/Backtotop/Backtotop"
-
+import '../pages/home/style/navbar.css'
 
 
 export default function NavEffectLayout({ children }) {
@@ -51,7 +53,7 @@ export default function NavEffectLayout({ children }) {
       const [dk, setdk] = useState("contained");
       const [HoverButtonColor, setHoverButtonColor] = useState("white");
       const [textColor, setTextColor] = useState("white");
-      const [btnCreateColor, setbtnCreateColor] = useState("transparent");
+      const [btnCreateColor, setbtnCreateColor] = useState("white");
       const [btnCreateTextColor, setbtnCreateTextColor] = useState("black");
     
       useEffect(() => {
@@ -96,7 +98,11 @@ export default function NavEffectLayout({ children }) {
 
   return (
     <div className="navbar-layout">
-      
+      <Helmet>
+        <title>
+          {import.meta.env.VITE_PROJECT_NAME} | {t("AboutUs")}
+        </title>
+      </Helmet>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {/* HEADER */}
         <div
@@ -191,7 +197,47 @@ export default function NavEffectLayout({ children }) {
               {/* Right */}
               
               <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                
+                {/* Search */}
+              <Box
+                className="search"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width:'100%'
+                }}
+              >
+                <TextField
+                  variant="standard"
+                  placeholder="What can we help you find?"
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <SearchIcon sx={{color:textColor}}/>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    
+                    "& .MuiInputBase-root": {
+                      height: "35px", 
+                      width: "350px",
+                      color: textColor, 
+                      backgroundColor: navbarColor, 
+                    },
+                    "& .MuiInput-underline:before": {
+                      borderBottom: "2px solid ", 
+                    },
+                    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                      borderBottom: "2px solid #fff", 
+                    },
+                    "& .MuiInput-underline:after": {
+                      borderBottom: "2px solid #e64a19", 
+                    },
+                  }}
+                />
+              </Box>
                 {!user.exist && (
                   <Box
                     sx={{
@@ -445,7 +491,7 @@ export default function NavEffectLayout({ children }) {
                           {user.data.role === "supplier" && (
                             <Link
                               onClick={toggleDrawer(false)}
-                              to="/supplier"
+                              to="/supplier/dashboard"
                               style={{
                                 display: "flex",
                                 alignItems: "center",
