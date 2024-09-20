@@ -24,14 +24,15 @@ import NavEffectLayout from "~/layouts/NavEffectLayout"
 import Profile from "~/pages/user/profile/Profile"
 import Product from "~/pages/productPages/Product"
 import ProductDetailPage from "~/pages/productPages/ProductDetailPage"
-import dashboard from "../pages/supplier/dashboard"
-import SupplierLayout from "../layouts/SupplierLayout"
 import Security from "../pages/user/security/security"
 import notification from "../pages/user/notification/notification"
 import favorite from "~/pages/user/favorite/favorite"
 import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
+import Supplier from "~/pages/supplier/Supplier"
+import Meetings from "~/pages/supplier/meetings/Meetings"
+import Feedback from "~/pages/supplier/feedback/Feedback"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -82,8 +83,10 @@ const managementRoutes = [
 const supplierRoutes =[
 
     
-    {path: '/supplier', component: dashboard, layout: DefaultLayout },
-    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
+    {path: '/supplier', component: Supplier, layout: DefaultLayout },
+    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout},
+    {path : '/supplier/meetings', component: Meetings, layout: DefaultLayout},
+    {path : '/supplier/feedback', component: Feedback, layout: DefaultLayout},
 
 ]
 
