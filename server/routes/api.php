@@ -76,6 +76,10 @@ Route::group([
     Route::post('fetch-data-products', [ProductController::class, 'fetchDataProducts']);
     Route::get('fetch-data-categories', [ProductController::class, 'fetchDataCategories']);
     Route::get('fetch-data-product-detail/{id}', [ProductController::class, 'fetchDataProductDetails']);
+
+    // comment
+    Route::post('comment', [ProductController::class, 'addNewComment']);
+    Route::get('fetch-comments/{productId}', [ProductController::class, 'fetchComments']);
 });
 
 Route::group([
