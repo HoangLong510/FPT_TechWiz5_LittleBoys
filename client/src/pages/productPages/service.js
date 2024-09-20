@@ -41,11 +41,12 @@ export const fetchDataProductDetailApi = async (id) => {
 
 export const addToCartApi = async (id) => {
     try {
-        await axios.get(`/product/add-to-cart/${id}`, {
+        const res = await axios.get(`/user/add-to-cart/${id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
         })
+        return res.data
     } catch (error) {
         return
     }

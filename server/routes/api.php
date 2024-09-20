@@ -60,7 +60,11 @@ Route::group([
     'prefix' => 'user'
 ], function ($router) {
     Route::post('update', [UserController::class, 'userUpdate']);
-
+  
+    Route::get('add-to-cart/{id}', [UserController::class, 'addToCart']);
+    Route::get('remove-to-cart/{id}', [UserController::class, 'removeToCart']);
+    Route::get('fetch-data-cart', [UserController::class, 'fetchDataCart']);
+    Route::post('update-quantity-cart', [UserController::class,'updateQuantityCart']);
 });
 
 Route::group([
@@ -70,5 +74,4 @@ Route::group([
     Route::post('fetch-data-products', [ProductController::class, 'fetchDataProducts']);
     Route::get('fetch-data-categories', [ProductController::class, 'fetchDataCategories']);
     Route::get('fetch-data-product-detail/{id}', [ProductController::class, 'fetchDataProductDetails']);
-    Route::get('add-to-cart/{id}', [ProductController::class, 'addToCart']);
 });

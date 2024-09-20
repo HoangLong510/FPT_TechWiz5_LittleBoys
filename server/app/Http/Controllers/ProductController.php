@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Cart;
 
 class ProductController extends Controller
 {
@@ -15,7 +14,7 @@ class ProductController extends Controller
             'except' => [
                 'fetchDataProducts',
                 'fetchDataCategories',
-                'fetchDataProductDetails'
+                'fetchDataProductDetails',
             ]
         ]);
     }
@@ -64,7 +63,8 @@ class ProductController extends Controller
 
     public function fetchDataProductDetails($id)
     {
-        $product = Product::find($id)->first();
+        $product = Product::where('id', $id)->first();
+
         if ($product) {
             return response()->json([
                 "success" => true,
@@ -74,34 +74,6 @@ class ProductController extends Controller
             return response()->json([
                 "success" => false
             ], 400);
-        }
-    }
-
-    public function addToCart($id)
-    {
-        $user = auth()->user();
-
-        $find = Cart::where("product_id", $id)
-            ->where("user_id", $user->id)
-            ->first();
-
-        if($find) {
-            Cart::where("product_id", $id)
-            ->update([
-                "quantity" => $find->quantity + 1
-            ]);
-            return response()->json([
-                "success" => true
-            ]);
-        } else {
-            $cart = new Cart();
-            $cart->user_id = $user->id;
-            $cart->product_id = $id;
-            $cart->quantity = 1;
-            $cart->save();
-            return response()->json([
-                "success" => true
-            ]);
         }
     }
 }

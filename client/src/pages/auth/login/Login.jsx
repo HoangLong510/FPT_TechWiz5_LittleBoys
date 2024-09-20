@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import { setCart } from '~/libs/features/cart/cartSlice'
 
 export default function Login() {
     const { t } = useTranslation()
@@ -42,6 +43,7 @@ export default function Login() {
             dispatch(clearLoading())
 
             dispatch(setUser(res.user))
+            dispatch(setCart(res.carts))
         } else {
             const dataPopup = {
                 type: "error",

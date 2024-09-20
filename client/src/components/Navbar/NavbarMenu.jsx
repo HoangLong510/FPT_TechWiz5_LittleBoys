@@ -164,7 +164,7 @@ export default function NavbarMenu() {
                                 </Link>
                             )}
                              {user.data.role === 'supplier' && (
-                                <Link onClick={toggleDrawer(false)} to="/supplier/dashboard" style={{
+                                <Link onClick={toggleDrawer(false)} to="/supplier" style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center'

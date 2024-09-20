@@ -12,7 +12,10 @@ export default function Navbar() {
 
     const { t } = useTranslation()
     const user = useSelector((state) => state.user.value)
+
     const activityLogs = [];
+
+
     return (
         <Box sx={{
             display: 'flex',
@@ -28,7 +31,7 @@ export default function Navbar() {
                 gap: '20px'
             }}>
                 <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo"  height={'50px'} />
+                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo" height={'50px'} />
                 </Link>
                 <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
                     <Link to="/product" style={{ display: 'flex', alignItems: 'center' }}>
@@ -51,19 +54,7 @@ export default function Navbar() {
                             Blog
                         </Button>
                     </Link>
-                    <Tooltip title="Upcoming Appointments">
-                          <IconButton
-                            aria-label="notifications"
-                            color="primary"
-                          >
-                            <Badge
-                              badgeContent={activityLogs.length}
-                              color="error"
-                            >
-                              <NotificationsIcon />
-                            </Badge>
-                          </IconButton>
-                        </Tooltip>
+                    
                 </Box>
             </Box>
 
@@ -111,6 +102,23 @@ export default function Navbar() {
                     },
                   }}
                 />
+                  <Tooltip title="Upcoming Appointments">
+                          <IconButton
+                            aria-label="notifications"
+                            color="primary"
+                            sx = {{
+                              marginLeft : "10px"
+                            }}
+                          >
+                            <Badge
+                              badgeContent={activityLogs.length}
+                              color="error"
+                            >
+                              <NotificationsIcon />
+                            </Badge>
+                          </IconButton>
+                  </Tooltip>
+                        
               </Box>
                 {!user.exist && (
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
@@ -127,7 +135,9 @@ export default function Navbar() {
                     </Box>
                 )}
                 {user.exist && (
-                    <></>
+                    <>
+                        <Cart />
+                    </>
                 )}
                 <NavbarMenu />
             </Box>

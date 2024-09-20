@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { fetchDataUserApi } from './service'
+import { fetchDataCartApi, fetchDataUserApi } from './service'
 import { useDispatch } from 'react-redux'
 import { clearUser, setUser } from '~/libs/features/user/userSlice'
 import LoadingPage from '~/components/Loading/LoadingPage'
+import { setCart } from '~/libs/features/cart/cartSlice'
 
 export default function AuthProvider({ children }) {
 
@@ -15,6 +16,10 @@ export default function AuthProvider({ children }) {
             dispatch(clearUser())
         } else {
             dispatch(setUser(user))
+            const cart = await fetchDataCartApi()
+            if(cart){
+                dispatch(setCart(cart))
+            }
         }
         setLoading(false)
     }
