@@ -59,6 +59,7 @@ export default function AboutUs() {
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
+    arrows:false,
     responsive: [
       {
         breakpoint: 1024,

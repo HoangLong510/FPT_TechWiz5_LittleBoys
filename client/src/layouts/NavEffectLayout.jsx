@@ -24,7 +24,7 @@ import { setLogout } from "~/libs/features/logout/logoutSlice";
 import locales from "~/locales";
 import Footer from "~/components/Footer/Footer";
 import Backtotop from "~/components/Backtotop/Backtotop"
-import '../pages/home/style/navbar.css'
+
 
 
 export default function NavEffectLayout({ children }) {
