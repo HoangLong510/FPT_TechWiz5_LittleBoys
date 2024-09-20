@@ -88,8 +88,6 @@ const supplierRoutes =[
     {path : '/supplier/meetings', component: Meetings, layout: DefaultLayout},
 
     { path: '/supplier/products', component: ProductSPList, layout: DefaultLayout }, 
-    { path: '/supplier/products/create', component: ProductSPCreate, layout: DefaultLayout }, 
-    { path: '/supplier/products/:productId', component: ProductSPDetail, layout: DefaultLayout },
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }
