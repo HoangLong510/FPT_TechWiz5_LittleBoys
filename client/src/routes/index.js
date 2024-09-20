@@ -76,11 +76,11 @@ const managementRoutes = [
     { path: '/management/products', component: ProductList, layout: DefaultLayout }, 
     { path: '/management/products/create', component: ProductCreate, layout: DefaultLayout }, 
     { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout },
+
 ]
 
 const supplierRoutes =[
     {path: '/supplier', component: dashboard, layout: SupplierLayout },
-    
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }

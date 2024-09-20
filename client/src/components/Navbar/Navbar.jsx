@@ -12,7 +12,7 @@ export default function Navbar() {
 
     const { t } = useTranslation()
     const user = useSelector((state) => state.user.value)
-
+    const activityLogs = [];
     return (
         <Box sx={{
             display: 'flex',
