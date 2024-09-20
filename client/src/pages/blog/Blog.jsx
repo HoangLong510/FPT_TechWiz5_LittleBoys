@@ -489,8 +489,7 @@ const FurnitureBlog = () => {
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "scale(1.05)",
-                textShadow:
-                  "1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white",
+                color: "#fff",
               },
             }}
           >
@@ -510,8 +509,7 @@ const FurnitureBlog = () => {
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "scale(1.05)",
-                textShadow:
-                  "1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white",
+                color: "#fff",
               },
             }}
           >
@@ -532,7 +530,7 @@ const FurnitureBlog = () => {
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "scale(1.05)",
-                textShadow: '1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white'
+                color: "#fff",
               },
             }}
           >

@@ -32,6 +32,7 @@ import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
 import SupplierProductCreate from "~/pages/supplier/product/SupplierProductCreate"
 import Dashboard from "~/pages/supplier/dashboard"
+import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
 
 
 const publicRoutes = [
@@ -42,6 +43,7 @@ const publicRoutes = [
     { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout },
     { path: '/register-supplier', component: RegisterSupplier , layout: DefaultLayout },
     { path: '/blog', component: Blog, layout: DefaultLayout },
+    { path: '/supplier/detail', component: SupplierDetail, layout: DefaultLayout },
 ]
 
 const authRoutes = [
@@ -82,8 +84,8 @@ const managementRoutes = [
 
 const supplierRoutes =[
     {path : '/supplier' ,  component: Dashboard , layout: DefaultLayout},
-    {path : '/supplier/categories' ,  component: CategoryList , layout: DefaultLayout},
-    {path :'/supplier/products', component: SupplierProductCreate , layout: DefaultLayout}
+    {path :'/supplier/products', component: SupplierProductCreate , layout: DefaultLayout},
+    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }
