@@ -50,6 +50,9 @@ Route::group([
     Route::delete('/products/{id}', [ManagementController::class, 'deleteProduct']);
     Route::get('/products', [ManagementController::class, 'getProducts']);
     Route::get('/products/{id}', [ManagementController::class, 'getProduct']);
+
+    //hoat động 
+    Route::get('/fetch-activity-logs', [ManagementController::class, 'fetchActivityLogs']);
 });
 
 Route::group([
@@ -57,7 +60,7 @@ Route::group([
     'prefix' => 'user'
 ], function ($router) {
     Route::post('update', [UserController::class, 'userUpdate']);
-
+  
     Route::get('add-to-cart/{id}', [UserController::class, 'addToCart']);
     Route::get('remove-to-cart/{id}', [UserController::class, 'removeToCart']);
     Route::get('fetch-data-cart', [UserController::class, 'fetchDataCart']);

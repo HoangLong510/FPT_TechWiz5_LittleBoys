@@ -65,8 +65,8 @@ const ContactUs = () => {
         minHeight: '100vh',
         bgcolor: 'background.default',
         py: 4,
-        backgroundImage: "url('/Images/img/bg/living-room-2732939.jpg')",
-        backgroundSize: 'contain',
+        backgroundImage: "url('/Images/bg/living-room-2732939.jpg')",
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
       }}
@@ -84,7 +84,7 @@ const ContactUs = () => {
           display: 'flex',
           flexDirection: 'column',
           gap: 3,
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
         }}
       >
         <Typography variant="h4" align="center" fontWeight='bold' gutterBottom>

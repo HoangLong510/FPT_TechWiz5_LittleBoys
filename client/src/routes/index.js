@@ -31,6 +31,7 @@ import notification from "../pages/user/notification/notification"
 import favorite from "~/pages/user/favorite/favorite"
 import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
+import Blog from "~/pages/blog/Blog"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -39,6 +40,7 @@ const publicRoutes = [
     { path: '/product', component: Product, layout: DefaultLayout },
     { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout },
     { path: '/register-supplier', component: RegisterSupplier , layout: DefaultLayout },
+    { path: '/blog', component: Blog, layout: DefaultLayout },
 ]
 
 const authRoutes = [
@@ -73,7 +75,7 @@ const managementRoutes = [
 
     { path: '/management/products', component: ProductList, layout: DefaultLayout }, 
     { path: '/management/products/create', component: ProductCreate, layout: DefaultLayout }, 
-    { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout }, 
+    { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout },
 ]
 
 const supplierRoutes =[
