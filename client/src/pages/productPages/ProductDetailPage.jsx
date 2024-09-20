@@ -39,7 +39,7 @@ import {
 } from '@mui/icons-material'
 import { styled } from '@mui/material/styles'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addToCartApi, fetchDataProductDetailApi } from './service'
+import { addToCartApi, fetchDataProductDetailApi, removeToCartApi } from './service'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCart } from '~/libs/features/cart/cartSlice'
 
@@ -88,9 +88,11 @@ const mockProduct = {
 
 export default function ProductDetail() {
 	const user = useSelector(state => state.user.value)
+	const carts = useSelector(state => state.cart.value)
 
 	const { productId } = useParams()
 	const [product, setProduct] = useState()
+	const [existsCart, setExistsCart] = useState(false)
 	const [isFavorite, setIsFavorite] = useState(false)
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -106,9 +108,22 @@ export default function ProductDetail() {
 			const res = await addToCartApi(productId)
 			if (res.success) {
 				dispatch(setCart(res.carts))
+				setExistsCart(true)
 			}
 		} else {
 			navigate('/auth/login')
+		}
+	}
+
+	const removeToCart = async () => {
+		if (user.exist) {
+			const res = await removeToCartApi(productId)
+			if (res.success) {
+				dispatch(setCart(res.carts))
+				setExistsCart(false)
+			}
+		} else {
+			
 		}
 	}
 
@@ -116,6 +131,7 @@ export default function ProductDetail() {
 		const res = await fetchDataProductDetailApi(productId)
 		if (res.success) {
 			setProduct(res.product)
+			setExistsCart(res.existsCart)
 		} else {
 			navigate('/product')
 		}
@@ -123,7 +139,7 @@ export default function ProductDetail() {
 
 	useEffect(() => {
 		handleFetchDataProductDetail()
-	}, [productId])
+	}, [productId, carts])
 
 	return (
 		<>
@@ -154,9 +170,16 @@ export default function ProductDetail() {
 								{product.description}
 							</Typography>
 							<Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-								<Button variant="contained" startIcon={<ShoppingCart />} onClick={() => addToCart()}>
-									Add to Cart
-								</Button>
+								{!existsCart && (
+									<Button variant="contained" startIcon={<ShoppingCart />} onClick={() => addToCart()}>
+										Add to Cart
+									</Button>
+								)}
+								{existsCart && (
+									<Button variant="contained" startIcon={<ShoppingCart />} onClick={() => removeToCart()}>
+										Remove to Cart
+									</Button>
+								)}
 								<IconButton onClick={handleFavoriteClick} color={isFavorite ? 'secondary' : 'default'}>
 									{isFavorite ? <Favorite /> : <FavoriteBorder />}
 								</IconButton>
