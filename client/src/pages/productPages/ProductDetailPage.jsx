@@ -40,7 +40,8 @@ import {
 import { styled } from '@mui/material/styles'
 import { useNavigate, useParams } from 'react-router-dom'
 import { addToCartApi, fetchDataProductDetailApi } from './service'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCart } from '~/libs/features/cart/cartSlice'
 
 const ProductImage = styled('img')({
 	width: '100%',
@@ -92,6 +93,7 @@ export default function ProductDetail() {
 	const [product, setProduct] = useState()
 	const [isFavorite, setIsFavorite] = useState(false)
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
 	const handleFavoriteClick = () => {
 		setIsFavorite((prev) => !prev)
@@ -101,7 +103,10 @@ export default function ProductDetail() {
 
 	const addToCart = async () => {
 		if (user.exist) {
-			await addToCartApi(productId)
+			const res = await addToCartApi(productId)
+			if (res.success) {
+				dispatch(setCart(res.carts))
+			}
 		} else {
 			navigate('/auth/login')
 		}
@@ -118,7 +123,7 @@ export default function ProductDetail() {
 
 	useEffect(() => {
 		handleFetchDataProductDetail()
-	}, [])
+	}, [productId])
 
 	return (
 		<>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendVerificationCode;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -26,14 +27,23 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
+        $user = auth()->user();
         $msg = new \stdClass();
         $msg->en = "You have logged in successfully!";
         $msg->vi = "Bạn đã đăng nhập thành công!";
         $cookie = cookie('token', $token, 60, null, null, false, true, false, 'Strict');
+
+        $carts = DB::table('carts')
+            ->join("products", "product_id", "=", "products.id")
+            ->where("carts.user_id", $user->id)
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id')
+            ->get();
+
         return response()->json([
             'success' => true,
             'message' => [$msg],
-            'user' => auth()->user()
+            'user' => $user,
+            'carts' => $carts
         ], 200)
             ->withCookie($cookie);
     }

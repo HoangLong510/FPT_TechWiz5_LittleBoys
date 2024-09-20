@@ -18,6 +18,7 @@ import {
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { fetchDataCategoriesApi, fetchDataProductsApi } from './service'
+import { useSelector } from 'react-redux'
 
 export default function PageShop() {
   const [loading, setLoading] = useState(true)
@@ -26,6 +27,7 @@ export default function PageShop() {
   const [sort, setSort] = useState('')
   const [categories, setCategories] = useState([])
   const [filterCategory, setFilterCategory] = useState('')
+  const carts = useSelector(state => state.cart.value)
 
   const navigate = useNavigate()
 
