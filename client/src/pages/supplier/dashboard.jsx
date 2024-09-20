@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function meetings() {
+export default function dashboard() {
   return (
     <div>
-      meetings
+      hello
     </div>
   )
 }
