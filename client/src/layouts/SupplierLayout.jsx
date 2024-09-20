@@ -32,6 +32,15 @@ export default function SupplierLayout({ children }) {
                         General
                     </Button>
                 </Link>
+                <Link to='/supplier/categories'>
+                    <Button
+                        sx={{ width: '100%' }}
+                        variant={pathname === '/supplier' ? "contained" : "text"}
+                    >
+                        Categories
+                    </Button>
+                </Link>
+
                 <Link to='/supplier/products'>
                     <Button
                         sx={{ width: '100%' }}

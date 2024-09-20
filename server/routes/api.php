@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\supplierController;
 
 Route::group([
     'middleware' => 'api',
@@ -76,5 +76,19 @@ Route::group([
     Route::post('fetch-data-products', [ProductController::class, 'fetchDataProducts']);
     Route::get('fetch-data-categories', [ProductController::class, 'fetchDataCategories']);
     Route::get('fetch-data-product-detail/{id}', [ProductController::class, 'fetchDataProductDetails']);
+});
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'supplier'
+], function ($router) {
+
+    Route::post('/products', [supplierController::class, 'createProduct']);
+    Route::post('/products/{id}', [supplierController::class, 'updateProduct']);
+    Route::delete('/products/{id}', [supplierController::class, 'deleteProduct']);
+    Route::get('/products', [supplierController::class, 'getProducts']);
+    Route::get('/products/{id}', [supplierController::class, 'getProduct']);
+
+    //cate 
+    Route::get('/categories', [supplierController::class, 'getCategories']);
 });
