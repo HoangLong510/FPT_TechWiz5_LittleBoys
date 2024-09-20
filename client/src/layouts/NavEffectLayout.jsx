@@ -88,9 +88,9 @@ export default function NavEffectLayout({ children }) {
           document.documentElement.style.setProperty('--text-color', textColor);
           document.documentElement.style.setProperty('--btn-create-text-color', btnCreateTextColor);
         };
-    
+        handleScroll();
         window.addEventListener("scroll", handleScroll);
-    
+        
         return () => {
           window.removeEventListener("scroll", handleScroll);
         };
