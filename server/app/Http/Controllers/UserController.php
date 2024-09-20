@@ -100,7 +100,7 @@ class UserController extends Controller
             ]);
         }
     }
-  
+
     public function addToCart($id)
     {
         $user = auth()->user();
@@ -188,12 +188,18 @@ class UserController extends Controller
             array_push($error, $msg);
         } else {
             if (!$quantity) {
-                $msg = new \stdClass();
-                $msg->vi = "Vui lòng nhập số lượng!";
-                $msg->en = "Please enter quantity!";
-                array_push($error, $msg);
+                Cart::where("id", $id)->delete();
+                $carts = DB::table('carts')
+                    ->join("products", "product_id", "=", "products.id")
+                    ->where("carts.user_id", $user->id)
+                    ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+                    ->get();
+                return response()->json([
+                    'success' => true,
+                    'carts' => $carts
+                ]);
             } else {
-                if($quantity < 1){
+                if ($quantity < 1) {
                     $msg = new \stdClass();
                     $msg->vi = "Số lượng không được nhỏ hơn 1!";
                     $msg->en = "Quantity cannot be less than 1!";
@@ -209,15 +215,15 @@ class UserController extends Controller
             ], 400);
         } else {
             Cart::where('id', $id)->update([
-                'quantity'=> $quantity
+                'quantity' => $quantity
             ]);
             $carts = DB::table('carts')
-            ->join("products", "product_id", "=", "products.id")
-            ->where("carts.user_id", $user->id)
-            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
-            ->get();
+                ->join("products", "product_id", "=", "products.id")
+                ->where("carts.user_id", $user->id)
+                ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+                ->get();
             return response()->json([
-                'success'=> true,
+                'success' => true,
                 'carts' => $carts
             ]);
         }
