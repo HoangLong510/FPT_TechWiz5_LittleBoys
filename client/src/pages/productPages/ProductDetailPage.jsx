@@ -104,7 +104,6 @@ export default function ProductDetail() {
 				dispatch(setCart(res.carts));
 				setExistsCart(false);
 			}
-		} else {
 		}
 	};
 

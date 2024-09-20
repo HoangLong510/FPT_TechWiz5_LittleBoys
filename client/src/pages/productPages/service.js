@@ -54,7 +54,7 @@ export const addToCartApi = async (id) => {
 
 export const removeToCartApi = async (id) => {
     try {
-        const res = await axios.get(`/product/remove-to-cart/${id}`, {
+        const res = await axios.get(`/user/remove-to-cart/${id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
