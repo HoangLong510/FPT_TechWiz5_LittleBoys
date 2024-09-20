@@ -28,7 +28,7 @@ export const getProductDetailApi = async (id) => {
 // Tạo một sản phẩm mới
 export const createProductApi = async (formData) => {
     try {
-        const res = await axios.post('/supplier/products', formData, {
+        const res = await axios.post('/supplier/products/create', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

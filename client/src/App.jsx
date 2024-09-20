@@ -116,7 +116,7 @@ function App() {
                   key={index}
                   path={route.path}
                   element={
-                    user.exist && user.data.role === "user" ? (
+                    user.exist && user.data.role === "supplier" ? (
                       <Layout>
                         <SupplierLayout>
                           <Page />

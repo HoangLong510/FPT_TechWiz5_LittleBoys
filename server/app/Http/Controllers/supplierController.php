@@ -27,7 +27,7 @@ class supplierController extends Controller
             $supplier = auth()->user();  // Giả sử supplier là brand luôn
 
             // Gán brand_id là supplier_id (nếu supplier là brand)
-            $brandId = $supplier->id;
+            $supplier = $supplier->id;
 
             // Xử lý hình ảnh
             $imagePath = null;
@@ -43,7 +43,7 @@ class supplierController extends Controller
                 'quantity' => $validatedData['quantity'],
                 'description' => $validatedData['description'],
                 'category_id' => $validatedData['category_id'],
-                'brand_id' => $brandId, // Gán brand_id tự động
+                'supplier_id' => $supplier,
                 'image' => $imagePath
             ]);
 
