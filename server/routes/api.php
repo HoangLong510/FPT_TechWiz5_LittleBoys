@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 
 Route::group([
     'middleware' => 'api',
@@ -19,6 +20,7 @@ Route::group([
     Route::post('send-verification-code', [AuthController::class, 'sendVerificationCode']);
     Route::post('check-verification-code', [AuthController::class, 'checkVerificationCode']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('register-supplier/{id}', [AuthController::class, 'updateToSupplier']);
 });
 
 Route::group([
@@ -60,11 +62,11 @@ Route::group([
     'prefix' => 'user'
 ], function ($router) {
     Route::post('update', [UserController::class, 'userUpdate']);
-  
+
     Route::get('add-to-cart/{id}', [UserController::class, 'addToCart']);
     Route::get('remove-to-cart/{id}', [UserController::class, 'removeToCart']);
     Route::get('fetch-data-cart', [UserController::class, 'fetchDataCart']);
-    Route::post('update-quantity-cart', [UserController::class,'updateQuantityCart']);
+    Route::post('update-quantity-cart', [UserController::class, 'updateQuantityCart']);
 });
 
 Route::group([
@@ -74,4 +76,18 @@ Route::group([
     Route::post('fetch-data-products', [ProductController::class, 'fetchDataProducts']);
     Route::get('fetch-data-categories', [ProductController::class, 'fetchDataCategories']);
     Route::get('fetch-data-product-detail/{id}', [ProductController::class, 'fetchDataProductDetails']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'supplier'
+], function ($router) {
+    //product
+    Route::post('/products', [supplierController::class, 'createProduct']);
+    Route::post('/products/{id}', [supplierController::class, 'updateProduct']);
+    Route::delete('/products/{id}', [supplierController::class, 'deleteProduct']);
+    Route::get('/products', [supplierController::class, 'getProducts']);
+    Route::get('/products/{id}', [supplierController::class, 'getProduct']);
+    //cate
+    Route::get('/categories', [supplierController::class, 'getCategories']);
 });

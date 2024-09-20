@@ -491,7 +491,7 @@ export default function NavEffectLayout({ children }) {
                           {user.data.role === "supplier" && (
                             <Link
                               onClick={toggleDrawer(false)}
-                              to="/supplier/dashboard"
+                              to="/supplier"
                               style={{
                                 display: "flex",
                                 alignItems: "center",

@@ -99,22 +99,7 @@ export default function Navbar() {
                     },
                   }}
                 />
-                  <Tooltip title="Upcoming Appointments">
-                          <IconButton
-                            aria-label="notifications"
-                            color="primary"
-                            sx = {{
-                              marginLeft : "10px"
-                            }}
-                          >
-                            <Badge
-                              badgeContent={activityLogs.length}
-                              color="error"
-                            >
-                              <NotificationsIcon />
-                            </Badge>
-                          </IconButton>
-                  </Tooltip>
+                  
                         
               </Box>
                 {!user.exist && (
@@ -134,6 +119,22 @@ export default function Navbar() {
                 {user.exist && (
                     <>
                         <Cart />
+                        <Tooltip title="Upcoming Appointments">
+                          <IconButton
+                            aria-label="notifications"
+                            color="primary"
+                            sx = {{
+                              marginLeft : "10px"
+                            }}
+                          >
+                            <Badge
+                              badgeContent={activityLogs.length}
+                              color="error"
+                            >
+                              <NotificationsIcon />
+                            </Badge>
+                          </IconButton>
+                  </Tooltip>
                     </>
                 )}
                 <NavbarMenu />
