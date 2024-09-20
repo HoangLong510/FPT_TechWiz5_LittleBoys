@@ -12,7 +12,10 @@ export default function Navbar() {
 
     const { t } = useTranslation()
     const user = useSelector((state) => state.user.value)
-    const activityLogs =[];
+
+    const activityLogs = [];
+
+
     return (
         <Box sx={{
             display: 'flex',
@@ -103,7 +106,7 @@ export default function Navbar() {
                         
               </Box>
                 {!user.exist && (
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex', width:'100%'}, alignItems: 'center', gap: '8px' }}>
                         <Link to="/auth/login" style={{ display: 'flex', alignItems: 'center' }}>
                             <Button>
                                 {t("Login")}

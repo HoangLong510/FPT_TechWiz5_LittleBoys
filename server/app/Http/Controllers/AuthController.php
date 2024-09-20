@@ -38,7 +38,7 @@ class AuthController extends Controller
         $carts = DB::table('carts')
             ->join("products", "product_id", "=", "products.id")
             ->where("carts.user_id", $user->id)
-            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id')
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
             ->get();
 
         return response()->json([

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Cart;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -64,16 +66,41 @@ class ProductController extends Controller
     public function fetchDataProductDetails($id)
     {
         $product = Product::where('id', $id)->first();
+        $existsCart = false;
+        $user = auth()->user();
+        if($user){
+            $existsCart = Cart::where('product_id', $id)->where('user_id', $user->id)->exists();
+        }
 
         if ($product) {
             return response()->json([
                 "success" => true,
-                "product" => $product
+                "product" => $product,
+                "existsCart" => $existsCart
             ]);
         } else {
             return response()->json([
                 "success" => false
             ], 400);
         }
+    }
+
+    public function removeToCart($id)
+    {
+        $user = auth()->user();
+        
+        Cart::where("product_id", $id)->where("user_id", $user->id)->delete();
+
+        $carts = DB::table('carts')
+            ->join("products", "product_id", "=", "products.id")
+            ->where("carts.user_id", $user->id)
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+            ->get();
+
+
+        return response()->json([
+            "success" => true,
+            "carts" => $carts
+        ]);
     }
 }

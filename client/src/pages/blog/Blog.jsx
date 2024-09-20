@@ -465,47 +465,97 @@ const FurnitureBlog = () => {
             </Box>
           </Grid>
         </Grid>
-
-        {/* Footer */}
-        <Box sx={{ my: 4, textAlign: "center" }}>
-          <Divider sx={{ my: 4 }} />
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12} sm={4}>
-              <Typography variant="h6" gutterBottom>
-                Về Chúng Tôi
-              </Typography>
-              <Typography variant="body2">
-                Decor Vista là nguồn cảm hứng hàng đầu về thiết kế nội thất và
-                trang trí nhà cửa.
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Typography variant="h6" gutterBottom>
-                Liên Hệ
-              </Typography>
-              <Typography variant="body2">
-                Email: info@decorvista.com
-                <br />
-                Điện thoại: (123) 456-7890
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Typography variant="h6" gutterBottom>
-                Theo Dõi Chúng Tôi
-              </Typography>
-              <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-                <FacebookIcon color="primary" />
-                <TwitterIcon color="primary" />
-                <InstagramIcon color="primary" />
-                <PinterestIcon color="primary" />
-              </Box>
-            </Grid>
-          </Grid>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 4 }}>
-            © 2023 Decor Vista. Tất cả các quyền được bảo lưu.
-          </Typography>
-        </Box>
       </Container>
+
+      {/* Footer */}
+      <Box
+        sx={{
+          my: 4,
+          textAlign: "center",
+          backgroundImage: "url('/Images/bg/shop-collection1.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          padding: "40px 0",
+          color: "black",
+        }}
+      >
+        <Divider sx={{ my: 4, backgroundColor: "rgba(255,255,255,0.7)" }} />
+        <Grid container spacing={4} justifyContent="center">
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            sx={{
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.05)",
+                textShadow:
+                  "1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white",
+              },
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              About Us
+            </Typography>
+            <Typography variant="body2">
+              Decor Vista là nguồn cảm hứng hàng đầu về thiết kế nội thất và
+              trang trí nhà cửa.
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={3}
+            sx={{
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.05)",
+                textShadow:
+                  "1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white",
+              },
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              Contact Us
+            </Typography>
+            <Typography variant="body2">
+              Email: info@decorvista.com
+              <br />
+              Điện thoại: (123) 456-7890
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            sx={{
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.05)",
+                textShadow: '1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white'
+              },
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              Our Services
+            </Typography>
+            <Typography variant="body2">
+              Chúng tôi cung cấp các giải pháp toàn diện về thiết kế nội thất và
+              thi công trang trí cho không gian sống của bạn.
+              <br />
+              Các dịch vụ bao gồm: Thiết kế phòng khách, phòng ngủ, và các không
+              gian sống khác.
+            </Typography>
+          </Grid>
+        </Grid>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mt: 4, opacity: 0.8 }}
+        >
+          © 2023 Decor Vista. Tất cả các quyền được bảo lưu.
+        </Typography>
+      </Box>
     </Box>
   );
 };
