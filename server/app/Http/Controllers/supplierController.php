@@ -8,7 +8,14 @@ use App\Models\Category;
 
 class supplierController extends Controller
 {
-    //prodcut
+    public function __construct()
+    {
+        $this->middleware('auth:api', [
+            'except' => [
+
+            ]
+        ]);
+    }
 
     // Create a new product
     public function createProduct(Request $request)
@@ -23,13 +30,8 @@ class supplierController extends Controller
         ]);
 
         try {
-            // Lấy thông tin user đang đăng nhập
-            $supplier = auth()->user();  // Giả sử supplier là brand luôn
+            $user = auth()->user();
 
-            // Gán brand_id là supplier_id (nếu supplier là brand)
-            $supplier = $supplier->id;
-
-            // Xử lý hình ảnh
             $imagePath = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -43,7 +45,7 @@ class supplierController extends Controller
                 'quantity' => $validatedData['quantity'],
                 'description' => $validatedData['description'],
                 'category_id' => $validatedData['category_id'],
-                'supplier_id' => $supplier,
+                'user_id' => $user->id,
                 'image' => $imagePath
             ]);
 

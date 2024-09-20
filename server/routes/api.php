@@ -83,7 +83,7 @@ Route::group([
     'prefix' => 'supplier'
 ], function ($router) {
 
-    Route::post('/products', [supplierController::class, 'createProduct']);
+    Route::post('/products/create', [supplierController::class, 'createProduct']);
     Route::post('/products/{id}', [supplierController::class, 'updateProduct']);
     Route::delete('/products/{id}', [supplierController::class, 'deleteProduct']);
     Route::get('/products', [supplierController::class, 'getProducts']);
