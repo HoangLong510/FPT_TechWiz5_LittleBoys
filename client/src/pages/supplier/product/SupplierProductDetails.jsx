@@ -19,7 +19,7 @@ import {
   updateProductApi,
   getCategoriesApi,
 } from "./service";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPopup } from "~/libs/features/popup/popupSlice";
 
 export default function ProductDetail() {
@@ -27,6 +27,7 @@ export default function ProductDetail() {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.value);
 
   const [product, setProduct] = useState(null);
   const [name, setName] = useState("");
@@ -54,7 +55,7 @@ export default function ProductDetail() {
           setPrice(price || "");
           setQuantity(quantity || "");
           setDescription(description || "");
-          setCategory(category?.id || ""); // Đảm bảo category có id
+          setCategory(category?.id || "");
           setImage(image || ""); // Lưu đường dẫn hình ảnh cũ
         } else {
           setError("Product not found.");
@@ -71,7 +72,7 @@ export default function ProductDetail() {
         const [categoriesRes] = await Promise.all([getCategoriesApi()]);
         setCategories(categoriesRes.categories || []);
       } catch (err) {
-        setError("Failed to fetch brands or categories.");
+        setError("Failed to fetch supplier or categories.");
       }
     };
 
