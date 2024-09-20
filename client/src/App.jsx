@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
-import { authRoutes, managementRoutes, publicRoutes, userRoutes } from "./routes"
+import { authRoutes, managementRoutes, publicRoutes, userRoutes , supplierRoutes } from "./routes"
 import Popup from "./components/Popup/Popup"
 import AuthProvider from "./provider/auth/AuthProvider"
 import { useSelector } from "react-redux"
@@ -7,6 +7,7 @@ import PopupLogout from "./components/PopupLogout/PopupLogout"
 import { Helmet } from "react-helmet"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
 import ManagementLayout from "./layouts/ManagementLayout"
+import SupplierLayout from "./layouts/SupplierLayout"
 import UserLayout from "./layouts/UserLayout"
 
 function App() {
@@ -69,6 +70,20 @@ function App() {
 										<ManagementLayout>
 											<Page />
 										</ManagementLayout>
+									</Layout>
+								) : (<Navigate to="/" replace />)} />
+							)
+						})}
+
+						{supplierRoutes.map((route, index) => {
+							const Page = route.component
+							const Layout = route.layout
+							return (
+								<Route key={index} path={route.path} element={user.exist && user.data.role === 'supplier' ? (
+									<Layout>
+										<SupplierLayout>
+											<Page />
+										</SupplierLayout>
 									</Layout>
 								) : (<Navigate to="/" replace />)} />
 							)

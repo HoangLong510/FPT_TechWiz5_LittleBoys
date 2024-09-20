@@ -79,8 +79,8 @@ const managementRoutes = [
 ]
 
 const supplierRoutes =[
-    {path: '/supplier', component: dashboard, layout: SupplierLayout },
-    
+    {path: '/supplier', component: dashboard, layout: DefaultLayout },
+    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }
