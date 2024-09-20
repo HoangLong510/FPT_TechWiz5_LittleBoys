@@ -30,6 +30,8 @@ import favorite from "~/pages/user/favorite/favorite"
 import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
+import SupplierProductCreate from "~/pages/supplier/product/SupplierProductCreate"
+import Dashboard from "~/pages/supplier/dashboard"
 import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
 
 
@@ -81,7 +83,8 @@ const managementRoutes = [
 ]
 
 const supplierRoutes =[
-    {path: '/supplier', component: dashboard, layout: DefaultLayout },
+    {path : '/supplier' ,  component: Dashboard , layout: DefaultLayout},
+    {path :'/supplier/products', component: SupplierProductCreate , layout: DefaultLayout},
     {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
 ]
 
