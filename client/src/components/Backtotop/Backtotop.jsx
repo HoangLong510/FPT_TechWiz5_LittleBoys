@@ -43,9 +43,9 @@ export default function Backtotop() {
           height: 40,
           borderRadius: 1, // 4px
           "&:hover": {
-            backgroundColor: "#151515",
+            backgroundColor: "#946407",
             svg: {
-              color: "#ffc451",
+              color: "#fff",
             },
           },
         }}

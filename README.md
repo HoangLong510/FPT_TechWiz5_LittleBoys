@@ -1,8 +1,8 @@
-# **ShopN-E-M**
+# **Decor Vista**
 
 ## **Introduction**
 
-**ShopN-E-M** is an online mobile phone shop built with a **React** and **Material UI** frontend, a **Laravel** backend, and **XAMPP** for the database. The website allows users to browse, search, and purchase smartphones, and **Bootstrap 5** is utilized for additional styling. This project is developed by a team of 5 members with the goal of providing a user-friendly and efficient e-commerce solution.
+**Decor Vista** is an online mobile phone shop built with a **React** and **Material UI** frontend, a **Laravel** backend, and **SQL** for the database. The website allows users to browse, search, and purchase smartphones, and **Bootstrap 5** is utilized for additional styling. This project is developed by a team of 5 members with the goal of providing a user-friendly and efficient e-commerce solution.
 
 ## **Team Members**
 
@@ -25,7 +25,7 @@
 - ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white) **React**: JavaScript library for building user interfaces.
 - ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white) **Material UI**: React component library for a modern, responsive UI.
 - ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white) **Laravel**: PHP framework for building the backend and handling server-side logic.
-- ![XAMPP](https://img.shields.io/badge/XAMPP-FB7A24?style=for-the-badge&logoColor=white) **XAMPP**: Development environment that includes Apache, MySQL, and PHP.
+- ![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=sql&logoColor=white) **SQL**: Database management system used to store and retrieve data for the application.
 - ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white) **Bootstrap 5**: A front-end framework for building responsive, mobile-first websites.
 
 ## **Installation Guide**
@@ -34,26 +34,40 @@
 
 - **Node.js**: Version 14.x or higher for the frontend
 - **Laravel**: Version 8.x or higher for the backend
-- **XAMPP**: Version 7.x or higher for database management
+- **SQL**: Version 7.x or higher for database management
 
 ### **Installation Steps**
 
-1. **Clone from Github **
-    -git clone https://github.com/HoangLong510/FPT_TechWiz5_LittleBoys
+1. **Clone from Github**
+    ```bash
+    git clone https://github.com/HoangLong510/FPT_TechWiz5_LittleBoys
+    ```
 
-2.  ** Install packages **
+2. **Install packages**
+
     #### Client
-    - cd client
-    - npm install
-    - cp .env.example .env
+    ```bash
+    cd client
+    npm install
+    cp .env.example .env
+    ```
 
     #### Server
-    - cd server
-    - composer install
-    - cp .env.example .env
-    
-3.  ** Run project **
-    - cd client
-    - npm run dev
-   
+    ```bash
+    cd server
+    composer install
+    cp .env.example .env
+    ```
 
+3. **Run the project**
+    #### Client
+    ```bash
+    cd client
+    npm run dev
+    ```
+    
+    #### Server
+    ```bash
+    cd server
+    php artisan serve
+    ```

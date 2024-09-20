@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ProductsSwiper from "./ProductsSwiper/ProductsSwiper";
 import FAQ from "./FAQ/FAQ.jsx";
 import { Box, Typography, Button } from "@mui/material";
@@ -60,6 +61,8 @@ export default function Home() {
             Title of the Video
           </Typography>
           <Button
+            component={Link}
+            to="/product"
             sx={{
               padding: { xs: "8px 16px", sm: "10px 20px", md: "12px 24px" },
               fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
