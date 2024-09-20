@@ -93,7 +93,7 @@ export default function ProductDetail() {
 	const { productId } = useParams()
 	const [product, setProduct] = useState()
 	const [existsCart, setExistsCart] = useState(false)
-	const [isFavorite, setIsFavorite] = useState(false)
+	const [isFavorite, setIsFavorite] = useState(true)
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
@@ -181,7 +181,7 @@ export default function ProductDetail() {
 									</Button>
 								)}
 								<IconButton onClick={handleFavoriteClick} color={isFavorite ? 'secondary' : 'default'}>
-									{isFavorite ? <Favorite /> : <FavoriteBorder />}
+									{isFavorite ? <Favorite color='primary' /> : <FavoriteBorder />}
 								</IconButton>
 								<IconButton>
 									<Share />

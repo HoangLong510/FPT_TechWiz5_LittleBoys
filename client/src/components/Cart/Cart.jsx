@@ -3,20 +3,16 @@ import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { useDispatch, useSelector } from 'react-redux'
-import DeleteIcon from '@mui/icons-material/Delete'
-import { removeToCartApi } from './service'
-import { setCart } from '~/libs/features/cart/cartSlice'
+import { useSelector } from 'react-redux'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import { Badge, Button } from '@mui/material'
+import { Badge } from '@mui/material'
 import FormUpdateQuantity from './FormUpdateQuantity'
 import { useNavigate } from 'react-router-dom'
+import ProceedToCheckout from './ProceedToCheckout'
 
 export default function Cart() {
     const [open, setOpen] = React.useState(false)
-    const [loading, setLoading] = React.useState(false)
     const navigate = useNavigate()
 
     const toggleDrawer = (newOpen) => () => {
@@ -25,17 +21,6 @@ export default function Cart() {
 
     const carts = useSelector(state => state.cart.value)
 
-    const dispatch = useDispatch()
-
-    const handleRemoveToCart = async (id) => {
-        setLoading(true)
-        const res = await removeToCartApi(id)
-        if (res.success) {
-            dispatch(setCart(res.carts))
-        }
-        setLoading(false)
-    }
-
     const totalPrice = (data) => {
         const total = data.reduce((total, item) => total + (item.price * item.quantity), 0)
         return total.toFixed(2)
@@ -43,17 +28,17 @@ export default function Cart() {
 
     return (
         <>
-            <Badge onClick={toggleDrawer(true)} badgeContent={carts.data.length} color="error">
+            <Badge onClick={toggleDrawer(true)} badgeContent={carts.data.length} color="error" className='button'>
                 <ShoppingCartIcon />
             </Badge>
             <Drawer open={open} onClose={toggleDrawer(false)} anchor='right'>
-                <Box sx={{ width: '350px' }} role="presentation" onClick={toggleDrawer(false)}>
+                <Box sx={{ width: '380px' }} role="presentation" onClick={toggleDrawer(false)}>
                     <Box sx={{ padding: '20px', fontSize: '20px', fontWeight: '500' }}>
                         Your Cart
                     </Box>
                 </Box>
 
-                {!loading && carts.exist && (
+                {carts.exist && (
                     <List sx={{
                         padding: '0px 10px 10px 10px',
                         display: 'flex',
@@ -62,7 +47,7 @@ export default function Cart() {
                     }}>
                         {carts.data.map(cart => (
                             <ListItem key={cart.id}>
-                                <ListItemText
+                                <ListItemText sx={{ width: '100px', paddingRight: '8px' }}
                                     primary={cart.name}
                                     secondary={`$${cart.price + " x " + cart.quantity}`}
                                     className='button'
@@ -72,12 +57,6 @@ export default function Cart() {
                                 />
 
                                 <FormUpdateQuantity qty={cart.quantity} id={cart.id} />
-
-                                <ListItemIcon sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <a className='button' onClick={() => handleRemoveToCart(cart.id)}>
-                                        <DeleteIcon color='action' />
-                                    </a>
-                                </ListItemIcon>
                             </ListItem>
                         ))}
                     </List>
@@ -88,9 +67,7 @@ export default function Cart() {
                 </Box>
 
                 <Box sx={{ padding: '0px 20px' }}>
-                    <Button fullWidth variant='contained'>
-                        Proceed to checkout
-                    </Button>
+                    <ProceedToCheckout />
                 </Box>
             </Drawer>
         </>
