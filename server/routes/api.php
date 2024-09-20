@@ -74,4 +74,6 @@ Route::group([
     Route::post('fetch-data-products', [ProductController::class, 'fetchDataProducts']);
     Route::get('fetch-data-categories', [ProductController::class, 'fetchDataCategories']);
     Route::get('fetch-data-product-detail/{id}', [ProductController::class, 'fetchDataProductDetails']);
+
+    Route::get('remove-to-cart/{id}', [ProductController::class, 'removeToCart']);
 });
