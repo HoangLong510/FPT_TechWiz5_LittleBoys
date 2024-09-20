@@ -67,7 +67,7 @@ export default function ProductDetail() {
       }
     };
 
-    const fetchBrandsAndCategories = async () => {
+    const fetchCategories = async () => {
       try {
         const [categoriesRes] = await Promise.all([getCategoriesApi()]);
         setCategories(categoriesRes.categories || []);
@@ -77,7 +77,7 @@ export default function ProductDetail() {
     };
 
     fetchProduct();
-    fetchBrandsAndCategories();
+    fetchCategories();
   }, [productId]);
 
   const handleSave = async () => {
