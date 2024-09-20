@@ -16,10 +16,12 @@ import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { getCategoriesApi, createProductApi } from "./service";
+import { useSelector } from "react-redux";
 
 export default function ProductCreate() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.value);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -29,7 +31,6 @@ export default function ProductCreate() {
   const [image, setImage] = useState(null);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [supplierId, setSupplierId] = useState(""); // Thêm state cho supplier_id
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -39,13 +40,8 @@ export default function ProductCreate() {
       try {
         const { categories } = await getCategoriesApi();
         setCategories(categories || []);
-
-        // Lấy supplier_id từ backend (giả sử có API trả về supplier hiện tại)
-        // Nếu supplier_id được gán từ người dùng đăng nhập, có thể đặt cứng giá trị này
-        const supplierId = 1; // Giả sử supplier_id là 1, hoặc em lấy từ API
-        setSupplierId(supplierId);
       } catch (err) {
-        setSnackbarMessage("Failed to fetch categories or supplier info.");
+        setSnackbarMessage("Failed to fetch categories.");
         setSnackbarSeverity("error");
         setOpenSnackbar(true);
       }
@@ -57,9 +53,8 @@ export default function ProductCreate() {
     setLoading(true);
     setOpenSnackbar(false);
 
-    // Kiểm tra các trường bắt buộc
     if (!name || !price || !quantity || !categoryId) {
-      setSnackbarMessage("All fields are required.");
+      setSnackbarMessage("All fields and user ID are required.");
       setSnackbarSeverity("error");
       setOpenSnackbar(true);
       setLoading(false);
@@ -72,7 +67,6 @@ export default function ProductCreate() {
     formData.append("quantity", quantity);
     formData.append("description", description);
     formData.append("category_id", categoryId);
-    formData.append("supplier_id", supplierId);
     if (image) {
       formData.append("image", image);
     }
@@ -83,7 +77,6 @@ export default function ProductCreate() {
         setSnackbarMessage(t("Product created successfully!"));
         setSnackbarSeverity("success");
         setOpenSnackbar(true);
-        // Thực hiện điều hướng sau 500ms
         setTimeout(() => navigate("/supplier/products"), 500);
       } else {
         setSnackbarMessage(message || "Failed to create product.");
@@ -211,7 +204,7 @@ export default function ProductCreate() {
             </FormControl>
 
             {/* Trường ẩn cho brand_id (supplier_id) */}
-            <input type="hidden" value={supplierId} />
+            <input type="hidden" value={user.data.id} />
 
             <Input
               type="file"

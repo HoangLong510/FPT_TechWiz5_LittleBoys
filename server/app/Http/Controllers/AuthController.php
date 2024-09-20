@@ -444,12 +444,6 @@ class AuthController extends Controller
         $user->role = 'supplier';
         $user->save();
 
-        Supplier::create([
-            'name' => $user->fullname,
-            'image' => null,
-            // Thêm các trường khác nếu cần, như 'image' nếu có
-        ]);
-
         return response()->json([
             'success' => true,
             'message' => 'Successfully updated to Supplier role and created supplier record',
