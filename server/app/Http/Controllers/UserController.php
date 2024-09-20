@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Cart;
+use Illuminate\Support\Facades\DB;
 use App\Models\ActivityLog;
+
 class UserController extends Controller
 {
     public function __construct()
@@ -97,5 +100,125 @@ class UserController extends Controller
             ]);
         }
     }
+  
+    public function addToCart($id)
+    {
+        $user = auth()->user();
 
-}
+        $find = Cart::where("product_id", $id)
+            ->where("user_id", $user->id)
+            ->first();
+
+        if ($find) {
+            Cart::where("product_id", $id)
+                ->update([
+                    "quantity" => $find->quantity + 1
+                ]);
+        } else {
+            $cart = new Cart();
+            $cart->user_id = $user->id;
+            $cart->product_id = $id;
+            $cart->quantity = 1;
+            $cart->save();
+        }
+
+        $carts = DB::table('carts')
+            ->join("products", "product_id", "=", "products.id")
+            ->where("carts.user_id", $user->id)
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id')
+            ->get();
+
+        return response()->json([
+            "success" => true,
+            "carts" => $carts
+        ]);
+    }
+
+    public function fetchDataCart()
+    {
+        $user = auth()->user();
+
+        $carts = DB::table('carts')
+            ->join("products", "product_id", "=", "products.id")
+            ->where("carts.user_id", $user->id)
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id')
+            ->get();
+
+        return response()->json([
+            "success" => true,
+            "carts" => $carts
+        ]);
+    }
+
+    public function removeToCart($id)
+    {
+        $user = auth()->user();
+        $find = Cart::where("id", $id)->first();
+
+        if ($user->id == $find->user_id) {
+            Cart::where("id", $id)->delete();
+        }
+
+        $carts = DB::table('carts')
+            ->join("products", "product_id", "=", "products.id")
+            ->where("carts.user_id", $user->id)
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id')
+            ->get();
+
+
+        return response()->json([
+            "success" => true,
+            "carts" => $carts
+        ]);
+    }
+
+    public function updateQuantityCart()
+    {
+        $error = [];
+        $user = auth()->user();
+        $id = request('id');
+        $quantity = intval(request('quantity'));
+
+        $find = Cart::where("id", $id)->first();
+
+        if ($user->id != $find->user_id) {
+            $msg = new \stdClass();
+            $msg->vi = "Cập nhật giỏ hàng không thành công!";
+            $msg->en = "Update cart failed!";
+            array_push($error, $msg);
+        } else {
+            if (!$quantity) {
+                $msg = new \stdClass();
+                $msg->vi = "Vui lòng nhập số lượng!";
+                $msg->en = "Please enter quantity!";
+                array_push($error, $msg);
+            } else {
+                if($quantity < 1){
+                    $msg = new \stdClass();
+                    $msg->vi = "Số lượng không được nhỏ hơn 1!";
+                    $msg->en = "Quantity cannot be less than 1!";
+                    array_push($error, $msg);
+                }
+            }
+        }
+
+        if (count($error) > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => $error
+            ], 400);
+        } else {
+            Cart::where('id', $id)->update([
+                'quantity'=> $quantity
+            ]);
+            $carts = DB::table('carts')
+            ->join("products", "product_id", "=", "products.id")
+            ->where("carts.user_id", $user->id)
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id')
+            ->get();
+            return response()->json([
+                'success'=> true,
+                'carts' => $carts
+            ]);
+        }
+    }

@@ -28,7 +28,7 @@ export default function Navbar() {
                 gap: '20px'
             }}>
                 <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo"  height={'50px'} />
+                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo" height={'50px'} />
                 </Link>
                 <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
                     <Link to="/product" style={{ display: 'flex', alignItems: 'center' }}>
@@ -127,7 +127,9 @@ export default function Navbar() {
                     </Box>
                 )}
                 {user.exist && (
-                    <></>
+                    <>
+                        <Cart />
+                    </>
                 )}
                 <NavbarMenu />
             </Box>
