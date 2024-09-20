@@ -30,9 +30,7 @@ import favorite from "~/pages/user/favorite/favorite"
 import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
-import Supplier from "~/pages/supplier/Supplier"
-import Meetings from "~/pages/supplier/meetings/Meetings"
-import Feedback from "~/pages/supplier/feedback/Feedback"
+
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -47,7 +45,7 @@ const publicRoutes = [
 const authRoutes = [
     { path: '/auth/login', component: Login, layout: DefaultLayout },
     { path: '/auth/register', component: Register, layout: DefaultLayout },
-   
+    { path: '/auth/register-supplier/:{id}', component: RegisterSupplier, layout: DefaultLayout },
     { path: '/auth/forgot-password', component: ForgotPassword, layout: DefaultLayout }
 ]
 
@@ -81,12 +79,6 @@ const managementRoutes = [
 ]
 
 const supplierRoutes =[
-
-    
-    {path: '/supplier', component: Supplier, layout: DefaultLayout },
-    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout},
-    {path : '/supplier/meetings', component: Meetings, layout: DefaultLayout},
-    {path : '/supplier/feedback', component: Feedback, layout: DefaultLayout},
 
 ]
 

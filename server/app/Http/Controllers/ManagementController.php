@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Brand;
+use App\Models\Supplier;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ActivityLog;
@@ -164,167 +164,61 @@ class ManagementController extends Controller
         }
     }
 
-    // Brand management
-    public function createBrand(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+    // Supplier management
 
-        try {
-            $imagePath = null;
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                // Lưu hình ảnh vào thư mục 'public/images'
-                $imagePath = $image->store('images', 'public'); // Lưu vào 'storage/app/public/images'
-            }
-
-            $brand = Brand::create([
-                'name' => $validatedData['name'],
-                'image' => $imagePath ? $imagePath : null
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'data' => $brand
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while creating the brand.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function getBrands(Request $request)
+    public function getSuppliers(Request $request)
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
 
         try {
-            $brands = Brand::where('name', 'like', '%' . $search . '%')
+            $supplier = Supplier::where('name', 'like', '%' . $search . '%')
                 ->paginate(10, ['*'], 'page', $page);
 
             // Đảm bảo chỉ thêm 'storage/' một lần
-            $brands->getCollection()->transform(function ($brand) {
-                $brand->image = $brand->image ? asset('storage/' . $brand->image) : null;
-                return $brand;
+            $supplier->getCollection()->transform(function ($supplier) {
+                $supplier->image = $supplier->image ? asset('storage/' . $supplier->image) : null;
+                return $supplier;
             });
 
             return response()->json([
-                'brands' => $brands->items(),
-                'totalPages' => $brands->lastPage(),
-                'currentPage' => $brands->currentPage(),
-                'totalItems' => $brands->total()
+                'supplier' => $supplier->items(),
+                'totalPages' => $supplier->lastPage(),
+                'currentPage' => $supplier->currentPage(),
+                'totalItems' => $supplier->total()
             ]);
         } catch (\Exception $e) {
-            \Log::error('Error fetching brands: ' . $e->getMessage());
+            \Log::error('Error fetching supplier: ' . $e->getMessage());
             return response()->json(['error' => 'Server Error'], 500);
         }
     }
 
-    public function getBrandDetail($id)
+    public function getSupplierDetail($id)
     {
         try {
-            $brand = Brand::find($id);
+            $supplier = supplier::find($id);
 
-            if ($brand) {
+            if ($supplier) {
                 // Xử lý hình ảnh nếu có
-                $brand->image = $brand->image ? asset('storage/' . $brand->image) : null;
+                $supplier->image = $supplier->image ? asset('storage/' . $supplier->image) : null;
 
                 return response()->json([
                     'success' => true,
-                    'brand' => $brand
+                    'supplier' => $supplier
                 ], 200);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Brand not found.'
+                    'message' => 'Supplier not found.'
                 ], 404);
             }
         } catch (\Exception $e) {
-            \Log::error('Error fetching brand details: ' . $e->getMessage());
+            \Log::error('Error fetching supplier details: ' . $e->getMessage());
             return response()->json(['error' => 'Server Error'], 500);
         }
     }
 
-    public function updateBrand(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
 
-        try {
-            $brand = Brand::find($id);
-
-            if ($brand) {
-                if ($request->hasFile('image')) {
-                    // Delete old image if it exists
-                    if ($brand->image && Storage::exists('public/' . $brand->image)) {
-                        Storage::delete('public/' . $brand->image);
-                    }
-
-                    $imagePath = null;
-                    if ($request->hasFile('image')) {
-                        $image = $request->file('image');
-                        // Save the new image in the 'public/images' directory
-                        $imagePath = $image->store('images', 'public');
-                        $validatedData['image'] = $imagePath;
-                    }
-
-                    $brand->update($validatedData);
-                } else {
-                    $brand->update([
-                        'name' => $request->name,
-                        'image' => $brand->image
-                    ]);
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'data' => $brand
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Category not found.'
-                ], 404);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while updating the brand.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function deleteBrand($id)
-    {
-        $brand = Brand::find($id);
-
-        if ($brand) {
-            // Xóa hình ảnh nếu có
-            if ($brand->image && Storage::exists('public/' . $brand->image)) {
-                Storage::delete('public/' . $brand->image);
-            }
-
-            // Xóa thương hiệu
-            $brand->delete();
-            return response()->json([
-                'success' => true,
-                'message' => 'Brand deleted successfully.'
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Brand not found.'
-            ], 404);
-        }
-    }
 
     //category
 
@@ -503,7 +397,7 @@ class ManagementController extends Controller
             'quantity' => 'required|integer',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'brand_id' => 'required|exists:brands,id',
+            'supplier_id' => 'required|exists:suppliers,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -520,7 +414,7 @@ class ManagementController extends Controller
                 'quantity' => $validatedData['quantity'],
                 'description' => $validatedData['description'],
                 'category_id' => $validatedData['category_id'],
-                'brand_id' => $validatedData['brand_id'],
+                'supplier_id' => $validatedData['supplier_id'],
                 'image' => $imagePath
             ]);
 
@@ -548,7 +442,7 @@ class ManagementController extends Controller
             'quantity' => 'required|integer',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'brand_id' => 'required|exists:brands,id',
+            'supplier_id' => 'required|exists:suppliers,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -605,7 +499,7 @@ class ManagementController extends Controller
         $page = $request->query('page', 1);
 
         // Lọc sản phẩm dựa trên từ khóa tìm kiếm
-        $productsQuery = Product::with(['brand', 'category'])
+        $productsQuery = Product::with(['supplier', 'category'])
             ->where(function ($query) use ($search) {
                 if ($search) {
                     $query->where('name', 'like', '%' . $search . '%');
@@ -630,7 +524,7 @@ class ManagementController extends Controller
 
     public function getProduct($id)
     {
-        $product = Product::with(['brand', 'category'])->findOrFail($id);
+        $product = Product::with(['supplier', 'category'])->findOrFail($id);
 
         // Xử lý hình ảnh nếu có
         $product->image = $product->image ? asset('storage/' . $product->image) : null;
@@ -648,7 +542,6 @@ class ManagementController extends Controller
         try {
             $user = auth()->user();
 
-            // Ghi log ID người dùng để kiểm tra
             \Log::info('Fetching activity logs for user ID: ' . $user->id);
 
             // Lấy log hoạt động cho người dùng
