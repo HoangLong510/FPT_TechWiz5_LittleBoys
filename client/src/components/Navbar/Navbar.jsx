@@ -64,47 +64,7 @@ export default function Navbar() {
                 alignItems: 'center',
                 gap: '20px'
             }}>
-                 {/* Search */}
-              <Box
-                className="search"
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width:'100%'
-                }}
-              >
-                <TextField
-                  variant="standard"
-                  placeholder="What can we help you find?"
-                  fullWidth
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    
-                    "& .MuiInputBase-root": {
-                      height: "35px", 
-                      width: "350px",
-                    },
-                    "& .MuiInput-underline:before": {
-                      borderBottom: "2px solid black", 
-                    },
-                    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottom: "2px solid #fff", 
-                    },
-                    "& .MuiInput-underline:after": {
-                      borderBottom: "2px solid #e64a19", 
-                    },
-                  }}
-                />
-                  
-                        
-              </Box>
+               
                 {!user.exist && (
                     <Box sx={{ display: { xs: 'none', md: 'flex', width:'100%'}, alignItems: 'center', gap: '8px' }}>
                         <Link to="/auth/login" style={{ display: 'flex', alignItems: 'center' }}>
