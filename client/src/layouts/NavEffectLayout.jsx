@@ -197,47 +197,7 @@ export default function NavEffectLayout({ children }) {
               {/* Right */}
               
               <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                {/* Search */}
-              <Box
-                className="search"
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width:'100%'
-                }}
-              >
-                <TextField
-                  variant="standard"
-                  placeholder="What can we help you find?"
-                  fullWidth
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <SearchIcon sx={{color:textColor}}/>
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    
-                    "& .MuiInputBase-root": {
-                      height: "35px", 
-                      width: "350px",
-                      color: textColor, 
-                      backgroundColor: navbarColor, 
-                    },
-                    "& .MuiInput-underline:before": {
-                      borderBottom: "2px solid ", 
-                    },
-                    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottom: "2px solid #fff", 
-                    },
-                    "& .MuiInput-underline:after": {
-                      borderBottom: "2px solid #e64a19", 
-                    },
-                  }}
-                />
-              </Box>
+               
                 {!user.exist && (
                   <Box
                     sx={{
@@ -491,7 +451,7 @@ export default function NavEffectLayout({ children }) {
                           {user.data.role === "supplier" && (
                             <Link
                               onClick={toggleDrawer(false)}
-                              to="/supplier/dashboard"
+                              to="/supplier"
                               style={{
                                 display: "flex",
                                 alignItems: "center",
