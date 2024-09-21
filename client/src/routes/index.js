@@ -37,6 +37,7 @@ import Supplier from "~/pages/supplier/Supplier"
 import Favorite from "~/pages/user/favorite/Favorite"
 import Gallery from "~/pages/gallery/Gallery"
 import ProjectDetail from "../pages/gallery/ProjectDetail";
+import FAQ from "~/pages/faq/FAQ"
 
 
 
@@ -53,6 +54,7 @@ const publicRoutes = [
     { path: '/blog/blogdetailone', component: BlogDetail , layout: DefaultLayout },
     { path: '/gallery', component: Gallery , layout: DefaultLayout },
     { path: '/project/detail', component: ProjectDetail , layout: DefaultLayout },
+    { path: '/faq', component: FAQ, layout: DefaultLayout },
 ]
 
 const authRoutes = [
