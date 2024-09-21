@@ -79,6 +79,7 @@ class ProductController extends Controller
         }
 
         if ($product) {
+            $product->category = Category::where('id', $product->category->id)->first();
             return response()->json([
                 "success" => true,
                 "product" => $product,

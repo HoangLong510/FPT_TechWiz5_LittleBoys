@@ -51,7 +51,7 @@ export default function UserLayout({ children }) {
                 <Link to='/user/orders'>
                     <Button
                         sx={{ width: '100%' }}
-                        variant={pathname === '/user/orders' ? "contained" : "text"}
+                        variant={pathname.startsWith('/user/orders') ? "contained" : "text"}
                     >
                         Orders
                     </Button>

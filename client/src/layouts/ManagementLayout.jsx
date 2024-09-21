@@ -81,6 +81,17 @@ export default function ManagementLayout({ children }) {
             Products
           </Button>
         </Link>
+
+        <Link to="/management/order">
+          <Button
+            sx={{ width: "100%" }}
+            variant={
+              pathname.startsWith("/management/order") ? "contained" : "text"
+            }
+          >
+            Orders
+          </Button>
+        </Link>
       </Box>
 
       <Box

@@ -22,6 +22,7 @@ import { getProductsApi, deleteProductApi } from "./service";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -67,6 +68,10 @@ export default function ProductList() {
     setPage(newPage);
   };
 
+  const handleCreateProduct = () => {
+    navigate("/management/products/create");
+  };
+
   const handleEdit = (id) => {
     navigate(`/management/products/${id}`);
   };
@@ -107,6 +112,13 @@ export default function ProductList() {
           }}
         >
           <Box sx={{ fontWeight: "bold" }}>{t("ProductList")}</Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCreateProduct}
+          >
+            {t("Add New Product")}
+          </Button>
         </Box>
 
         <Box sx={{ marginBottom: "20px" }}>
@@ -147,9 +159,6 @@ export default function ProductList() {
                 </TableCell>
                 <TableCell sx={{ color: "#fff", width: "15%" }}>
                   {t("Category")}
-                </TableCell>
-                <TableCell sx={{ color: "#fff", width: "15%" }}>
-                  {t("Supplier")}
                 </TableCell>
                 <TableCell sx={{ color: "#fff", width: "10%" }}>
                   {t("Price")}
@@ -209,15 +218,17 @@ export default function ProductList() {
                       {product.category?.name || "N/A"}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
-                      {product.supplier_name || "N/A"}
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "14px" }}>
                       {product.price}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
                       {product.quantity}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
+                    <Tooltip title={t("Edit")}>
+                        <IconButton onClick={() => handleEdit(product.id)}>
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
                       <Tooltip title={t("Delete")}>
                         <IconButton
                           onClick={(e) => {

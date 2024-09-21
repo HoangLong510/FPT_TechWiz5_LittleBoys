@@ -339,5 +339,73 @@ class UserController extends Controller
         }
     }
 
-    
+    public function fetchOrders()
+    {
+        $user = auth()->user();
+
+        $count = Order::where('user_id', $user->id)->count();
+
+        $perPage = 5;
+        $totalPage = ceil($count / $perPage);
+        $page = request('page');
+        $offset = ($page - 1) * $perPage;
+
+        $orders = Order::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->skip($offset)
+            ->take($perPage)
+            ->get();
+
+        if (count($orders) > 0) {
+            foreach ($orders as $order) {
+                $totalPrice = 0;
+                $detail = OrderDetail::where('order_id', $order->id)->get();
+                foreach ($detail as $item) {
+                    $totalPrice += $item->quantity * $item->price;
+                }
+                $order->total_price = $totalPrice;
+            }
+        }
+
+        return response()->json([
+            "success" => true,
+            "orders" => $orders,
+            "totalPage" => $totalPage
+        ]);
+    }
+
+    public function fetchOrderDetails($id)
+    {
+        $user = auth()->user();
+
+        $order = Order::where('id', $id)->first();
+
+        if ($order->user_id == $user->id) {
+            $order->details = DB::table('order_details')
+                ->join("products", "product_id", "=", "products.id")
+                ->select(
+                    'products.name as name',
+                    'products.image',
+                    'order_details.price as price',
+                    'order_details.quantity as quantity'
+                )
+                ->where('order_details.order_id', $id)
+                ->get();
+
+            $order->total_price = 0;
+
+            foreach ($order->details as $item) {
+                $order->total_price += $item->quantity * $item->price;
+            }
+
+            return response()->json([
+                "success" => true,
+                "order" => $order
+            ]);
+        }
+
+        return response()->json([
+            "success" => false
+        ]);
+    }
 }

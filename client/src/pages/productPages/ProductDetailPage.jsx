@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import {
 	Container,
@@ -38,32 +36,6 @@ import { useTranslation } from "react-i18next";
 import { setPopup } from "~/libs/features/popup/popupSlice";
 import { formatDate } from "~/function";
 import DeleteIcon from '@mui/icons-material/Delete'
-
-// Dữ liệu sản phẩm mẫu (mockProduct)
-const mockProduct = {
-	id: 1,
-	name: "Elegant Wooden Armchair",
-	price: 299.99,
-	category: "Furniture",
-	description:
-		"Elevate your living space with this beautifully crafted wooden armchair. Its elegant design and comfortable seating make it the perfect addition to any room.",
-	rating: 4.5,
-	reviewCount: 45,
-	images: [
-		"./Gallery/Berlinwall-01.jpg?height=600&width=600",
-		"./Gallery/Berlinwall-01.jpg?height=600&width=600",
-		"./Gallery/Berlinwall-01.jpg?height=600&width=600",
-		"./Gallery/Berlinwall-01.jpg?height=600&width=600",
-	],
-	specifications: [
-		"Material: Solid oak wood",
-		'Dimensions: 27"W x 30"D x 35"H',
-		"Seat Height: 18 inches",
-		"Weight Capacity: 300 lbs",
-		"Upholstery: 100% polyester fabric",
-		"Assembly Required: Yes",
-	],
-};
 
 export default function ProductDetail() {
 	const user = useSelector((state) => state.user.value);
@@ -263,11 +235,12 @@ export default function ProductDetail() {
 								Specifications
 							</Typography>
 							<List>
-								{mockProduct.specifications.map((spec, index) => (
-									<ListItem key={index}>
-										<ListItemText primary={spec} />
-									</ListItem>
-								))}
+								<ListItem>
+									<ListItemText
+									primary={'Category:'}
+									secondary={'- ' + product.category.name}
+									/>
+								</ListItem>
 							</List>
 							<Button
 								component={Link} to={`/supplier/detail`}
@@ -281,12 +254,12 @@ export default function ProductDetail() {
 									fontWeight: "bold",
 									fontFamily: "arial Bold",
 									"&:hover": {
-									backgroundColor: "black",
-									borderColor: "#333",
-									color:"#fff",
+										backgroundColor: "black",
+										borderColor: "#333",
+										color: "#fff",
 									},
 								}}
-								>
+							>
 								Supplier Detail
 							</Button>
 						</Grid>

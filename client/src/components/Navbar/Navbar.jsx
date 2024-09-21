@@ -1,10 +1,8 @@
-import { Box, Button, Tooltip, IconButton, Badge  } from '@mui/material'
-import { useSelector  } from 'react-redux'
+import { Box, Button, Tooltip, IconButton, Badge } from '@mui/material'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import NavbarMenu from './NavbarMenu'
 import { useTranslation } from 'react-i18next'
-import {TextField, InputAdornment} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import Cart from '~/components/Cart/Cart'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
@@ -54,7 +52,7 @@ export default function Navbar() {
                             Blog
                         </Button>
                     </Link>
-                    
+
                 </Box>
             </Box>
 
@@ -64,9 +62,9 @@ export default function Navbar() {
                 alignItems: 'center',
                 gap: '20px'
             }}>
-               
+
                 {!user.exist && (
-                    <Box sx={{ display: { xs: 'none', md: 'flex', width:'100%'}, alignItems: 'center', gap: '8px' }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%' }, alignItems: 'center', gap: '8px' }}>
                         <Link to="/auth/login" style={{ display: 'flex', alignItems: 'center' }}>
                             <Button>
                                 {t("Login")}
@@ -82,22 +80,23 @@ export default function Navbar() {
                 {user.exist && (
                     <>
                         <Cart />
-                        <Tooltip title="Upcoming Appointments">
-                          <IconButton
-                            aria-label="notifications"
-                            color="primary"
-                            sx = {{
-                              marginLeft : "10px"
-                            }}
-                          >
-                            <Badge
-                              badgeContent={activityLogs.length}
-                              color="error"
-                            >
-                              <NotificationsIcon />
-                            </Badge>
-                          </IconButton>
-                  </Tooltip>
+                        <Link to="/user/notification">
+                            <Tooltip>
+                                <IconButton
+                                    aria-label="notifications"
+                                    color="primary"
+                                    sx={{
+                                        marginLeft: "10px"
+                                    }}
+                                >
+                                    <Badge
+                                        color="error"
+                                    >
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                            </Tooltip>
+                        </Link>
                     </>
                 )}
                 <NavbarMenu />
