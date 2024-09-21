@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -16,8 +16,8 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import { motion } from "framer-motion";
+import { getProjectsApi } from "./service";
 
 const categories = [
   { id: "living-room", name: "Living Room" },
@@ -28,75 +28,58 @@ const categories = [
   { id: "outdoor", name: "Outdoor Spaces" },
 ];
 
-const projects = [
-  {
-    id: 1,
-    name: "Modern Living Room",
-    category: "living-room",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 2,
-    name: "Cozy Bedroom Retreat",
-    category: "bedroom",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 3,
-    name: "Sleek Dining-room Design",
-    category: "dining-room",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 4,
-    name: "Luxurious Bathroom",
-    category: "bathroom",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 5,
-    name: "Productive Home Office",
-    category: "office",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 6,
-    name: "Serene Outdoor Patio",
-    category: "outdoor",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-];
-
 export default function Gallery() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortOrder, setSortOrder] = useState("latest");
-  const [expandedProject, setExpandedProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+    const fetchProjects = async () => {
+      try {
+        const response = await getProjectsApi({
+          search: searchTerm,
+          sort: sortOrder,
+          filterCategory: selectedCategory,
+        });
+        console.log("Fetched Projects:", response);
+        if (response.success) {
+          setProjects(response.data);
+        } else {
+          setProjects([]);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to load projects:", error);
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, [searchTerm, sortOrder, selectedCategory]);
 
-  const filteredProjects = projects.filter(
-    (project) =>
-      (project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.category.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === "" || project.category === selectedCategory)
-  );
+  const goToProjectDetail = (projectId) => {
+    navigate(`/projects/${projectId}`);
+  };
 
+  // Lọc dự án theo từ khóa tìm kiếm và danh mục
+  const filteredProjects = Array.isArray(projects)
+    ? projects.filter(
+        (project) =>
+          (project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            project.category
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())) &&
+          (selectedCategory === "" || project.category === selectedCategory)
+      )
+    : [];
+
+  // Sắp xếp dự án
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     if (sortOrder === "asc") return a.name.localeCompare(b.name);
     if (sortOrder === "desc") return b.name.localeCompare(a.name);
-    return b.id - a.id; // 'latest' sort
+    return b.id - a.id; // Sắp xếp theo 'latest'
   });
 
   return (
@@ -136,11 +119,12 @@ export default function Gallery() {
             sx={{ textShadow: "1px 1px 2px rgba(0,0,0,1)" }}
           >
             Explore our collection of projects to get inspiration for your
-            future projects.​
+            future projects.​{" "}
           </Typography>
         </Container>
       </Box>
 
+      {/* Form tìm kiếm và sắp xếp */}
       <Grid container spacing={2} sx={{ mb: 4, mt: 2 }}>
         <Grid item xs={12} md={4}>
           <TextField
@@ -184,6 +168,7 @@ export default function Gallery() {
         </Grid>
       </Grid>
 
+      {/* Hiển thị project */}
       {loading ? (
         <Box
           sx={{
@@ -200,108 +185,51 @@ export default function Gallery() {
           {sortedProjects.map((project) => (
             <Grid item key={project.id} xs={12} sm={6} md={4}>
               <motion.div
-                whileHover={{ scale: 1.05 }} // Phóng to nhẹ khi hover
-                whileTap={{ scale: 0.95 }} // Thu nhỏ nhẹ khi nhấp chuột
-                transition={{ duration: 0.3 }} // Hiệu ứng mượt mà trong 0.3s
+                whileHover={{ scale: 1.05 }} // Hiệu ứng phóng to khi hover
+                whileTap={{ scale: 0.95 }} // Hiệu ứng thu nhỏ khi nhấp chuột
+                transition={{ duration: 0.3 }} // Hiệu ứng mượt mà
               >
-                <Link to="/project/detail" style={{ textDecoration: "none" }}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="400"
-                      image={`${import.meta.env.VITE_BACKEND_URL}/storage/${
-                        project.image
-                      }`}
-                      alt={project.name}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {project.name}
-                      </Typography>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    marginBottom: "50px",
+                  }}
+                >
+                  <CardMedia
+                    sx={{}}
+                    component="img"
+                    height="400"
+                    src={`${project.image}?${new Date().getTime()}`}
+                    alt={project.name}
+                    onClick={() => goToProjectDetail(project.id)}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {project.name}
+                    </Typography>
+
+                    {/* Hiển thị categories */}
+                    <Typography variant="body2" color="text.secondary">
+                      {project.categories
+                        ? project.categories
+                        : "No categories"}
+                    </Typography>
+
+                    {/* Hiển thị description */}
+                    {project.description && (
                       <Typography variant="body2" color="text.secondary">
-                        {
-                          categories.find((c) => c.id === project.category)
-                            ?.name
-                        }
+                        {project.description}
                       </Typography>
-                    </CardContent>
-                  </Card>
-                </Link>
+                    )}
+                  </CardContent>
+                </Card>
               </motion.div>
             </Grid>
           ))}
         </Grid>
       )}
-
-      <Container maxWidth="lg" sx={{ my: 6 }}>
-        <Grid container spacing={4} alignItems="center">
-          {/* video on the Left */}
-          <Grid item xs={12} md={6}>
-            <Box
-              component="video"
-              src="/video/video1.mp4" // Thay thế bằng đường dẫn tới video của bạn
-              autoPlay
-              loop
-              muted //tắt âm thanh
-              alt="Featured Video"
-              sx={{
-                width: "100%",
-                height: "auto",
-                borderRadius: "8px",
-              }}
-            />
-          </Grid>
-
-          {/* Content on the Right */}
-          <Grid item xs={12} md={6}>
-            <Typography
-              variant="h4"
-              component="h2"
-              fontWeight="bold"
-              gutterBottom
-            >
-              What we offer
-            </Typography>
-            <Typography variant="body1" color="text.secondary" paragraph>
-              "Established with the mission of bringing sophisticated and modern
-              living spaces, DecorVista is a pioneer brand in the field of
-              interior design. With unique and diverse collections, we bring
-              optimal solutions to all customer needs, from family living spaces
-              to large commercial projects. At DecorVista, we not only provide
-              high-end interior products, but also offer flexible customization,
-              making each project unique and reflecting the individual
-              personality of the customer. Join us in creating a classy living
-              space with inspiring and creative interior design collections."
-            </Typography>
-
-            <Button
-              component={Link}
-              to={`/product`}
-              rel="noopener noreferrer"
-              variant="outlined"
-              size="large"
-              sx={{
-                borderColor: "#333",
-                color: "#333",
-                textTransform: "none",
-                fontWeight: "bold",
-                "&:hover": {
-                  backgroundColor: "#f0f0f0",
-                  borderColor: "#333",
-                },
-              }}
-            >
-              Discover Now
-            </Button>
-          </Grid>
-        </Grid>
-      </Container>
     </Container>
   );
 }

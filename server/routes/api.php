@@ -1,13 +1,15 @@
 <?php
 
+use App\Http\Controllers\DesignerController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\DesignController;
 use App\Http\Controllers\MeetingController;
+
 
 use App\Http\Controllers\CategoryController;
 
@@ -106,15 +108,15 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'designer'
 ], function ($router) {
-    Route::post('/fetch-data-chart', [DesignController::class, 'fetchDesignDataChart']);
-    Route::post('/projects/create', [DesignController::class, 'createProject']);
-    Route::post('/projects/{id}', [DesignController::class, 'updateProject']);
-    Route::delete('/projects/{id}', [DesignController::class, 'deleteProject']);
-    Route::get('/projects', [DesignController::class, 'getProjects']);
-    Route::get('/projects/{id}', [DesignController::class, 'getProject']);
-    Route::get('/detail/meeting', [DesignController::class, 'createMeeting']);
-    Route::get('/projects/{userId}', [DesignController::class, 'getDesignerProjects']);
-    Route::get('/info/{userId}', [DesignController::class, 'getDesignerInfo']);
+    Route::post('/fetch-data-chart', [DesignerController::class, 'fetchDesignDataChart']);
+    Route::post('/projects/create', [DesignerController::class, 'createProject']);
+    Route::post('/projects/{id}', [DesignerController::class, 'updateProject']);
+    Route::delete('/projects/{id}', [DesignerController::class, 'deleteProject']);
+    Route::get('/projects', [DesignerController::class, 'getProjects']);
+    Route::get('/projects/{id}', [DesignerController::class, 'getProject']);
+    Route::get('/detail/meeting', [DesignerController::class, 'createMeeting']);
+    Route::post('/projects/{userId}', [DesignerController::class, 'getDesignerProjects']);
+    Route::post('/info/{userId}', [DesignerController::class, 'getDesignerInfo']);
 });
 
 
@@ -126,4 +128,12 @@ Route::group([
     Route::post('/', [MeetingController::class, 'store']); // Tạo cuộc hẹn mới
     Route::put('/{id}/status', [MeetingController::class, 'updateStatus']); // Cập nhật trạng thái cuộc hẹn
     Route::delete('/{id}', [MeetingController::class, 'destroy']); // Xóa cuộc hẹn
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'projects'
+], function ($router) {
+    Route::post('/fetch-data-projects', [ProjectController::class, 'getProject']);
+    Route::get('/fetch-data-project-detail/{id}', [ProjectController::class, 'getProjectDetail']);
 });

@@ -327,9 +327,7 @@ export default function NavEffectLayout({ children }) {
                             justifyContent: "center",
                           }}
                         >
-                          <Button sx={{ width: "100%" }}>
-                            {t("Gallery")}
-                          </Button>
+                          <Button sx={{ width: "100%" }}>{t("Gallery")}</Button>
                         </Link>
                         <Link
                           onClick={toggleDrawer(false)}
@@ -340,7 +338,9 @@ export default function NavEffectLayout({ children }) {
                             justifyContent: "center",
                           }}
                         >
-                          <Button sx={{ width: "100%" }}>{t("About Us")}</Button>
+                          <Button sx={{ width: "100%" }}>
+                            {t("About Us")}
+                          </Button>
                         </Link>
                         <Link
                           onClick={toggleDrawer(false)}
@@ -483,10 +483,10 @@ export default function NavEffectLayout({ children }) {
                               </span>
                             </Button>
                           </Link>
-                          {user.data.role === "user" && (
+                          {/* {user.data.role === "user" && (
                             <Link
                               onClick={toggleDrawer(false)}
-                              to="/register-supplier"
+                              to="/register-designer"
                               style={{
                                 display: "flex",
                                 alignItems: "center",
@@ -497,7 +497,7 @@ export default function NavEffectLayout({ children }) {
                                 {t("RegisterSupplier")}
                               </Button>
                             </Link>
-                          )}
+                          )} */}
                           {user.data.role === "admin" && (
                             <Link
                               onClick={toggleDrawer(false)}

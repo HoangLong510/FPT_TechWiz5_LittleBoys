@@ -31,7 +31,7 @@ import DesignerProjectDetails from "~/pages/designer/project/DesignerProjectDeta
 import Meetings from "~/pages/supplier/meetings/Meetings"
 import Feedback from "~/pages/supplier/feedback/Feedback"
 import Designer from "~/pages/designer/Designer"
-// import DesignDetails from "~/pages/designer/designerdetail/DesignDetails"
+import DesignDetails from "~/pages/designer/designerdetail/DesignerDetails"
 import Favorite from "~/pages/user/favorite/Favorite"
 import OrderDetail from "~/pages/user/orders/orderDetail"
 import OrderManagement from "~/pages/management/order/OrderManagement"
@@ -57,9 +57,10 @@ const publicRoutes = [
     { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout },
     { path: '/register-designer', component: RegisterDesigner, layout: DefaultLayout },
     { path: '/blog', component: Blog, layout: DefaultLayout },
-    { path: '/designer/detail', component: DesignerProjectDetails, layout: DefaultLayout },
     { path: '/blog/blogdetailone', component: BlogDetail, layout: DefaultLayout },
     { path: '/gallery', component: Gallery , layout: DefaultLayout },
+    { path: '/projects/:projectId', component: ProjectDetail , layout: DefaultLayout },
+    { path: '/designer/detail/:userId', component: DesignDetails , layout: DefaultLayout },
     { path: '/project/detail', component: ProjectDetail , layout: DefaultLayout },
     { path: '/faq', component: FAQ, layout: DefaultLayout },
 ]
@@ -67,7 +68,7 @@ const publicRoutes = [
 const authRoutes = [
     { path: '/auth/login', component: Login, layout: DefaultLayout },
     { path: '/auth/register', component: Register, layout: DefaultLayout },
-    { path: '/auth/register-designer/:{id}', component: RegisterDesigner, layout: DefaultLayout },
+    { path: '/auth/register-designer', component: RegisterDesigner, layout: DefaultLayout },
     { path: '/auth/forgot-password', component: ForgotPassword, layout: DefaultLayout }
 ]
 
@@ -101,7 +102,7 @@ const managementRoutes = [
 ]
 
 const designerRoutes = [
-    { path: '/designer/project/create', component: DesignerProjectCreate, layout: DefaultLayout },
+    { path: '/designer/projects/create', component: DesignerProjectCreate, layout: DefaultLayout },
     { path: '/designer', component: Designer, layout: DefaultLayout },
     { path: '/designer/projects/', component: DesignerProjectList, layout: DefaultLayout },
     { path: '/designer/projects/:projectId', component: DesignerProjectDetails, layout: DefaultLayout },
