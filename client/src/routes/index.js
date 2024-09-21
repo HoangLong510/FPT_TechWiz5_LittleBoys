@@ -33,6 +33,7 @@ import Blog from "~/pages/blog/Blog"
 import SupplierProductCreate from "~/pages/supplier/product/SupplierProductCreate"
 import Dashboard from "~/pages/supplier/dashboard"
 import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
+import BlogDetail from "~/pages/blog/blogDetail/BlogDetailOne"
 import SupplierProductList from "~/pages/supplier/product/SupplierProductList"
 import SupplierProductDetails from "~/pages/supplier/product/SupplierProductDetails"
 
@@ -45,6 +46,7 @@ const publicRoutes = [
     { path: '/register-supplier', component: RegisterSupplier , layout: DefaultLayout },
     { path: '/blog', component: Blog, layout: DefaultLayout },
     { path: '/supplier/detail', component: SupplierDetail, layout: DefaultLayout },
+    { path: '/blog/blogdetailone', component: BlogDetail , layout: DefaultLayout },
 ]
 
 const authRoutes = [

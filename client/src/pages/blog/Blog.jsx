@@ -60,7 +60,7 @@ const blogPosts = [
   {
     id: 1,
     title: "Xu hướng thiết kế nội thất Scandinavian 2023",
-    excerpt: "Khám phá sự đơn giản và tinh tế trong phong cách Scandinavian...",
+    excerpt: "Scandinavian Design là xu hướng thiết kế nội thất Bắc Âu...",
     image: "/Images/bg/3617170_2.jpg?height=300&width=400",
     category: "Xu hướng",
     date: "15 Tháng 5, 2023",
@@ -244,7 +244,7 @@ const FurnitureBlog = () => {
                         <Typography variant="body2" paragraph>
                           {post.excerpt}
                         </Typography>
-                        <StyledButton component={Link} to={`/post/${post.id}`}>
+                        <StyledButton component={Link} to={`/blog/blogdetailone`}>
                           Đọc tiếp
                         </StyledButton>
                       </CardContent>
@@ -375,7 +375,7 @@ const FurnitureBlog = () => {
             ))}
             <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
               <Pagination
-                count={10}
+                count={1}
                 page={page}
                 onChange={handlePageChange}
                 color="primary"

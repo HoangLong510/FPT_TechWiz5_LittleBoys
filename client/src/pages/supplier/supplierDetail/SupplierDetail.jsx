@@ -155,6 +155,8 @@ export default function SupplierDetail() {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(reviews);
   const [visibleComments, setVisibleComments] = useState(3);
+  const [contactDialogOpen, setContactDialogOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
     let result = portfolioItems;
@@ -198,6 +200,17 @@ export default function SupplierDetail() {
 
   const handleShowMoreComments = () => {
     setVisibleComments((prevVisibleComments) => prevVisibleComments + 3); // Tăng số bình luận hiển thị thêm 3
+  };
+  const handleContactDialogOpen = () => {
+    setContactDialogOpen(true);
+  };
+
+  const handleContactDialogClose = () => {
+    setContactDialogOpen(false);
+  };
+
+  const handleDateChange = (event) => {
+    setSelectedDate(event.target.value);
   };
 
   return (
@@ -272,6 +285,25 @@ export default function SupplierDetail() {
                     >
                       <LinkedIn />
                     </IconButton>
+                    <Button
+                      rel="noopener noreferrer"
+                      variant="outlined"
+                      size="large"
+                      onClick={handleContactDialogOpen}
+                      sx={{
+                        borderColor: "#333",
+                        color: "#333",
+                        textTransform: "none",
+                        fontWeight: "bold",
+                        fontFamily: "arial Bold",
+                        "&:hover": {
+                          backgroundColor: "#f0f0f0",
+                          borderColor: "#333",
+                        },
+                      }}
+                    >
+                      Liên hệ / yêu cầu báo giá
+                    </Button>
                   </Box>
                 </CardContent>
               </Card>
@@ -281,7 +313,7 @@ export default function SupplierDetail() {
             <Typography variant="h4" gutterBottom>
               Portfolio
             </Typography>
-            
+
             <Box
               sx={{ mb: 2, display: "flex", justifyContent: "space-between" }}
             >
@@ -299,7 +331,6 @@ export default function SupplierDetail() {
                   ))}
                 </Select>
               </FormControl>
-              
             </Box>
             <AnimatePresence>
               <Grid container spacing={2}>
@@ -421,7 +452,7 @@ export default function SupplierDetail() {
 
           {/* Nút Xem thêm bình luận */}
           {visibleComments < comments.length && (
-            <Box sx={{ textAlign: "center", mt: 0}}>
+            <Box sx={{ textAlign: "center", mt: 0 }}>
               <Button variant="contained" onClick={handleShowMoreComments}>
                 Xem thêm bình luận
               </Button>
@@ -429,6 +460,71 @@ export default function SupplierDetail() {
           )}
         </Box>
       </Box>
+      {/* Dialog liên hệ / yêu cầu báo giá */}
+      <Dialog open={contactDialogOpen} onClose={handleContactDialogClose}>
+        <DialogTitle>Liên hệ / Yêu cầu báo giá</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Họ tên"
+            type="text"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            margin="dense"
+            id="email"
+            label="Email"
+            type="email"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            margin="dense"
+            id="phone"
+            label="Số điện thoại"
+            type="tel"
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            id="datetime-local"
+            type="datetime-local"
+            value={selectedDate}
+            onChange={handleDateChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            variant="outlined"
+          />
+          <TextField
+            margin="dense"
+            id="message"
+            label="Nội dung"
+            multiline
+            rows={4}
+            fullWidth
+            variant="outlined"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2, "&:hover": {
+                          backgroundColor: "#f0f0f0",
+                          borderColor: "#333",
+                          color: "black",
+                        },}}
+            onClick={handleContactDialogClose}
+            
+          >
+            Gửi yêu cầu
+          </Button>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }
