@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Cart;
+use App\Models\Favorite;
 use Illuminate\Support\Facades\DB;
 use App\Models\ActivityLog;
 
@@ -125,7 +126,7 @@ class UserController extends Controller
         $carts = DB::table('carts')
             ->join("products", "product_id", "=", "products.id")
             ->where("carts.user_id", $user->id)
-            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id', 'products.quantity as product_quantity')
             ->get();
 
         return response()->json([
@@ -141,7 +142,7 @@ class UserController extends Controller
         $carts = DB::table('carts')
             ->join("products", "product_id", "=", "products.id")
             ->where("carts.user_id", $user->id)
-            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id', 'products.quantity as product_quantity')
             ->get();
 
         return response()->json([
@@ -153,16 +154,16 @@ class UserController extends Controller
     public function removeToCart($id)
     {
         $user = auth()->user();
-        $find = Cart::where("id", $id)->first();
+        $find = Cart::where("product_id", $id)->where("user_id", $user->id)->first();
 
         if ($user->id == $find->user_id) {
-            Cart::where("id", $id)->delete();
+            Cart::where("id", $find->id)->delete();
         }
 
         $carts = DB::table('carts')
             ->join("products", "product_id", "=", "products.id")
             ->where("carts.user_id", $user->id)
-            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+            ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id', 'products.quantity as product_quantity')
             ->get();
 
 
@@ -192,7 +193,7 @@ class UserController extends Controller
                 $carts = DB::table('carts')
                     ->join("products", "product_id", "=", "products.id")
                     ->where("carts.user_id", $user->id)
-                    ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+                    ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id', 'products.quantity as product_quantity')
                     ->get();
                 return response()->json([
                     'success' => true,
@@ -220,12 +221,58 @@ class UserController extends Controller
             $carts = DB::table('carts')
                 ->join("products", "product_id", "=", "products.id")
                 ->where("carts.user_id", $user->id)
-                ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id')
+                ->select('carts.id as id', 'products.price as price', 'carts.quantity as quantity', 'products.image as image', 'products.name as name', 'carts.product_id as product_id', 'carts.user_id as user_id', 'products.quantity as product_quantity')
                 ->get();
             return response()->json([
                 'success' => true,
                 'carts' => $carts
             ]);
         }
+    }
+
+    // favorite
+    public function fetchFavorites()
+    {
+        $user = auth()->user();
+
+        $count = Favorite::where('user_id', $user->id)->count();
+
+        $perPage = 5;
+        $totalPage = ceil($count / $perPage);
+        $page = request('page');
+        $offset = ($page - 1) * $perPage;
+
+        $favorites = DB::table('favorites')
+            ->join("products", "product_id", "=", "products.id")
+            ->where("favorites.user_id", $user->id)
+            ->select('favorites.id as id', 'products.price as price', 'products.image as image', 'products.name as name', 'favorites.product_id as product_id')
+            ->orderBy('favorites.created_at', 'desc')
+            ->skip($offset)
+            ->take($perPage)
+            ->get();
+
+        return response()->json([
+            "success" => true,
+            "favorites" => $favorites,
+            "totalPage" => $totalPage
+        ]);
+    }
+
+    public function removeFavorite($id)
+    {
+        $user = auth()->user();
+
+        Favorite::where("id", $id)
+            ->where("user_id", $user->id)
+            ->delete();
+
+        $msg = new \stdClass();
+        $msg->vi = "Xóa sản phẩm yêu thích thành công!";
+        $msg->en = "Deleted favorite product successfully!";
+
+        return response()->json([
+            "success" => true,
+            "message" => [$msg]
+        ]);
     }
 }

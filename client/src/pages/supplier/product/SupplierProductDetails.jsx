@@ -56,7 +56,7 @@ export default function ProductDetail() {
           setQuantity(quantity || "");
           setDescription(description || "");
           setCategory(category?.id || "");
-          setImage(image || ""); // Lưu đường dẫn hình ảnh cũ
+          setImage(image || "");
         } else {
           setError("Product not found.");
         }
@@ -67,7 +67,7 @@ export default function ProductDetail() {
       }
     };
 
-    const fetchBrandsAndCategories = async () => {
+    const fetchCategories = async () => {
       try {
         const [categoriesRes] = await Promise.all([getCategoriesApi()]);
         setCategories(categoriesRes.categories || []);
@@ -77,7 +77,7 @@ export default function ProductDetail() {
     };
 
     fetchProduct();
-    fetchBrandsAndCategories();
+    fetchCategories();
   }, [productId]);
 
   const handleSave = async () => {
@@ -85,9 +85,9 @@ export default function ProductDetail() {
     setError(null);
     setSuccess(false);
 
-    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
-    if (image && image.size > MAX_FILE_SIZE) {
+    if (image && image.size && image.size > MAX_FILE_SIZE) {
       setError("The image size must not exceed 2 MB.");
       setLoading(false);
       return;
@@ -100,13 +100,8 @@ export default function ProductDetail() {
     formData.append("description", description);
     formData.append("category_id", category);
 
-    if (image) {
+    if (image && image instanceof File) {
       formData.append("image", image);
-    }
-
-    // Log formData contents
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
     }
 
     try {
@@ -119,8 +114,11 @@ export default function ProductDetail() {
         setError(res.message);
         dispatch(setPopup({ type: "error", message: res.message }));
       }
-    } catch (err) {
-      console.error("Error details:", err.response.data); // Log lỗi chi tiết
+    } catch (error) {
+      console.error(
+        "Error details:",
+        error.response ? error.response.data : error
+      );
       setError("Failed to update product.");
       dispatch(
         setPopup({ type: "error", message: "Failed to update product." })
@@ -134,7 +132,6 @@ export default function ProductDetail() {
     navigate(-1);
   };
 
-  // Cập nhật giá trị mặc định nếu giá trị hiện tại không có trong danh sách
   const categoryValue = categories.some((cat) => cat.id === category)
     ? category
     : "";
@@ -206,7 +203,7 @@ export default function ProductDetail() {
             {product.image && (
               <Box sx={{ mb: 2 }}>
                 <img
-                  src={product.image} // Sử dụng đường dẫn hình ảnh từ API
+                  src={product.image}
                   alt="Product"
                   style={{
                     maxWidth: "100%",

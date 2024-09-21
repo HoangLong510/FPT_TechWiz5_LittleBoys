@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Cart;
+use App\Models\Comment;
+use App\Models\Favorite;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -17,6 +19,7 @@ class ProductController extends Controller
                 'fetchDataProducts',
                 'fetchDataCategories',
                 'fetchDataProductDetails',
+                'fetchComments'
             ]
         ]);
     }
@@ -67,16 +70,20 @@ class ProductController extends Controller
     {
         $product = Product::where('id', $id)->first();
         $existsCart = false;
+        $existsFavorite = false;
         $user = auth()->user();
-        if($user){
+        if ($user) {
             $existsCart = Cart::where('product_id', $id)->where('user_id', $user->id)->exists();
+            $existsFavorite = Favorite::where('user_id', $user->id)
+                ->where('product_id', $id)->exists();
         }
 
         if ($product) {
             return response()->json([
                 "success" => true,
                 "product" => $product,
-                "existsCart" => $existsCart
+                "existsCart" => $existsCart,
+                "existsFavorite" => $existsFavorite
             ]);
         } else {
             return response()->json([
@@ -88,7 +95,7 @@ class ProductController extends Controller
     public function removeToCart($id)
     {
         $user = auth()->user();
-        
+
         Cart::where("product_id", $id)->where("user_id", $user->id)->delete();
 
         $carts = DB::table('carts')
@@ -101,6 +108,129 @@ class ProductController extends Controller
         return response()->json([
             "success" => true,
             "carts" => $carts
+        ]);
+    }
+
+    // comment
+    public function addNewComment()
+    {
+        $error = [];
+        $user = auth()->user();
+
+        $productId = request('productId');
+        $content = request('content');
+
+        if (!$content) {
+            $msg = new \stdClass();
+            $msg->en = "Please enter your comment!";
+            $msg->vi = "Vui lòng nhập bình luận!";
+            array_push($error, $msg);
+        } else {
+            if (!$user) {
+                $msg = new \stdClass();
+                $msg->en = "You are not logged in!";
+                $msg->vi = "Bạn chưa đăng nhập!";
+                array_push($error, $msg);
+            }
+        }
+
+        if (count($error) > 0) {
+            return response()->json([
+                "success" => false,
+                "message" => $error
+            ]);
+        } else {
+            $comment = new Comment();
+            $comment->user_id = $user->id;
+            $comment->product_id = $productId;
+            $comment->content = $content;
+            $comment->save();
+
+            $comments = DB::table('comments')
+                ->join("users", "user_id", "=", "users.id")
+                ->where("comments.product_id", $productId)
+                ->select('comments.id as id', 'users.id as user_id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
+                ->orderBy("created_at", "desc")
+                ->get();
+
+            $msg = new \stdClass();
+            $msg->en = "Comment successfully!";
+            $msg->vi = "Bình luận thành công!";
+
+            return response()->json([
+                "success" => true,
+                "message" => [$msg],
+                "comments" => $comments
+            ]);
+        }
+    }
+
+    public function fetchComments($productId)
+    {
+        $comments = DB::table('comments')
+            ->join("users", "user_id", "=", "users.id")
+            ->where("comments.product_id", $productId)
+            ->select('comments.id as id', 'users.id as user_id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
+            ->orderBy("created_at", "desc")
+            ->get();
+
+        return response()->json([
+            "success" => true,
+            "comments" => $comments
+        ]);
+    }
+
+    public function removeComment()
+    {
+        $id = request('id');
+        $productId = request('productId');
+
+        $user = auth()->user();
+
+        $find = Comment::where('id', $id)->first();
+
+        if ($user->id == $find->user_id || $user->role == 'admin') {
+            Comment::where('id', $id)->delete();
+        }
+
+        $comments = DB::table('comments')
+            ->join("users", "user_id", "=", "users.id")
+            ->where("comments.product_id", $productId)
+            ->select('comments.id as id', 'users.id as user_id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
+            ->orderBy("created_at", "desc")
+            ->get();
+
+        $msg = new \stdClass();
+        $msg->en = "Remove this comment successfully!";
+        $msg->vi = "Xóa bình luận thành công!";
+
+        return response()->json([
+            "success" => true,
+            "comments" => $comments,
+            "message" => [$msg]
+        ]);
+    }
+
+    // favorite
+    public function toggleFavorite($productId)
+    {
+        $user = auth()->user();
+
+        $existsFavorite = Favorite::where('user_id', $user->id)
+            ->where('product_id', $productId)->exists();
+
+        if (!$existsFavorite) {
+            $favorite = new Favorite();
+            $favorite->user_id = $user->id;
+            $favorite->product_id = $productId;
+            $favorite->save();
+        } else {
+            Favorite::where('user_id', $user->id)
+                ->where('product_id', $productId)->delete();
+        }
+
+        return response()->json([
+            "success" => true
         ]);
     }
 }

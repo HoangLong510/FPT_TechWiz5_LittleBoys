@@ -18,10 +18,10 @@ export const getCategoriesApi = async (data) => {
 export const getCategoryDetailApi = async (id) => {
     try {
         const response = await axios.get(`/management/get-category-detail/${id}`);
-        return response.data; // Điều chỉnh nếu dữ liệu trả về có cấu trúc khác
+        return response.data; 
     } catch (error) {
         console.error('Error fetching category detail:', error);
-        throw error; // Đẩy lỗi lên để xử lý trong component
+        throw error; 
     }
 };
 

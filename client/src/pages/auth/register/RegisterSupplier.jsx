@@ -1,11 +1,6 @@
 import {
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   TextField,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -23,8 +18,6 @@ export default function RegisterSupplier() {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.user.value);
-
-  const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleRegisterSupplier = async () => {
@@ -37,7 +30,6 @@ export default function RegisterSupplier() {
     try {
       const res = await registerSupplier(data, user.data.id);
       if (res.success) {
-        setOpenDialog(true);
         const dataPopup = {
           type: "success",
           message: [
@@ -54,6 +46,7 @@ export default function RegisterSupplier() {
             role: "supplier",
           })
         );
+        navigate('/supplier')
       } else {
         const dataPopup = {
           type: "error",
@@ -144,26 +137,6 @@ export default function RegisterSupplier() {
           </Button>
         </Box>
       </Box>
-
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>{t("Confirmation")}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {t("Successfully updated to Supplier role!")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setOpenDialog(false);
-              navigate("/");
-            }}
-            color="primary"
-          >
-            {t("OK")}
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

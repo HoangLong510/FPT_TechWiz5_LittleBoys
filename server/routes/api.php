@@ -36,11 +36,10 @@ Route::group([
     Route::get('/lock-account/{id}', [ManagementController::class, 'lockAccount']);
     Route::get('/unlock-account/{id}', [ManagementController::class, 'unlockAccount']);
 
-    Route::post('/create-brand', [ManagementController::class, 'createBrand']);
-    Route::get('/brands', [ManagementController::class, 'getBrands']);
-    Route::get('/get-brand-detail/{id}', [ManagementController::class, 'getBrandDetail']);
-    Route::post('/update-brand/{id}', [ManagementController::class, 'updateBrand']);
-    Route::delete('/delete-brand/{id}', [ManagementController::class, 'deleteBrand']);
+    Route::get('/supplier', [ManagementController::class, 'getSuppliers']);
+    Route::put('/change-role/{id}', [ManagementController::class, 'changeRole']);
+
+
 
     // Các route cho Category
     Route::post('/create-category', [ManagementController::class, 'createCategory']);
@@ -70,6 +69,8 @@ Route::group([
     Route::get('remove-to-cart/{id}', [UserController::class, 'removeToCart']);
     Route::get('fetch-data-cart', [UserController::class, 'fetchDataCart']);
     Route::post('update-quantity-cart', [UserController::class, 'updateQuantityCart']);
+    Route::post('fetch-favorites', [UserController::class, 'fetchFavorites']);
+    Route::get('remove-favorite/{id}', [UserController::class, 'removeFavorite']);
 });
 
 Route::group([
@@ -79,6 +80,14 @@ Route::group([
     Route::post('fetch-data-products', [ProductController::class, 'fetchDataProducts']);
     Route::get('fetch-data-categories', [ProductController::class, 'fetchDataCategories']);
     Route::get('fetch-data-product-detail/{id}', [ProductController::class, 'fetchDataProductDetails']);
+
+    // comment
+    Route::post('comment', [ProductController::class, 'addNewComment']);
+    Route::get('fetch-comments/{productId}', [ProductController::class, 'fetchComments']);
+    Route::post('remove-comment', [ProductController::class, 'removeComment']);
+
+    // favorite
+    Route::get('toggle-favorite/{productId}', [ProductController::class, 'toggleFavorite']);
 });
 
 Route::group([
