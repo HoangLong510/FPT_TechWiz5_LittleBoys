@@ -31,10 +31,12 @@ import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
 import SupplierProductCreate from "~/pages/supplier/product/SupplierProductCreate"
-import Dashboard from "~/pages/supplier/dashboard"
 import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
 import SupplierProductList from "~/pages/supplier/product/SupplierProductList"
 import SupplierProductDetails from "~/pages/supplier/product/SupplierProductDetails"
+import Meetings from "~/pages/supplier/meetings/Meetings"
+import Feedback from "~/pages/supplier/feedback/Feedback"
+import Supplier from "~/pages/supplier/Supplier"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -84,11 +86,13 @@ const managementRoutes = [
 ]
 
 const supplierRoutes =[
-    {path : '/supplier' ,  component: Dashboard , layout: DefaultLayout},
+    {path : '/supplier' ,  component: Supplier , layout: DefaultLayout},
     {path :'/supplier/products/', component: SupplierProductList , layout: DefaultLayout},
     {path :'/supplier/products/:productId', component: SupplierProductDetails , layout: DefaultLayout},
     {path :'/supplier/products/create', component: SupplierProductCreate , layout: DefaultLayout},
-    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
+    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout},
+    {path : '/supplier/meetings', component: Meetings, layout: DefaultLayout},
+    {path : '/supplier/feedback', component: Feedback, layout: DefaultLayout},
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }

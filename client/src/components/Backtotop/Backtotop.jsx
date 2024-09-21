@@ -43,10 +43,17 @@ export default function Backtotop() {
           height: 40,
           borderRadius: 1, // 4px
           "&:hover": {
-            backgroundColor: "#151515",
+<<<<<<< Updated upstream
+            backgroundColor: "#bf995c",
             svg: {
-              color: "#ffc451",
+              color: "#fff",
+              },
+=======
+            backgroundColor: "#b5884e",
+            svg: {
+              color: "#fff",
             },
+>>>>>>> Stashed changes
           },
         }}
       >

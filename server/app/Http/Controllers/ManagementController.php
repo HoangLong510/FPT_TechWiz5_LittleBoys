@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ActivityLog;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class ManagementController extends Controller
@@ -226,7 +228,7 @@ class ManagementController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         try {
@@ -313,7 +315,7 @@ class ManagementController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         try {
@@ -535,7 +537,7 @@ class ManagementController extends Controller
     }
 
 
-    //hoạt động 
+    //hoạt động
     public function fetchActivityLogs(Request $request)
     {
         try {
@@ -564,5 +566,100 @@ class ManagementController extends Controller
             ], 500);
         }
     }
+    ///First Chart
+    public function fetchDataChart(Request $request)
+    {
+        // Validate the date range input
+        $request->validate([
+            'dateRange' => 'required|string',
+        ]);
 
+        // Explode the date range and validate its format
+        $dates = explode('_to_', $request->input('dateRange'));
+        if (count($dates) !== 2 || !strtotime($dates[0]) || !strtotime($dates[1])) {
+            return response()->json(['error' => 'Invalid date range'], 400);
+        }
+
+        // Query product data, including category and user
+        $products = Product::with('category', 'user')
+            ->whereBetween('created_at', [$dates[0], $dates[1]]) // Ensure proper date range format
+            ->get();
+
+        // Group products by user_id and calculate category and product counts
+        $data = $products->groupBy('user_id')->map(function ($productsBySupplier) {
+            $user = $productsBySupplier->first()->user;
+            return [
+                'supplier_name' => $user ? $user->fullname : 'Unknown Supplier', // Check for null user
+                'total_categories' => $productsBySupplier->pluck('category_id')->unique()->count(),
+                'total_products' => $productsBySupplier->count()
+            ];
+        })->values(); // Convert to array
+
+        return response()->json($data);
+    }
+  //Second Chart
+public function fetchAccountStatistics(Request $request)
+{
+
+    // Get the current date and time with proper timezone handling
+    $now = Carbon::now()->setTimezone('UTC'); // Adjust the timezone if needed
+
+    // Total accounts
+    $totalAccounts = User::count();
+
+    // Locked accounts (where active = 0)
+    $lockedAccounts = User::where('active', 0)->count();
+
+    // Accounts created today
+    $accountsCreatedToday = User::whereDate('created_at', $now->toDateString())->count();
+
+    // Start and end of the week (considering current time)
+    $startOfWeek = $now->copy()->startOfWeek(); // Cloning $now to keep original
+    $endOfWeek = $now;
+
+    // Start and end of the month
+    $startOfMonth = $now->copy()->startOfMonth();
+    $endOfMonth = $now;
+
+    // Accounts created this week (from start of the week to now)
+    $accountsCreatedThisWeek = User::whereBetween('created_at', [$startOfWeek, $endOfWeek])->count();
+
+    // Accounts created this month (from start of the month to now)
+    $accountsCreatedThisMonth = User::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+
+    // Locked accounts created today
+    $lockedAccountsToday = User::where('active', 0)
+        ->whereDate('created_at', $now->toDateString())
+        ->count();
+
+    // Locked accounts created this week (from start of the week to now)
+    $lockedAccountsThisWeek = User::where('active', 0)
+        ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+        ->count();
+
+    // Locked accounts created this month (from start of the month to now)
+    $lockedAccountsThisMonth = User::where('active', 0)
+        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+        ->count();
+
+    // Count users with role 'user'
+    $roleUserCount = User::where('role', 'user')->count();
+
+    // Count users with role 'supplier'
+    $roleSupplierCount = User::where('role', 'supplier')->count();
+
+    // Return the statistics as a JSON response
+    return response()->json([
+        'totalAccounts' => $totalAccounts,
+        'lockedAccounts' => $lockedAccounts,
+        'lockedAccountsToday' => $lockedAccountsToday,
+        'lockedAccountsThisWeek' => $lockedAccountsThisWeek,
+        'lockedAccountsThisMonth' => $lockedAccountsThisMonth,
+        'accountsCreatedToday' => $accountsCreatedToday,
+        'accountsCreatedThisWeek' => $accountsCreatedThisWeek,
+        'accountsCreatedThisMonth' => $accountsCreatedThisMonth,
+        'roleUserCount' => $roleUserCount,
+        'roleSupplierCount' => $roleSupplierCount,
+    ]);
+}
 }
