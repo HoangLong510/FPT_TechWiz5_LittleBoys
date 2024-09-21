@@ -100,3 +100,29 @@ export const fetchCommentsApi = async (productId) => {
         return
     }
 }
+
+export const removeCommentApi = async (data) => {
+    try {
+        const res = await axios.post(`/product/remove-comment`, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        return res.data
+    } catch (error) {
+        return
+    }
+}
+
+export const toggleFavoriteApi = async (id) => {
+    try {
+        const res = await axios.get(`/product/toggle-favorite/${id}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        return res.data
+    } catch (error) {
+        return
+    }
+}

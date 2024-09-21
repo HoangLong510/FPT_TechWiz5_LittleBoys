@@ -28,13 +28,16 @@ import {
 	commentApi,
 	fetchCommentsApi,
 	fetchDataProductDetailApi,
+	removeCommentApi,
 	removeToCartApi,
+	toggleFavoriteApi,
 } from "./service";
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "~/libs/features/cart/cartSlice";
 import { useTranslation } from "react-i18next";
 import { setPopup } from "~/libs/features/popup/popupSlice";
 import { formatDate } from "~/function";
+import DeleteIcon from '@mui/icons-material/Delete'
 
 // Dữ liệu sản phẩm mẫu (mockProduct)
 const mockProduct = {
@@ -77,14 +80,6 @@ export default function ProductDetail() {
 	const [newComment, setNewComment] = useState("");
 	const [comments, setComments] = useState([]);
 
-	const handleFavoriteClick = () => {
-		setIsFavorite((prev) => !prev);
-		setSnackbarMessage(
-			!isFavorite ? "Added to favorites" : "Removed from favorites"
-		);
-		setSnackbarOpen(true);
-	};
-
 	const addToCart = async () => {
 		if (user.exist) {
 			const res = await addToCartApi(productId);
@@ -112,6 +107,7 @@ export default function ProductDetail() {
 		if (res.success) {
 			setProduct(res.product);
 			setExistsCart(res.existsCart);
+			setIsFavorite(res.existsFavorite);
 		} else {
 			navigate("/product");
 		}
@@ -121,24 +117,24 @@ export default function ProductDetail() {
 		e.preventDefault();
 
 		const data = {
-            productId,
-            content: newComment,
-        };
+			productId,
+			content: newComment,
+		};
 
 		const res = await commentApi(data)
 
-		if(res.success){
+		if (res.success) {
 			setNewComment("")
 			const dataPopup = {
 				type: "success",
-                message: res.message
+				message: res.message
 			}
 			dispatch(setPopup(dataPopup))
 			setComments(res.comments)
 		} else {
 			const dataPopup = {
 				type: "error",
-                message: res.message
+				message: res.message
 			}
 			dispatch(setPopup(dataPopup))
 		}
@@ -146,9 +142,42 @@ export default function ProductDetail() {
 
 	const fetchComments = async () => {
 		const res = await fetchCommentsApi(productId)
-		if(res.success){
-            setComments(res.comments)
-        }
+		if (res.success) {
+			setComments(res.comments)
+		}
+	}
+
+	const handleRemoveComment = async (id) => {
+		const data = {
+			id,
+			productId,
+		}
+
+		const res = await removeCommentApi(data)
+
+		if (res.success) {
+			const dataPopup = {
+				type: "success",
+				message: res.message
+			}
+			dispatch(setPopup(dataPopup))
+			setComments(res.comments)
+		}
+	}
+
+	const handleToggleFavorite = async () => {
+		if (user.exist) {
+			const res = await toggleFavoriteApi(productId)
+			if (res.success) {
+				if (isFavorite) {
+					setIsFavorite(false)
+				} else {
+					setIsFavorite(true)
+				}
+			}
+		} else {
+			navigate("/auth/login");
+		}
 	}
 
 	useEffect(() => {
@@ -221,8 +250,8 @@ export default function ProductDetail() {
 									</Button>
 								)}
 								<IconButton
-									onClick={handleFavoriteClick}
-									color={isFavorite ? "secondary" : "default"}
+									onClick={() => handleToggleFavorite()}
+									color={isFavorite ? "error" : "default"}
 								>
 									{isFavorite ? <Favorite /> : <FavoriteBorder />}
 								</IconButton>
@@ -259,7 +288,6 @@ export default function ProductDetail() {
 										label="Your comment"
 										variant="outlined"
 										fullWidth
-										multiline
 										rows={4}
 										value={newComment}
 										onChange={(e) => setNewComment(e.target.value)}
@@ -306,32 +334,81 @@ export default function ProductDetail() {
 											<Avatar>{comment.fullname[0]}</Avatar>
 										</ListItemAvatar>
 									</Grid>
-									<Grid item xs={10} sm={11}>
-										<ListItemText
-											primary={
-												<>
-													<Typography variant="h6" component="span">
-														{comment.fullname}
-													</Typography>
-													<Typography
-														variant="body2"
-														color="text.secondary"
+									{(comment.user_id == user.data.id || user.data.role === 'admin') ? (
+										<>
+											<Grid item xs={8} sm={10}>
+												<ListItemText
+													primary={
+														<>
+															<Typography variant="h6" component="span">
+																{comment.fullname}
+															</Typography>
+															<Typography
+																variant="body2"
+																color="text.secondary"
+															>
+																{formatDate(comment.created_at)}
+															</Typography>
+														</>
+													}
+													secondary={
+														<Typography
+															variant="body1"
+															color="text.primary"
+															sx={{ mt: 1 }}
+														>
+															{comment.content}
+														</Typography>
+													}
+												/>
+											</Grid>
+											<Grid item xs={2} sm={1}>
+												<Box sx={{
+													width: '100%',
+													display: 'flex',
+													justifyContent: 'flex-end',
+													alignItems: 'center',
+													height: '100%'
+												}}>
+													<a className="button"
+														variant="outlined"
+														onClick={() => handleRemoveComment(comment.id)}
 													>
-														{formatDate(comment.created_at)}
-													</Typography>
-												</>
-											}
-											secondary={
-												<Typography
-													variant="body1"
-													color="text.primary"
-													sx={{ mt: 1 }}
-												>
-													{comment.content}
-												</Typography>
-											}
-										/>
-									</Grid>
+														<DeleteIcon />
+													</a>
+												</Box>
+											</Grid>
+										</>
+									) : (
+										<>
+											<Grid item xs={10} sm={11}>
+												<ListItemText
+													primary={
+														<>
+															<Typography variant="h6" component="span">
+																{comment.fullname}
+															</Typography>
+															<Typography
+																variant="body2"
+																color="text.secondary"
+															>
+																{formatDate(comment.created_at)}
+															</Typography>
+														</>
+													}
+													secondary={
+														<Typography
+															variant="body1"
+															color="text.primary"
+															sx={{ mt: 1 }}
+														>
+															{comment.content}
+														</Typography>
+													}
+												/>
+											</Grid>
+										</>
+									)}
 								</Grid>
 							</Card>
 						))}

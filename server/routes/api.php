@@ -80,6 +80,10 @@ Route::group([
     // comment
     Route::post('comment', [ProductController::class, 'addNewComment']);
     Route::get('fetch-comments/{productId}', [ProductController::class, 'fetchComments']);
+    Route::post('remove-comment', [ProductController::class, 'removeComment']);
+
+    // favorite
+    Route::get('toggle-favorite/{productId}', [ProductController::class, 'toggleFavorite']);
 });
 
 Route::group([

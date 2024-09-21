@@ -5,7 +5,6 @@ import Management from "~/pages/management/Management"
 import AccountManagement from "~/pages/management/account/Account"
 import AboutUs from "~/pages/about-us/AboutUs"
 import ContactUs from "~/pages/contact-us/ContactUs"
-import AboutusLayout from "~/layouts/AboutusLayout"
 import AccountDetail from "~/pages/management/account/AccountDetail"
 import BrandList from "~/pages/management/brand/BrandList";
 import BrandCreate from "~/pages/management/brand/BrandCreate";
@@ -26,7 +25,7 @@ import Product from "~/pages/productPages/Product"
 import ProductDetailPage from "~/pages/productPages/ProductDetailPage"
 import Security from "../pages/user/security/security"
 import notification from "../pages/user/notification/notification"
-import favorite from "~/pages/user/favorite/favorite"
+import favorite from "~/pages/user/favorite/Favorite"
 import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
@@ -35,6 +34,7 @@ import Dashboard from "~/pages/supplier/dashboard"
 import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
 import SupplierProductList from "~/pages/supplier/product/SupplierProductList"
 import SupplierProductDetails from "~/pages/supplier/product/SupplierProductDetails"
+import Favorite from "~/pages/user/favorite/Favorite"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -59,7 +59,7 @@ const userRoutes = [
     { path: '/payments', component: Payments, layout: PaymentsLayout },
     { path: '/user/security', component: Security, layout: DefaultLayout },
     { path: '/user/notification', component: notification, layout: DefaultLayout },
-    { path: '/user/favorite', component: favorite , layout: DefaultLayout },
+    { path: '/user/favorite', component: Favorite , layout: DefaultLayout },
     { path: '/user/orders', component: orders , layout: DefaultLayout },
     
 ]
