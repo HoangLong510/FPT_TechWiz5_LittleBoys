@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Favorite;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use App\Models\ActivityLog;
 
@@ -275,4 +278,66 @@ class UserController extends Controller
             "message" => [$msg]
         ]);
     }
+
+    // order
+    public function createOrder()
+    {
+        $user = auth()->user();
+
+        $fullname = request('fullname');
+        $phone = request('phone');
+        $address = request('address');
+        $note = request('note');
+
+        $carts = Cart::where('user_id', $user->id)->get();
+
+        if (count($carts) > 0) {
+            $order = new Order();
+            $order->user_id = $user->id;
+            $order->fullname = $fullname;
+            $order->email = $user->email;
+            $order->phone = $phone;
+            $order->address = $address;
+            $order->note = $note;
+            $order->save();
+
+            $order_id = $order->id;
+
+            for ($i = 0; $i < count($carts); $i++) {
+                $product = Product::where('id', $carts[$i]->product_id)->first();
+
+                $orderDetail = new OrderDetail();
+                $orderDetail->order_id = $order_id;
+                $orderDetail->product_id = $carts[$i]->product_id;
+                $orderDetail->quantity = $carts[$i]->quantity;
+                $orderDetail->price = $product->price;
+                $orderDetail->save();
+
+                $product->quantity -= $carts[$i]->quantity;
+                $product->save();
+            }
+
+            Cart::where('user_id', $user->id)->delete();
+
+            $msg = new \stdClass();
+            $msg->vi = "Đặt hàng thành công!";
+            $msg->en = "Order successfully!";
+
+            return response()->json([
+                "success" => true,
+                "message" => [$msg]
+            ]);
+        } else {
+            $msg = new \stdClass();
+            $msg->vi = "Giỏ hàng của bạn đang trống!";
+            $msg->en = "Your cart is empty!";
+
+            return response()->json([
+                "success" => false,
+                "message" => [$msg]
+            ]);
+        }
+    }
+
+    
 }

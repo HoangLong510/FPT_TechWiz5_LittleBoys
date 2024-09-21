@@ -66,8 +66,11 @@ Route::group([
     Route::get('remove-to-cart/{id}', [UserController::class, 'removeToCart']);
     Route::get('fetch-data-cart', [UserController::class, 'fetchDataCart']);
     Route::post('update-quantity-cart', [UserController::class, 'updateQuantityCart']);
+
     Route::post('fetch-favorites', [UserController::class, 'fetchFavorites']);
     Route::get('remove-favorite/{id}', [UserController::class, 'removeFavorite']);
+
+    Route::post('create-order', [UserController::class, 'createOrder']);
 });
 
 Route::group([

@@ -21,8 +21,7 @@ import Product from "~/pages/productPages/Product"
 import ProductDetailPage from "~/pages/productPages/ProductDetailPage"
 import Security from "../pages/user/security/security"
 import notification from "../pages/user/notification/notification"
-import favorite from "~/pages/user/favorite/Favorite"
-import orders from "~/pages/user/orders/oders"
+import Orders from "~/pages/user/orders/Oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
 import SupplierProductCreate from "~/pages/supplier/product/SupplierProductCreate"
@@ -63,7 +62,7 @@ const userRoutes = [
     { path: '/user/security', component: Security, layout: DefaultLayout },
     { path: '/user/notification', component: notification, layout: DefaultLayout },
     { path: '/user/favorite', component: Favorite , layout: DefaultLayout },
-    { path: '/user/orders', component: orders , layout: DefaultLayout },
+    { path: '/user/orders', component: Orders , layout: DefaultLayout },
     
 ]
 
