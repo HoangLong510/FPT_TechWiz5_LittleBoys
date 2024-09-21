@@ -11,8 +11,6 @@ import CategoryList from "~/pages/management/category/CategoryList";
 import CategoryCreate from "~/pages/management/category/CategoryCreate"; 
 import CategoryDetail from "~/pages/management/category/CategoryDetail"; 
 import ProductList from "~/pages/management/product/ProductList";
-import ProductCreate from "~/pages/management/product/ProductCreate";
-import ProductDetail from "~/pages/management/product/ProductDetail";
 import DefaultLayout from "~/layouts/DefaultLayout"
 import PaymentsLayout from "~/layouts/PaymentsLayout"
 import Payments from "~/pages/payments/Payments"
@@ -81,8 +79,6 @@ const managementRoutes = [
     { path: '/management/categories/:categoryId', component: CategoryDetail, layout: DefaultLayout }, 
 
     { path: '/management/products', component: ProductList, layout: DefaultLayout }, 
-    { path: '/management/products/create', component: ProductCreate, layout: DefaultLayout }, 
-    { path: '/management/products/:productId', component: ProductDetail, layout: DefaultLayout },
 
 ]
 

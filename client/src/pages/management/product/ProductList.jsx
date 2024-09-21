@@ -18,11 +18,10 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { getProductsApi, deleteProductApi } from "./service"; // Import API services
+import { getProductsApi, deleteProductApi } from "./service";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -68,10 +67,6 @@ export default function ProductList() {
     setPage(newPage);
   };
 
-  const handleCreateProduct = () => {
-    navigate("/management/products/create");
-  };
-
   const handleEdit = (id) => {
     navigate(`/management/products/${id}`);
   };
@@ -80,7 +75,7 @@ export default function ProductList() {
     if (window.confirm(t("Are you sure you want to delete this product?"))) {
       try {
         await deleteProductApi(id);
-        fetchProducts(); // Refresh the list after deletion
+        fetchProducts();
       } catch (error) {
         console.error("Error deleting product:", error);
       }
@@ -112,13 +107,6 @@ export default function ProductList() {
           }}
         >
           <Box sx={{ fontWeight: "bold" }}>{t("ProductList")}</Box>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCreateProduct}
-          >
-            {t("Add New Product")}
-          </Button>
         </Box>
 
         <Box sx={{ marginBottom: "20px" }}>
@@ -221,7 +209,7 @@ export default function ProductList() {
                       {product.category?.name || "N/A"}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
-                      {product.supplier?.name || "N/A"}
+                      {product.supplier_name || "N/A"}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
                       {product.price}
@@ -230,11 +218,6 @@ export default function ProductList() {
                       {product.quantity}
                     </TableCell>
                     <TableCell sx={{ fontSize: "14px" }}>
-                      <Tooltip title={t("Edit")}>
-                        <IconButton onClick={() => handleEdit(product.id)}>
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
                       <Tooltip title={t("Delete")}>
                         <IconButton
                           onClick={(e) => {

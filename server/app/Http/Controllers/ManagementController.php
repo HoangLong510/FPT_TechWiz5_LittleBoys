@@ -399,131 +399,32 @@ class ManagementController extends Controller
     }
 
     //prodcut
-
-    // Create a new product
-    public function createProduct(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'description' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        try {
-            $imagePath = null;
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $imagePath = $image->store('images', 'public'); // Lưu vào 'storage/app/public/images'
-            }
-
-            $product = Product::create([
-                'name' => $validatedData['name'],
-                'price' => $validatedData['price'],
-                'quantity' => $validatedData['quantity'],
-                'description' => $validatedData['description'],
-                'category_id' => $validatedData['category_id'],
-                'supplier_id' => $validatedData['supplier_id'],
-                'image' => $imagePath
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'data' => $product
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while creating the product.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-
-
-    // Update the specified product
-    public function updateProduct(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'description' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        try {
-            $product = Product::find($id);
-
-            if ($product) {
-                if ($request->hasFile('image')) {
-                    // Delete old image if it exists
-                    if ($product->image && Storage::exists('public/' . $product->image)) {
-                        Storage::delete('public/' . $product->image);
-                    }
-
-                    $imagePath = null;
-                    if ($request->hasFile('image')) {
-                        $image = $request->file('image');
-                        // Save the new image in the 'public/images' directory
-                        $imagePath = $image->store('images', 'public');
-                        $validatedData['image'] = $imagePath;
-                    }
-
-                    $product->update($validatedData);
-                } else {
-                    $product->update([
-                        'name' => $request->name,
-                        'image' => $product->image
-                    ]);
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'data' => $product
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Category not found.'
-                ], 404);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while updating the product.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-
-    // Optionally, you might want to add methods to get products and product details
     public function getProducts(Request $request)
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
 
-        // Lọc sản phẩm dựa trên từ khóa tìm kiếm
-        $productsQuery = Product::with(['supplier', 'category'])
+        $productsQuery = Product::with([
+            'user' => function ($query) {
+                $query->where('role', 'supplier');
+            },
+            'category'
+        ])
             ->where(function ($query) use ($search) {
                 if ($search) {
                     $query->where('name', 'like', '%' . $search . '%');
                 }
             });
 
-        // Phân trang
         $products = $productsQuery->paginate(10, ['*'], 'page', $page);
 
-        // Đảm bảo chỉ thêm 'storage/' một lần
         $products->getCollection()->transform(function ($product) {
             $product->image = $product->image ? asset('storage/' . $product->image) : null;
+
+            if ($product->user) {
+                $product->supplier_name = $product->user->fullname;
+            }
+
             return $product;
         });
 
@@ -534,17 +435,40 @@ class ManagementController extends Controller
         ]);
     }
 
-    public function getProduct($id)
+    //delete product 
+
+    public function deleteProduct($id)
     {
-        $product = Product::with(['supplier', 'category'])->findOrFail($id);
+        try {
+            $product = Product::find($id);
 
-        // Xử lý hình ảnh nếu có
-        $product->image = $product->image ? asset('storage/' . $product->image) : null;
+            if (!$product) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found.'
+                ], 404);
+            }
 
-        return response()->json([
-            'success' => true,
-            'data' => $product
-        ]);
+            // Xóa ảnh nếu có
+            if ($product->image && Storage::exists('public/' . $product->image)) {
+                Storage::delete('public/' . $product->image);
+            }
+
+            // Xóa sản phẩm
+            $product->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully.'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while deleting the product.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
 
@@ -556,19 +480,16 @@ class ManagementController extends Controller
 
             \Log::info('Fetching activity logs for user ID: ' . $user->id);
 
-            // Lấy log hoạt động cho người dùng
             $activityLogs = ActivityLog::where('user_id', $user->id)
                 ->orderBy('created_at', 'desc')
                 ->take(10) // Lấy 10 bản ghi gần đây nhất
                 ->get();
 
-            // Trả về dữ liệu
             return response()->json([
                 'success' => true,
                 'data' => $activityLogs
             ]);
         } catch (\Exception $e) {
-            // Ghi log lỗi
             \Log::error('Error fetching activity logs: ' . $e->getMessage());
 
             return response()->json([
