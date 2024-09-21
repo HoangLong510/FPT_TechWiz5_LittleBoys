@@ -23,14 +23,14 @@ export const registerApi = async (data) => {
     }
 }
 
-export const registerSupplier = async (data, userId) => {
+export const registerDesigner = async (data, userId) => {
     try {
-        const res = await axios.post(`/auth/register-supplier/${userId}`, data, {
+        const res = await axios.post(`/auth/register-designer`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        return res.data; // Trả về dữ liệu từ server
+        return res.data; 
     } catch (error) {
         // Xử lý lỗi phản hồi từ server
         if (error.response) {
@@ -39,7 +39,6 @@ export const registerSupplier = async (data, userId) => {
                 message: error.response.data.message || 'An error occurred. Please try again later.',
             };
         } else {
-            // Nếu không có phản hồi từ server
             return {
                 success: false,
                 message: [{

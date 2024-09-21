@@ -6,7 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\supplierController;
+use App\Http\Controllers\DesignController;
+use App\Http\Controllers\MeetingController;
+
 use App\Http\Controllers\CategoryController;
 
 Route::group([
@@ -21,7 +23,7 @@ Route::group([
     Route::post('send-verification-code', [AuthController::class, 'sendVerificationCode']);
     Route::post('check-verification-code', [AuthController::class, 'checkVerificationCode']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
-    Route::post('register-supplier/{id}', [AuthController::class, 'updateToSupplier']);
+    Route::post('register-designer', [AuthController::class, 'registerDesigner']);
 });
 
 Route::group([
@@ -36,7 +38,7 @@ Route::group([
     Route::get('/lock-account/{id}', [ManagementController::class, 'lockAccount']);
     Route::get('/unlock-account/{id}', [ManagementController::class, 'unlockAccount']);
 
-    Route::get('/supplier', [ManagementController::class, 'getSuppliers']);
+    Route::get('/designer', [ManagementController::class, 'getDesigners']);
     Route::put('/change-role/{id}', [ManagementController::class, 'changeRole']);
 
 
@@ -92,16 +94,26 @@ Route::group([
 
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'supplier'
+    'prefix' => 'designer'
 ], function ($router) {
-    Route::post('/fetch-data-chart', [supplierController::class, 'fetchSupplierDataChart']);
-    Route::post('/products/create', [supplierController::class, 'createProduct']);
-    Route::post('/products/{id}', [supplierController::class, 'updateProduct']);
-    Route::delete('/products/{id}', [supplierController::class, 'deleteProduct']);
-    Route::get('/products', [supplierController::class, 'getProducts']);
-    Route::get('/products/{id}', [supplierController::class, 'getProduct']);
+    Route::post('/fetch-data-chart', [DesignController::class, 'fetchDesignDataChart']);
+    Route::post('/projects/create', [DesignController::class, 'createProject']);
+    Route::post('/projects/{id}', [DesignController::class, 'updateProject']);
+    Route::delete('/projects/{id}', [DesignController::class, 'deleteProject']);
+    Route::get('/projects', [DesignController::class, 'getProjects']);
+    Route::get('/projects/{id}', [DesignController::class, 'getProject']);
+    Route::get('/detail/meeting', [DesignController::class, 'createMeeting']);
+    Route::get('/projects/{userId}', [DesignController::class, 'getDesignerProjects']);
+    Route::get('/info/{userId}', [DesignController::class, 'getDesignerInfo']);
+});
 
-    //cate
-    Route::get('/categories', [supplierController::class, 'getCategories']);
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'meetings'
+], function ($router) {
+    Route::get('/', [MeetingController::class, 'index']); // Lấy danh sách cuộc hẹn
+    Route::post('/', [MeetingController::class, 'store']); // Tạo cuộc hẹn mới
+    Route::put('/{id}/status', [MeetingController::class, 'updateStatus']); // Cập nhật trạng thái cuộc hẹn
+    Route::delete('/{id}', [MeetingController::class, 'destroy']); // Xóa cuộc hẹn
 });
