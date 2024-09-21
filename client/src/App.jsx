@@ -4,7 +4,7 @@ import {
   managementRoutes,
   publicRoutes,
   userRoutes,
-  supplierRoutes,
+  designerRoutes,
 } from "./routes";
 import Popup from "./components/Popup/Popup";
 import AuthProvider from "./provider/auth/AuthProvider";
@@ -13,7 +13,7 @@ import PopupLogout from "./components/PopupLogout/PopupLogout";
 import { Helmet } from "react-helmet";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import ManagementLayout from "./layouts/ManagementLayout";
-import SupplierLayout from "./layouts/SupplierLayout";
+import DesignerLayout from "./layouts/DesignerLayout";
 import UserLayout from "./layouts/UserLayout";
 
 function App() {
@@ -108,7 +108,7 @@ function App() {
               );
             })}
 
-            {supplierRoutes.map((route, index) => {
+            {designerRoutes.map((route, index) => {
               const Page = route.component;
               const Layout = route.layout;
               return (
@@ -116,11 +116,11 @@ function App() {
                   key={index}
                   path={route.path}
                   element={
-                    user.exist && user.data.role === "supplier" ? (
+                    user.exist && user.data.role === "designer" ? (
                       <Layout>
-                        <SupplierLayout>
+                        <DesignerLayout>
                           <Page />
-                        </SupplierLayout>
+                        </DesignerLayout>
                       </Layout>
                     ) : (
                       <Navigate to="/" replace />

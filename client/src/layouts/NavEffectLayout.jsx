@@ -11,7 +11,7 @@ import {
   FormControl,
   Select,
   TextField,
-  InputAdornment
+  InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -23,78 +23,84 @@ import { Link } from "react-router-dom";
 import { setLogout } from "~/libs/features/logout/logoutSlice";
 import locales from "~/locales";
 import Footer from "~/components/Footer/Footer";
-import Backtotop from "~/components/Backtotop/Backtotop"
-
-
+import Backtotop from "~/components/Backtotop/Backtotop";
 
 export default function NavEffectLayout({ children }) {
-
-    const {t, i18n } = useTranslation();
-    const locale = i18n.language;
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
 
   const loading = useSelector((state) => state.loading.value);
-  
-  const user = useSelector(state => state.user.value)
-  const dispatch = useDispatch()
 
-  const [open, setOpen] = React.useState(false)
+  const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+
+  const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
-      setOpen(newOpen)
-  }
+    setOpen(newOpen);
+  };
 
-    const handleChange = (event) => {
-        i18n.changeLanguage(event.target.value);
-        localStorage.setItem("locale", event.target.value);
-      };
-      
-      const [navbarLogo, setNavbarLogo] = useState("/Images/Logo/logo-navbar-black.png");
-      const [navbarColor, setNavbarColor] = useState("transparent");
-      const [dk, setdk] = useState("contained");
-      const [HoverButtonColor, setHoverButtonColor] = useState("white");
-      const [textColor, setTextColor] = useState("white");
-      const [btnCreateColor, setbtnCreateColor] = useState("white");
-      const [btnCreateTextColor, setbtnCreateTextColor] = useState("black");
-    
-      useEffect(() => {
-        const handleScroll = () => {
-          const scrollPosition = window.scrollY;
-          if (scrollPosition > 50) {
-            setNavbarLogo("/Images/Logo/logo-navbar-white.png")
-            setNavbarColor("#fff");
-            setdk("contained");
-            //Background
-            setbtnCreateColor("black");
-            setHoverButtonColor("gray");
-            //Text
-            setbtnCreateTextColor("white");
-            setTextColor("black");
-    
-    
-          } else {
-            setNavbarLogo("/Images/Logo/logo-navbar-black.png")
-            setNavbarColor("transparent");
-            setdk("text");
-            //Background
-            setHoverButtonColor("gray");
-            setbtnCreateColor("transparent");
-            //Text
-            setTextColor("white");
-            setbtnCreateTextColor("white");
-          }
-          // Update CSS variables
-          document.documentElement.style.setProperty('--btn-create-color',btnCreateColor);
-          document.documentElement.style.setProperty('--hover-button-color', HoverButtonColor);
-          document.documentElement.style.setProperty('--text-color', textColor);
-          document.documentElement.style.setProperty('--btn-create-text-color', btnCreateTextColor);
-        };
-        handleScroll();
-        window.addEventListener("scroll", handleScroll);
-        
-        return () => {
-          window.removeEventListener("scroll", handleScroll);
-        };
-      }, [btnCreateColor, HoverButtonColor, textColor, btnCreateTextColor]);
+  const handleChange = (event) => {
+    i18n.changeLanguage(event.target.value);
+    localStorage.setItem("locale", event.target.value);
+  };
+
+  const [navbarLogo, setNavbarLogo] = useState(
+    "/Images/Logo/logo-navbar-black.png"
+  );
+  const [navbarColor, setNavbarColor] = useState("transparent");
+  const [dk, setdk] = useState("contained");
+  const [HoverButtonColor, setHoverButtonColor] = useState("white");
+  const [textColor, setTextColor] = useState("white");
+  const [btnCreateColor, setbtnCreateColor] = useState("white");
+  const [btnCreateTextColor, setbtnCreateTextColor] = useState("black");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 50) {
+        setNavbarLogo("/Images/Logo/logo-navbar-white.png");
+        setNavbarColor("#fff");
+        setdk("contained");
+        //Background
+        setbtnCreateColor("black");
+        setHoverButtonColor("gray");
+        //Text
+        setbtnCreateTextColor("white");
+        setTextColor("black");
+      } else {
+        setNavbarLogo("/Images/Logo/logo-navbar-black.png");
+        setNavbarColor("transparent");
+        setdk("text");
+        //Background
+        setHoverButtonColor("gray");
+        setbtnCreateColor("transparent");
+        //Text
+        setTextColor("white");
+        setbtnCreateTextColor("white");
+      }
+      // Update CSS variables
+      document.documentElement.style.setProperty(
+        "--btn-create-color",
+        btnCreateColor
+      );
+      document.documentElement.style.setProperty(
+        "--hover-button-color",
+        HoverButtonColor
+      );
+      document.documentElement.style.setProperty("--text-color", textColor);
+      document.documentElement.style.setProperty(
+        "--btn-create-text-color",
+        btnCreateTextColor
+      );
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [btnCreateColor, HoverButtonColor, textColor, btnCreateTextColor]);
 
   return (
     <div className="navbar-layout">
@@ -115,7 +121,7 @@ export default function NavEffectLayout({ children }) {
             backgroundColor: navbarColor,
             transition: "background-color 0.3s",
             color: textColor,
-            zIndex: "1"
+            zIndex: "1",
           }}
         >
           {/* LOADING */}
@@ -195,16 +201,15 @@ export default function NavEffectLayout({ children }) {
               </Box>
 
               {/* Right */}
-              
+
               <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-               
                 {!user.exist && (
                   <Box
                     sx={{
                       display: { xs: "none", md: "flex" },
                       alignItems: "center",
                       gap: "8px",
-                      width: "100%"
+                      width: "100%",
                     }}
                   >
                     <Link
@@ -385,6 +390,20 @@ export default function NavEffectLayout({ children }) {
                               {t("CreateAccount")}
                             </Button>
                           </Link>
+
+                          <Link
+                            onClick={toggleDrawer(false)}
+                            to="/auth/register-designer"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Button sx={{ width: "100%" }}>
+                              {t("CreateAccountDesigner")}
+                            </Button>
+                          </Link>
                         </List>
                       )}
 
@@ -448,10 +467,10 @@ export default function NavEffectLayout({ children }) {
                               </Button>
                             </Link>
                           )}
-                          {user.data.role === "supplier" && (
+                          {user.data.role === "designer" && (
                             <Link
                               onClick={toggleDrawer(false)}
-                              to="/supplier"
+                              to="/designer"
                               style={{
                                 display: "flex",
                                 alignItems: "center",
@@ -459,7 +478,7 @@ export default function NavEffectLayout({ children }) {
                               }}
                             >
                               <Button sx={{ width: "100%" }}>
-                                {t("Supplier")}
+                                {t("Designer")}
                               </Button>
                             </Link>
                           )}
@@ -483,7 +502,9 @@ export default function NavEffectLayout({ children }) {
           </div>
         </div>
       </div>
-      <div className="content" style={{ padding:"0"}}>{children}</div>
+      <div className="content" style={{ padding: "0" }}>
+        {children}
+      </div>
       <Footer />
       <Backtotop />
     </div>
