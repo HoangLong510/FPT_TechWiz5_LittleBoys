@@ -7,6 +7,7 @@ use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\supplierController;
+use App\Http\Controllers\CategoryController;
 
 Route::group([
     'middleware' => 'api',
@@ -27,6 +28,8 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'management'
 ], function ($router) {
+    Route::post('/fetch-data-chart', [ManagementController::class, 'fetchDataChart']);//first chart
+    Route::post('/fetch-data-secondchart', [ManagementController::class, 'fetchAccountStatistics']);//second chart
     Route::post('/fetch-accounts', [ManagementController::class, 'fetchAccounts']);
     Route::get('/fetch-account-detail/{id}', [ManagementController::class, 'fetchAccountDetail']);
     Route::post('/account/update', [ManagementController::class, 'updateAccount']);
@@ -52,7 +55,7 @@ Route::group([
     Route::get('/products', [ManagementController::class, 'getProducts']);
     Route::get('/products/{id}', [ManagementController::class, 'getProduct']);
 
-    //hoat động 
+    //hoat động
     Route::get('/fetch-activity-logs', [ManagementController::class, 'fetchActivityLogs']);
 });
 
@@ -91,13 +94,14 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'supplier'
 ], function ($router) {
-
+    Route::post('/fetch-data-chart', [supplierController::class, 'fetchSupplierDataChart']);
     Route::post('/products/create', [supplierController::class, 'createProduct']);
     Route::post('/products/{id}', [supplierController::class, 'updateProduct']);
     Route::delete('/products/{id}', [supplierController::class, 'deleteProduct']);
     Route::get('/products', [supplierController::class, 'getProducts']);
     Route::get('/products/{id}', [supplierController::class, 'getProduct']);
 
-    //cate 
+    //cate
     Route::get('/categories', [supplierController::class, 'getCategories']);
+
 });

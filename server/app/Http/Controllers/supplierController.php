@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class supplierController extends Controller
 {
@@ -223,5 +224,31 @@ class supplierController extends Controller
             ], 500);
         }
     }
+    // Lấy data truyền về supplier chart
+    public function fetchSupplierDataChart(Request $request)
+{
+    // Get the supplier's user_id from the request
+    $user = auth()->user();
+    $dateRange = $request->input('dateRange');
+
+    // Query the products for this supplier within the specified date range
+    $products = Product::where('user_id', $user->id) // Filter by supplier's user_id
+
+        ->get();
+
+    // Calculate total products, in-stock products, and out-of-stock products
+    $totalProducts = $products->count(); // Total number of products
+    $inStockProducts = $products->where('quantity', '>', 0)->count(); // Products with quantity > 0
+    $outOfStockProducts = $products->where('quantity', 0)->count(); // Products with quantity = 0
+
+    // Prepare the data for front-end response
+    $data = [
+        ['category' => 'Sản phẩm', 'value' => $totalProducts],
+        ['category' => 'Còn hàng', 'value' => $inStockProducts],
+        ['category' => 'Hết hàng', 'value' => $outOfStockProducts],
+    ];
+
+    return response()->json($data);
+}
 
 }

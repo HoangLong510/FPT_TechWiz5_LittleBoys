@@ -45,7 +45,10 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();

@@ -19,7 +19,7 @@ import { getCategoriesApi, createProductApi } from "./service";
 import { useSelector } from "react-redux";
 
 export default function ProductCreate() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.value);
 
@@ -79,7 +79,7 @@ export default function ProductCreate() {
         setOpenSnackbar(true);
         setTimeout(() => navigate("/supplier/products"), 500);
       } else {
-        setSnackbarMessage(message || "Failed to create product.");
+        setSnackbarMessage(message[i18n.language] || "Failed to create product.");
         setSnackbarSeverity("error");
         setOpenSnackbar(true);
       }
