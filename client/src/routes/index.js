@@ -35,6 +35,10 @@ import Feedback from "~/pages/supplier/feedback/Feedback"
 import Supplier from "~/pages/supplier/Supplier"
 
 import Favorite from "~/pages/user/favorite/Favorite"
+import Gallery from "~/pages/gallery/Gallery"
+import ProjectDetail from "../pages/gallery/ProjectDetail";
+
+
 
 
 const publicRoutes = [
@@ -47,6 +51,8 @@ const publicRoutes = [
     { path: '/blog', component: Blog, layout: DefaultLayout },
     { path: '/supplier/detail', component: SupplierDetail, layout: DefaultLayout },
     { path: '/blog/blogdetailone', component: BlogDetail , layout: DefaultLayout },
+    { path: '/gallery', component: Gallery , layout: DefaultLayout },
+    { path: '/project/detail', component: ProjectDetail , layout: DefaultLayout },
 ]
 
 const authRoutes = [
