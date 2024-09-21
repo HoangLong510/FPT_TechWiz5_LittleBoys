@@ -39,7 +39,8 @@ import OrderManagement from "~/pages/management/order/OrderManagement"
 import OrderDetailManagement from "~/pages/management/order/OrderDetailManagement"
 import ManagementProductCreate from "~/pages/management/product/productCreate"
 import ManagementProductDetail from "~/pages/management/product/productDetails"
-
+import Gallery from "~/pages/gallery/Gallery"
+import ProjectDetail from "../pages/gallery/ProjectDetail";
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -51,6 +52,8 @@ const publicRoutes = [
     { path: '/blog', component: Blog, layout: DefaultLayout },
     { path: '/supplier/detail', component: SupplierDetail, layout: DefaultLayout },
     { path: '/blog/blogdetailone', component: BlogDetail, layout: DefaultLayout },
+    { path: '/gallery', component: Gallery , layout: DefaultLayout },
+    { path: '/project/detail', component: ProjectDetail , layout: DefaultLayout },
 ]
 
 const authRoutes = [

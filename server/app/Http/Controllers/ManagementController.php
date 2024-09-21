@@ -167,77 +167,35 @@ class ManagementController extends Controller
         }
     }
 
-    // Supplier management
+    // Designer management
 
-    public function getSuppliers(Request $request)
+    public function getDesigners(Request $request)
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
 
         try {
-            $suppliers = User::where('role', 'supplier')
+            $designers = User::where('role', 'designer')
                 ->where('fullname', 'like', '%' . $search . '%')
                 ->paginate(10, ['*'], 'page', $page);
 
-            $suppliers->getCollection()->transform(function ($supplier) {
-                $supplier->image = $supplier->image ? asset('storage/' . $supplier->image) : null;
-                return $supplier;
+            $designers->getCollection()->transform(function ($designer) {
+                $designer->image = $designer->image ? asset('storage/' . $designer->image) : null;
+                return $designer;
             });
 
             return response()->json([
-                'suppliers' => $suppliers->items(),
-                'totalPages' => $suppliers->lastPage(),
-                'currentPage' => $suppliers->currentPage(),
-                'totalItems' => $suppliers->total(),
+                'designers' => $designers->items(),
+                'totalPages' => $designers->lastPage(),
+                'currentPage' => $designers->currentPage(),
+                'totalItems' => $designers->total(),
             ], 200);
         } catch (\Exception $e) {
-            \Log::error('Error fetching suppliers: ' . $e->getMessage());
+            \Log::error('Error fetching designers: ' . $e->getMessage());
             return response()->json(['error' => 'Server Error'], 500);
         }
     }
 
-    public function changeRole(Request $request, $id)
-    {
-        try {
-            $user = User::find($id);
-
-            if (!$user) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User not found.'
-                ], 404);
-            }
-
-            if ($user->role !== 'supplier') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User is not a supplier.'
-                ], 400);
-            }
-
-            $products = Product::where('user_id', $user->id)->get();
-
-            foreach ($products as $product) {
-                $product->delete();
-            }
-
-            $user->role = 'user';
-            $user->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Supplier role changed to user and products deleted.'
-            ], 200);
-        } catch (\Exception $e) {
-            \Log::error('Error changing role: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while changing the role.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
 
     
     public function createCategory(Request $request)
@@ -527,7 +485,7 @@ class ManagementController extends Controller
 
         $products->getCollection()->transform(function ($product) {
             $product->image = $product->image ? asset('storage/' . $product->image) : null;
-
+          
             return $product;
         });
 
@@ -679,7 +637,7 @@ class ManagementController extends Controller
         $roleUserCount = User::where('role', 'user')->count();
 
         // Count users with role 'supplier'
-        $roleSupplierCount = User::where('role', 'supplier')->count();
+        $roleSupplierCount = User::where('role', 'designer')->count();
 
         // Return the statistics as a JSON response
         return response()->json([

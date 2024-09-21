@@ -37,14 +37,19 @@ export default function Navbar() {
                             {t("Products")}
                         </Button>
                     </Link>
+                    <Link to="/gallery" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            Gallery
+                        </Button>
+                    </Link>
                     <Link to="/about-us" style={{ display: 'flex', alignItems: 'center' }}>
                         <Button>
-                            {t("AboutUs")}
+                            {t("About Us")}
                         </Button>
                     </Link>
                     <Link to="/contact-us" style={{ display: 'flex', alignItems: 'center' }}>
                         <Button>
-                            {t("ContactUs")}
+                            {t("Contact Us")}
                         </Button>
                     </Link>
                     <Link to="/blog" style={{ display: 'flex', alignItems: 'center' }}>

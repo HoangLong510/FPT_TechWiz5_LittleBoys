@@ -227,9 +227,6 @@ export default function ProductDetail() {
 								>
 									{isFavorite ? <Favorite /> : <FavoriteBorder />}
 								</IconButton>
-								<IconButton>
-									<Share />
-								</IconButton>
 							</Box>
 							<Typography variant="h6" gutterBottom>
 								Specifications
@@ -242,26 +239,6 @@ export default function ProductDetail() {
 									/>
 								</ListItem>
 							</List>
-							<Button
-								component={Link} to={`/supplier/detail`}
-								rel="noopener noreferrer"
-								variant="outlined"
-								size="large"
-								sx={{
-									borderColor: "#333",
-									color: "#333",
-									textTransform: "none",
-									fontWeight: "bold",
-									fontFamily: "arial Bold",
-									"&:hover": {
-										backgroundColor: "black",
-										borderColor: "#333",
-										color: "#fff",
-									},
-								}}
-							>
-								Supplier Detail
-							</Button>
 						</Grid>
 					</Grid>
 
