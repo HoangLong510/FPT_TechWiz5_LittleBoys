@@ -49,14 +49,18 @@ export default function Cart() {
                             <ListItem key={cart.id}>
                                 <ListItemText sx={{ width: '100px', paddingRight: '8px' }}
                                     primary={cart.name}
-                                    secondary={`$${cart.price + " x " + cart.quantity}`}
+                                    secondary={<>
+                                        ${cart.price + " x " + cart.quantity}
+                                        <p />
+                                        {cart.product_quantity + " in stock"}
+                                    </>}
                                     className='button'
                                     onClick={() => {
                                         navigate(`/product/${cart.product_id}`)
                                     }}
                                 />
 
-                                <FormUpdateQuantity qty={cart.quantity} id={cart.id} />
+                                <FormUpdateQuantity qty={cart.quantity} id={cart.id} product_quantity={cart.product_quantity} />
                             </ListItem>
                         ))}
                     </List>

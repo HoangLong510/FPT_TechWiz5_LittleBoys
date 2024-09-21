@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function FormUpdateQuantity({ id, qty }) {
+export default function FormUpdateQuantity({ id, qty, product_quantity }) {
     const dispatch = useDispatch()
     const { t } = useTranslation()
 
@@ -27,7 +27,21 @@ export default function FormUpdateQuantity({ id, qty }) {
     const changeValue = (e) => {
         const regex = /^\d+$/
         if (regex.test(e.target.value)) {
-            setQuantity(e.target.value.replace(/^0+/, ''))
+            if (e.target.value > product_quantity) {
+                setQuantity(product_quantity)
+                const dataPopup = {
+                    type: "error",
+                    message: [
+                        {
+                            vi: "Không đủ hàng trong kho!",
+                            en: "Out of stock!"
+                        }
+                    ]
+                }
+                dispatch(setPopup(dataPopup))
+            } else {
+                setQuantity(e.target.value.replace(/^0+/, ''))
+            }
         } else if (!e.target.value) {
             setQuantity(0)
         }
@@ -58,27 +72,40 @@ export default function FormUpdateQuantity({ id, qty }) {
     }
 
     const handleCountQuantityCart = async (value) => {
-        if (quantity == 1 && value == 0) {
-            setOpenPopupDelete(true)
-            setQuantity(0)
-        } else {
-            const data = {
-                id,
-                quantity: value
-            }
-
-            const res = await updateQuantityCartApi(data)
-
-            if (res.success) {
-                dispatch(setCart(res.carts))
-                setQuantity(value)
+        if (value <= product_quantity) {
+            if (quantity == 1 && value == 0) {
+                setOpenPopupDelete(true)
+                setQuantity(0)
             } else {
-                const dataPopup = {
-                    type: "error",
-                    message: res.message,
+                const data = {
+                    id,
+                    quantity: value
                 }
-                dispatch(setPopup(dataPopup))
+
+                const res = await updateQuantityCartApi(data)
+
+                if (res.success) {
+                    dispatch(setCart(res.carts))
+                    setQuantity(value)
+                } else {
+                    const dataPopup = {
+                        type: "error",
+                        message: res.message,
+                    }
+                    dispatch(setPopup(dataPopup))
+                }
             }
+        } else {
+            const dataPopup = {
+                type: "error",
+                message: [
+                    {
+                        vi: "Không đủ hàng trong kho!",
+                        en: "Out of stock!"
+                    }
+                ]
+            }
+            dispatch(setPopup(dataPopup))
         }
     }
 
@@ -87,12 +114,12 @@ export default function FormUpdateQuantity({ id, qty }) {
             <form onSubmit={handleUpdateQuantityCart} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Button
                     variant="outlined"
-                    sx={{ minWidth: '40px', height: '40px', p: 0 }}
+                    sx={{ minWidth: '30px', height: '40px', p: 0 }}
                     onClick={() => handleCountQuantityCart(quantity - 1)}
                 >
                     -
                 </Button>
-                <TextField sx={{ width: '50px', mx: 1, '& input': { textAlign: 'center' } }}
+                <TextField sx={{ width: '70px', mx: 1, '& input': { textAlign: 'center' } }}
                     size='small'
                     value={quantity}
                     onChange={changeValue}
@@ -101,8 +128,8 @@ export default function FormUpdateQuantity({ id, qty }) {
                 />
                 <Button
                     variant="outlined"
-                    sx={{ minWidth: '40px', height: '40px', p: 0 }}
-                    onClick={() => handleCountQuantityCart(quantity + 1)}
+                    sx={{ minWidth: '30px', height: '40px', p: 0 }}
+                    onClick={() => handleCountQuantityCart((quantity - 0) + 1)}
                 >
                     +
                 </Button>
