@@ -11,6 +11,7 @@ use App\Models\OrderDetail;
 use App\Models\ActivityLog;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Appointment;
 
 
 class ManagementController extends Controller
@@ -198,7 +199,7 @@ class ManagementController extends Controller
 
 
     // Tạo Category (Create Category)
-    
+
     public function createCategory(Request $request)
     {
         $validatedData = $request->validate([
@@ -559,101 +560,100 @@ class ManagementController extends Controller
             ], 500);
         }
     }
-    ///First Chart
     public function fetchDataChart(Request $request)
     {
-        // Validate the date range input
-        $request->validate([
-            'dateRange' => 'required|string',
-        ]);
-
-        // Explode the date range and validate its format
-        $dates = explode('_to_', $request->input('dateRange'));
-        if (count($dates) !== 2 || !strtotime($dates[0]) || !strtotime($dates[1])) {
-            return response()->json(['error' => 'Invalid date range'], 400);
-        }
-
         // Query product data, including category and user
-        $products = Product::with('category', 'user')
-            ->whereBetween('created_at', [$dates[0], $dates[1]]) // Ensure proper date range format
-            ->get();
+        $products = Product::with('category', 'user')->get(); // Fetch all products
 
-        // Group products by user_id and calculate category and product counts
-        $data = $products->groupBy('user_id')->map(function ($productsBySupplier) {
-            $user = $productsBySupplier->first()->user;
-            return [
-                'supplier_name' => $user ? $user->fullname : 'Unknown Supplier', // Check for null user
-                'total_categories' => $productsBySupplier->pluck('category_id')->unique()->count(),
-                'total_products' => $productsBySupplier->count()
-            ];
-        })->values(); // Convert to array
+        // Query total orders
+        $totalOrders = Order::count(); // Count all orders
+        $totalQuantity = $products->sum('quantity'); // Tổng số lượng sản phẩm (quantity)
+        $inStockCount = $products->where('quantity', '>', 0)->count(); // Sản phẩm còn hàng
+        $outOfStockCount = $products->where('quantity', '=', 0)->count(); // Sản phẩm hết hàng
+        $data = [
+            [
+                'category' => 'Tổng đơn hàng',
+                'value' => $totalOrders,
+            ],
+            [
+                'category' => 'Tổng sản phẩm',
+                'value' => $totalQuantity,
+            ],
+            [
+                'category' => 'Sản phẩm còn hàng',
+                'value' => $inStockCount,
+            ],
+            [
+                'category' => 'Sản phẩm hết hàng',
+                'value' => $outOfStockCount,
+            ],
+        ];
 
         return response()->json($data);
     }
+
+
     //Second Chart
     public function fetchAccountStatistics(Request $request)
     {
 
-        // Get the current date and time with proper timezone handling
-        $now = Carbon::now()->setTimezone('UTC'); // Adjust the timezone if needed
+         // Get the current date and time with proper timezone handling
+    $now = Carbon::now()->setTimezone('UTC'); // Adjust the timezone if needed
 
-        // Total accounts
-        $totalAccounts = User::count();
+    // Total accounts
+    $totalAccounts = User::count();
 
-        // Locked accounts (where active = 0)
-        $lockedAccounts = User::where('active', 0)->count();
+    // Locked accounts (where active = 0)
+    $lockedAccounts = User::where('active', 0)->count();
 
-        // Accounts created today
-        $accountsCreatedToday = User::whereDate('created_at', $now->toDateString())->count();
+    // Get start of day, week, month
+    $startOfDay = $now->copy()->startOfDay();
+    $startOfWeek = $now->copy()->startOfWeek();
+    $startOfMonth = $now->copy()->startOfMonth();
 
-        // Start and end of the week (considering current time)
-        $startOfWeek = $now->copy()->startOfWeek(); // Cloning $now to keep original
-        $endOfWeek = $now;
+    // Accounts created today, this week, this month
+    $accountsCreatedToday = User::whereBetween('created_at', [$startOfDay, $now])->count();
+    $accountsCreatedThisWeek = User::whereBetween('created_at', [$startOfWeek, $now])->count();
+    $accountsCreatedThisMonth = User::whereBetween('created_at', [$startOfMonth, $now])->count();
 
-        // Start and end of the month
-        $startOfMonth = $now->copy()->startOfMonth();
-        $endOfMonth = $now;
+    // Locked accounts created today, this week, this month
+    $lockedAccountsToday = User::where('active', 0)->whereBetween('created_at', [$startOfDay, $now])->count();
+    $lockedAccountsThisWeek = User::where('active', 0)->whereBetween('created_at', [$startOfWeek, $now])->count();
+    $lockedAccountsThisMonth = User::where('active', 0)->whereBetween('created_at', [$startOfMonth, $now])->count();
 
-        // Accounts created this week (from start of the week to now)
-        $accountsCreatedThisWeek = User::whereBetween('created_at', [$startOfWeek, $endOfWeek])->count();
+    // Total users with role 'user' and 'designer'
+    $roleUserCount = User::where('role', 'user')->count();
+    $roleDesignerCount = User::where('role', 'designer')->count();
 
-        // Accounts created this month (from start of the month to now)
-        $accountsCreatedThisMonth = User::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+    // New 'user' accounts created today, this week, this month
+    $roleUserCreatedToday = User::where('role', 'user')->whereBetween('created_at', [$startOfDay, $now])->count();
+    $roleUserCreatedThisWeek = User::where('role', 'user')->whereBetween('created_at', [$startOfWeek, $now])->count();
+    $roleUserCreatedThisMonth = User::where('role', 'user')->whereBetween('created_at', [$startOfMonth, $now])->count();
 
-        // Locked accounts created today
-        $lockedAccountsToday = User::where('active', 0)
-            ->whereDate('created_at', $now->toDateString())
-            ->count();
+    // New 'designer' accounts created today, this week, this month
+    $roleDesignerCreatedToday = User::where('role', 'designer')->whereBetween('created_at', [$startOfDay, $now])->count();
+    $roleDesignerCreatedThisWeek = User::where('role', 'designer')->whereBetween('created_at', [$startOfWeek, $now])->count();
+    $roleDesignerCreatedThisMonth = User::where('role', 'designer')->whereBetween('created_at', [$startOfMonth, $now])->count();
 
-        // Locked accounts created this week (from start of the week to now)
-        $lockedAccountsThisWeek = User::where('active', 0)
-            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-            ->count();
-
-        // Locked accounts created this month (from start of the month to now)
-        $lockedAccountsThisMonth = User::where('active', 0)
-            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-            ->count();
-
-        // Count users with role 'user'
-        $roleUserCount = User::where('role', 'user')->count();
-
-        // Count users with role 'supplier'
-        $roleSupplierCount = User::where('role', 'designer')->count();
-
-        // Return the statistics as a JSON response
-        return response()->json([
-            'totalAccounts' => $totalAccounts,
-            'lockedAccounts' => $lockedAccounts,
-            'lockedAccountsToday' => $lockedAccountsToday,
-            'lockedAccountsThisWeek' => $lockedAccountsThisWeek,
-            'lockedAccountsThisMonth' => $lockedAccountsThisMonth,
-            'accountsCreatedToday' => $accountsCreatedToday,
-            'accountsCreatedThisWeek' => $accountsCreatedThisWeek,
-            'accountsCreatedThisMonth' => $accountsCreatedThisMonth,
-            'roleUserCount' => $roleUserCount,
-            'roleSupplierCount' => $roleSupplierCount,
-        ]);
+    // Return the statistics as a JSON response
+    return response()->json([
+        'totalAccounts' => $totalAccounts,
+        'lockedAccounts' => $lockedAccounts,
+        'accountsCreatedToday' => $accountsCreatedToday,
+        'accountsCreatedThisWeek' => $accountsCreatedThisWeek,
+        'accountsCreatedThisMonth' => $accountsCreatedThisMonth,
+        'lockedAccountsToday' => $lockedAccountsToday,
+        'lockedAccountsThisWeek' => $lockedAccountsThisWeek,
+        'lockedAccountsThisMonth' => $lockedAccountsThisMonth,
+        'roleUserCount' => $roleUserCount,
+        'roleDesignerCount' => $roleDesignerCount,
+        'roleUserCreatedToday' => $roleUserCreatedToday,
+        'roleUserCreatedThisWeek' => $roleUserCreatedThisWeek,
+        'roleUserCreatedThisMonth' => $roleUserCreatedThisMonth,
+        'roleDesignerCreatedToday' => $roleDesignerCreatedToday,
+        'roleDesignerCreatedThisWeek' => $roleDesignerCreatedThisWeek,
+        'roleDesignerCreatedThisMonth' => $roleDesignerCreatedThisMonth,
+    ]);
     }
 
     // Order
