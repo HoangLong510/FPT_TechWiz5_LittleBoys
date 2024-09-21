@@ -22,17 +22,16 @@ import ProductDetailPage from "~/pages/productPages/ProductDetailPage"
 import Security from "../pages/user/security/security"
 import notification from "../pages/user/notification/notification"
 import Orders from "~/pages/user/orders/oders"
-import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
+import RegisterDesigner from "~/pages/auth/register/RegisterDesigner"
 import Blog from "~/pages/blog/Blog"
-import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
+// import SupplierDetail from "~/pages/supplier/DesignerDetail/DesignerDetail"
 import BlogDetail from "~/pages/blog/blogDetail/BlogDetailOne"
-import SupplierProductList from "~/pages/supplier/product/SupplierProductList"
-import SupplierProductDetails from "~/pages/supplier/product/SupplierProductDetails"
-
+// import SupplierProductList from "~/pages/supplier/product/DesignerProductList"
+import DesignerProjectDetails from "~/pages/designer/project/DesignerProjectDetails"
 import Meetings from "~/pages/supplier/meetings/Meetings"
 import Feedback from "~/pages/supplier/feedback/Feedback"
-import Supplier from "~/pages/supplier/Supplier"
-
+import Designer from "~/pages/designer/Designer"
+// import DesignDetails from "~/pages/designer/designerdetail/DesignDetails"
 import Favorite from "~/pages/user/favorite/Favorite"
 import OrderDetail from "~/pages/user/orders/orderDetail"
 import OrderManagement from "~/pages/management/order/OrderManagement"
@@ -41,6 +40,8 @@ import ManagementProductCreate from "~/pages/management/product/productCreate"
 import ManagementProductDetail from "~/pages/management/product/productDetails"
 import Gallery from "~/pages/gallery/Gallery"
 import ProjectDetail from "../pages/gallery/ProjectDetail";
+import DesignerProjectList from "~/pages/designer/project/DesignerProjectList"
+import DesignerProjectCreate from "~/pages/designer/project/DesignerProjectCreate"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -48,9 +49,9 @@ const publicRoutes = [
     { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
     { path: '/product', component: Product, layout: DefaultLayout },
     { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout },
-    { path: '/register-supplier', component: RegisterSupplier, layout: DefaultLayout },
+    { path: '/register-designer', component: RegisterDesigner, layout: DefaultLayout },
     { path: '/blog', component: Blog, layout: DefaultLayout },
-    { path: '/supplier/detail', component: SupplierDetail, layout: DefaultLayout },
+    { path: '/designer/detail', component: DesignerProjectDetails, layout: DefaultLayout },
     { path: '/blog/blogdetailone', component: BlogDetail, layout: DefaultLayout },
     { path: '/gallery', component: Gallery , layout: DefaultLayout },
     { path: '/project/detail', component: ProjectDetail , layout: DefaultLayout },
@@ -59,7 +60,7 @@ const publicRoutes = [
 const authRoutes = [
     { path: '/auth/login', component: Login, layout: DefaultLayout },
     { path: '/auth/register', component: Register, layout: DefaultLayout },
-    { path: '/auth/register-supplier/:{id}', component: RegisterSupplier, layout: DefaultLayout },
+    { path: '/auth/register-designer/:{id}', component: RegisterDesigner, layout: DefaultLayout },
     { path: '/auth/forgot-password', component: ForgotPassword, layout: DefaultLayout }
 ]
 
@@ -92,14 +93,15 @@ const managementRoutes = [
     { path: '/management/order/:id', component: OrderDetailManagement, layout: DefaultLayout },
 ]
 
-const supplierRoutes = [
-    { path: '/supplier', component: Supplier, layout: DefaultLayout },
-    { path: '/supplier/products/', component: SupplierProductList, layout: DefaultLayout },
-    { path: '/supplier/products/:productId', component: SupplierProductDetails, layout: DefaultLayout },
+const designerRoutes = [
+    { path: '/designer/project/create', component: DesignerProjectCreate, layout: DefaultLayout },
+    { path: '/designer', component: Designer, layout: DefaultLayout },
+    { path: '/designer/projects/', component: DesignerProjectList, layout: DefaultLayout },
+    { path: '/designer/projects/:projectId', component: DesignerProjectDetails, layout: DefaultLayout },
 
-    { path: '/supplier/categories', component: CategoryList, layout: DefaultLayout },
-    { path: '/supplier/meetings', component: Meetings, layout: DefaultLayout },
-    { path: '/supplier/feedback', component: Feedback, layout: DefaultLayout },
+    { path: '/designer/categories', component: CategoryList, layout: DefaultLayout },
+    { path: '/designer/meetings', component: Meetings, layout: DefaultLayout },
+    { path: '/designer/feedback', component: Feedback, layout: DefaultLayout },
 ]
 
-export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }
+export { publicRoutes, userRoutes, authRoutes, managementRoutes, designerRoutes }
