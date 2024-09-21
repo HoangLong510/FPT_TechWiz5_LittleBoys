@@ -27,7 +27,7 @@ import PinterestIcon from "@mui/icons-material/Pinterest";
 import EmailIcon from "@mui/icons-material/Email";
 import { motion } from "framer-motion";
 
-// Styled components
+
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -39,7 +39,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 }));
 
 const StyledCardMedia = styled(CardMedia)({
-  paddingTop: "56.25%", // 16:9 aspect ratio
+  paddingTop: "56.25%",
 });
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -55,73 +55,72 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-// Sample blog post data
+
 const blogPosts = [
   {
     id: 1,
-    title: "Xu hướng thiết kế nội thất Scandinavian 2023",
-    excerpt: "Scandinavian Design là xu hướng thiết kế nội thất Bắc Âu...",
+    title: "Scandinavian Interior Design Trends 2023",
+    excerpt: "Scandinavian Design is the Nordic interior design trend...",
     image: "/Images/bg/3617170_2.jpg?height=300&width=400",
-    category: "Xu hướng",
-    date: "15 Tháng 5, 2023",
-    author: "Nguyễn Văn A",
+    category: "Trends",
+    date: "May 15, 2023",
+    author: "Nguyen Van A",
     featured: true,
   },
   {
     id: 2,
-    title: "5 ý tưởng sáng tạo cho phòng khách nhỏ",
-    excerpt: "Tối ưu hóa không gian sống với những giải pháp thông minh...",
+    title: "5 Creative Ideas for Small Living Rooms",
+    excerpt: "Optimize living space with smart solutions...",
     image: "/Images/bg/phongkhachnho.png?height=300&width=400",
-    category: "Thiết kế",
-    date: "10 Tháng 5, 2023",
-    author: "Trần Thị B",
+    category: "Design",
+    date: "May 10, 2023",
+    author: "Tran Thi B",
     featured: true,
   },
   {
     id: 3,
-    title: "Cách chọn sofa phù hợp cho phòng khách",
-    excerpt:
-      "Hướng dẫn chi tiết để lựa chọn sofa hoàn hảo cho không gian của bạn...",
+    title: "How to Choose the Right Sofa for Your Living Room",
+    excerpt: "A detailed guide to selecting the perfect sofa for your space...",
     image: "/Images/bg/phongkhachnho.png?height=300&width=400",
-    category: "Mua sắm",
-    date: "5 Tháng 5, 2023",
-    author: "Lê Văn C",
+    category: "Shopping",
+    date: "May 5, 2023",
+    author: "Le Van C",
   },
   {
     id: 4,
-    title: "Nghệ thuật trang trí tường trong thiết kế nội thất",
-    excerpt: "Khám phá các phương pháp sáng tạo để trang trí tường nhà bạn...",
+    title: "The Art of Wall Decoration in Interior Design",
+    excerpt: "Discover creative ways to decorate your home's walls...",
     image: "/Images/bg/phongkhachnho.png?height=300&width=400",
     category: "DIY",
-    date: "1 Tháng 5, 2023",
-    author: "Phạm Thị D",
+    date: "May 1, 2023",
+    author: "Pham Thi D",
   },
   {
     id: 5,
-    title: "Top 10 cây cảnh dễ chăm sóc cho không gian nội thất",
+    title: "Top 10 Easy-to-Care Houseplants for Interiors",
     excerpt:
-      "Tìm hiểu về những loại cây cảnh phù hợp để trang trí và làm sạch không khí trong nhà...",
+      "Learn about the best houseplants for decorating and purifying indoor air...",
     image: "/Images/bg/phongkhachnho.png?height=300&width=400",
-    category: "Cây cảnh",
-    date: "25 Tháng 4, 2023",
-    author: "Hoàng Văn E",
+    category: "Plants",
+    date: "April 25, 2023",
+    author: "Hoang Van E",
   },
 ];
 
 const categories = [
-  "Xu hướng",
-  "Thiết kế",
+  "Trends",
+  "Design",
   "DIY",
-  "Mua sắm",
-  "Phong thủy",
-  "Cây cảnh",
+  "Shopping",
+  "Feng Shui",
+  "Plants",
 ];
 
 const popularPosts = [
-  "10 cách trang trí phòng ngủ đơn giản",
-  "Bí quyết chọn màu sơn cho nhà bếp",
-  "Top 5 vật liệu nội thất bền vững",
-  "Cách bố trí ánh sáng trong phòng khách",
+  "10 Simple Ways to Decorate Your Bedroom",
+  "Tips for Choosing Paint Colors for the Kitchen",
+  "Top 5 Sustainable Interior Materials",
+  "How to Arrange Lighting in the Living Room",
 ];
 
 const FurnitureBlog = () => {
@@ -135,12 +134,12 @@ const FurnitureBlog = () => {
   const handleNewsletterSignup = (event) => {
     event.preventDefault();
     console.log("Newsletter signup:", email);
-    // Implement newsletter signup logic here
+   
   };
 
   return (
     <Box>
-      {/* Hero Section */}
+      
       <Box
         className="video-section"
         sx={{
@@ -192,7 +191,7 @@ const FurnitureBlog = () => {
                 textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
               }}
             >
-              Blog Decor Vista
+              Decor Vista Blog
             </Typography>
             <Typography
               variant="h7"
@@ -200,17 +199,17 @@ const FurnitureBlog = () => {
               paragraph
               sx={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}
             >
-              Khám phá xu hướng, ý tưởng và lời khuyên về thiết kế nội thất
+              Discover trends, ideas, and advice on interior design
             </Typography>
           </Container>
         </Box>
       </Box>
 
       <Container maxWidth="lg">
-        {/* Featured Posts */}
+       
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
-            Bài Viết Nổi Bật
+            Featured Posts
           </Typography>
           <Grid container spacing={4}>
             {blogPosts
@@ -225,12 +224,6 @@ const FurnitureBlog = () => {
                     <StyledCard>
                       <StyledCardMedia image={post.image} title={post.title} />
                       <CardContent>
-                        <Chip
-                          label={post.category}
-                          color="primary"
-                          size="small"
-                          sx={{ mb: 1 }}
-                        />
                         <Typography variant="h5" component="h2" gutterBottom>
                           {post.title}
                         </Typography>
@@ -239,13 +232,16 @@ const FurnitureBlog = () => {
                           color="text.secondary"
                           gutterBottom
                         >
-                          Bởi {post.author} | {post.date}
+                          By {post.author} | {post.date}
                         </Typography>
                         <Typography variant="body2" paragraph>
                           {post.excerpt}
                         </Typography>
-                        <StyledButton component={Link} to={`/blog/blogdetailone`}>
-                          Đọc tiếp
+                        <StyledButton
+                          component={Link}
+                          to={`/blog/blogdetailone`}
+                        >
+                          Read More
                         </StyledButton>
                       </CardContent>
                     </StyledCard>
@@ -257,13 +253,13 @@ const FurnitureBlog = () => {
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
-            {/* All Posts */}
+           
             <Typography
               variant="h4"
               gutterBottom
               sx={{ fontWeight: "bold", mt: 0 }}
             >
-              Tất Cả Bài Viết
+              All Posts
             </Typography>
             {blogPosts.map((post) => (
               <motion.div
@@ -272,17 +268,17 @@ const FurnitureBlog = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                {/* Card wrapper để chứa hình ảnh và nội dung */}
+                
                 <StyledCard
                   sx={{
                     mb: 4,
                     position: "relative",
-                    height: "450px", // Giữ chiều cao hình ảnh
+                    height: "450px", 
                     borderRadius: "12px",
                     overflow: "hidden",
                   }}
                 >
-                  {/* Hình ảnh full khung */}
+                  
                   <StyledCardMedia
                     image={post.image}
                     title={post.title}
@@ -297,7 +293,7 @@ const FurnitureBlog = () => {
                     }}
                   />
 
-                  {/* Phần nội dung nằm đè lên hình ảnh */}
+                 
                   <CardContent
                     sx={{
                       position: "absolute",
@@ -319,7 +315,7 @@ const FurnitureBlog = () => {
                       component="h2"
                       gutterBottom
                       sx={{
-                        fontSize: "1.2rem", // Chữ tiêu đề nhỏ hơn
+                        fontSize: "1.2rem",
                         fontWeight: "bold",
                         mb: 1,
                       }}
@@ -328,20 +324,20 @@ const FurnitureBlog = () => {
                     </Typography>
                     <Typography
                       variant="caption"
-                      color="rgba(255, 255, 255, 0.8)" // Màu chữ dễ đọc hơn
+                      color="rgba(255, 255, 255, 0.8)" 
                       gutterBottom
                       sx={{
-                        fontSize: "0.8rem", // Giảm kích thước chữ thông tin
+                        fontSize: "0.8rem", 
                         mb: 2,
                       }}
                     >
-                      Bởi {post.author} | {post.date}
+                      By {post.author} | {post.date}
                     </Typography>
                     <Typography
                       variant="body2"
                       paragraph
                       sx={{
-                        fontSize: "0.75rem", // Chữ nhỏ gọn hơn
+                        fontSize: "0.75rem",
                         lineHeight: 1.4,
                         mb: 2,
                       }}
@@ -349,7 +345,6 @@ const FurnitureBlog = () => {
                       {post.excerpt}
                     </Typography>
 
-                    {/* Nút nhỏ và nằm bên phải dưới */}
                     <StyledButton
                       component={Link}
                       to={`/post/${post.id}`}
@@ -357,17 +352,17 @@ const FurnitureBlog = () => {
                         position: "absolute",
                         bottom: 10,
                         right: 10,
-                        fontSize: "0.8rem", // Nút nhỏ hơn
+                        fontSize: "0.8rem",
                         borderRadius: "20px",
-                        backgroundColor: "rgb(90, 90, 90, 0.7", // Xám nhạt
-                        color: "#333", // Màu chữ đậm hơn
+                        backgroundColor: "rgb(90, 90, 90, 0.7",
+                        color: "#333",
                         fontWeight: "500",
                         "&:hover": {
-                          backgroundColor: "rgb(90, 90, 90, 0.9)", // Tăng độ rõ khi hover
+                          backgroundColor: "rgb(90, 90, 90, 0.9)",
                         },
                       }}
                     >
-                      Đọc tiếp
+                      Read More
                     </StyledButton>
                   </CardContent>
                 </StyledCard>
@@ -385,25 +380,11 @@ const FurnitureBlog = () => {
 
           <Grid item xs={12} md={4} sx={{ mt: 6.68 }}>
             <Box sx={{ position: "sticky", top: 20 }}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Danh mục
-                  </Typography>
-                  <List>
-                    {categories.map((category, index) => (
-                      <ListItem key={index} disablePadding>
-                        <ListItemText primary={category} />
-                      </ListItem>
-                    ))}
-                  </List>
-                </CardContent>
-              </Card>
 
-              <Card sx={{ mt: 4 }}>
+              <Card sx={{ mt: 0 }}>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>
-                    Bài viết phổ biến
+                    Popular Posts
                   </Typography>
                   <List>
                     {popularPosts.map((post, index) => (
@@ -412,54 +393,6 @@ const FurnitureBlog = () => {
                       </ListItem>
                     ))}
                   </List>
-                </CardContent>
-              </Card>
-
-              <Card sx={{ mt: 4 }}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Đăng ký nhận bản tin
-                  </Typography>
-                  <form onSubmit={handleNewsletterSignup}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      placeholder="Địa chỉ email của bạn"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <EmailIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      sx={{ mb: 2 }}
-                    />
-                    <StyledButton type="submit" fullWidth>
-                      Đăng ký
-                    </StyledButton>
-                  </form>
-                </CardContent>
-              </Card>
-
-              <Card sx={{ mt: 4 }}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Theo dõi chúng tôi
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      mt: 2,
-                    }}
-                  >
-                    <FacebookIcon color="primary" />
-                    <TwitterIcon color="primary" />
-                    <InstagramIcon color="primary" />
-                    <PinterestIcon color="primary" />
-                  </Box>
                 </CardContent>
               </Card>
             </Box>
@@ -497,8 +430,8 @@ const FurnitureBlog = () => {
               About Us
             </Typography>
             <Typography variant="body2">
-              Decor Vista là nguồn cảm hứng hàng đầu về thiết kế nội thất và
-              trang trí nhà cửa.
+              Decor Vista is a leading inspiration for interior design and home
+              decor.
             </Typography>
           </Grid>
           <Grid
@@ -519,7 +452,7 @@ const FurnitureBlog = () => {
             <Typography variant="body2">
               Email: info@decorvista.com
               <br />
-              Điện thoại: (123) 456-7890
+              Phone: (123) 456-7890
             </Typography>
           </Grid>
           <Grid
@@ -538,11 +471,11 @@ const FurnitureBlog = () => {
               Our Services
             </Typography>
             <Typography variant="body2">
-              Chúng tôi cung cấp các giải pháp toàn diện về thiết kế nội thất và
-              thi công trang trí cho không gian sống của bạn.
+              We provide comprehensive interior design solutions and decoration
+              services for your living space.
               <br />
-              Các dịch vụ bao gồm: Thiết kế phòng khách, phòng ngủ, và các không
-              gian sống khác.
+              Our services include: Living room, bedroom, and other living space
+              design.
             </Typography>
           </Grid>
         </Grid>
@@ -551,7 +484,7 @@ const FurnitureBlog = () => {
           color="text.secondary"
           sx={{ mt: 4, opacity: 0.8 }}
         >
-          © 2023 Decor Vista. Tất cả các quyền được bảo lưu.
+          © 2024 Decor Vista. All rights reserved.
         </Typography>
       </Box>
     </Box>

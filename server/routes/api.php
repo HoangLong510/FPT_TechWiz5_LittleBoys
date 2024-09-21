@@ -53,9 +53,17 @@ Route::group([
     //product
     Route::delete('/products/{id}', [ManagementController::class, 'deleteProduct']);
     Route::get('/products', [ManagementController::class, 'getProducts']);
+    Route::post('/products/create', [ManagementController::class, 'createProduct']);
+    Route::post('/products/{id}', [ManagementController::class, 'updateProduct']);
+    Route::get('/products/{id}', [ManagementController::class, 'getProduct']);
 
     //hoat động
     Route::get('/fetch-activity-logs', [ManagementController::class, 'fetchActivityLogs']);
+
+    // order
+    Route::post('/fetch-orders', [ManagementController::class, 'fetchOrders']);
+    Route::get('/fetch-order-detail/{id}', [ManagementController::class, 'fetchOrderDetails']);
+    Route::post('/update-order-type', [ManagementController::class, 'updateOrderType']);
 });
 
 Route::group([
@@ -68,8 +76,13 @@ Route::group([
     Route::get('remove-to-cart/{id}', [UserController::class, 'removeToCart']);
     Route::get('fetch-data-cart', [UserController::class, 'fetchDataCart']);
     Route::post('update-quantity-cart', [UserController::class, 'updateQuantityCart']);
+
     Route::post('fetch-favorites', [UserController::class, 'fetchFavorites']);
     Route::get('remove-favorite/{id}', [UserController::class, 'removeFavorite']);
+
+    Route::post('create-order', [UserController::class, 'createOrder']);
+    Route::post('fetch-orders', [UserController::class, 'fetchOrders']);
+    Route::get('fetch-order-detail/{id}', [UserController::class, 'fetchOrderDetails']);
 });
 
 Route::group([

@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
 import { setPopup } from '~/libs/features/popup/popupSlice'
-import VisibilityIcon from '@mui/icons-material/Visibility'
 
 export default function Favorite() {
 	const { t } = useTranslation()

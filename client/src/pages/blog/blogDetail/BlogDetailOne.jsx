@@ -54,9 +54,8 @@ export default function BlogDetail() {
               paragraph
               sx={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}
             >
-              Khám phá xu hướng thiết kế nội thất Scandinavian 2023
+              Discover the 2023 Scandinavian Interior Design Trends
             </Typography>
-            
           </Container>
         </Box>
       </Box>
@@ -69,29 +68,29 @@ export default function BlogDetail() {
           padding: 0,
         }}
       >
-        {/* Phần tiêu đề blog */}
+        {/* Blog Title */}
         <Typography
           variant="h3"
           fontWeight="bold"
           gutterBottom
           sx={{ fontSize: "2.5rem", color: "#333" }}
         >
-          Scandinavian Design là gì?
+          What is Scandinavian Design?
         </Typography>
         <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-          Bởi Nguyễn Văn A | 15 Tháng 5, 2023
+          By Nguyen Van A | May 15, 2023
         </Typography>
 
-        {/* Nội dung blog */}
+        {/* Blog Content */}
         <Typography
           variant="body1"
           paragraph
           sx={{ color: "#555", fontSize: "1.125rem", lineHeight: "1.8" }}
         >
-          Scandinavian Design là xu hướng thiết kế nội thất Bắc Âu (Scandinavian
-          Interior Design) hiện đại được nhiều người lựa chọn với nét đẹp tối
-          giản và tinh tế. Phong cách thiết kế này không chỉ được ứng dụng rộng
-          rãi trong phòng ngủ hay phòng khách mà kể cả phòng bếp.
+          Scandinavian Design is a modern Nordic interior design trend that many
+          people choose for its minimalistic and elegant beauty. This design
+          style is widely applied not only in bedrooms or living rooms but also
+          in kitchens.
         </Typography>
         <Typography
           variant="h3"
@@ -99,34 +98,33 @@ export default function BlogDetail() {
           gutterBottom
           sx={{ fontSize: "1.5rem", color: "#333" }}
         >
-          Đặc trưng phong cách Scandinavian Design
+          Characteristics of Scandinavian Design
         </Typography>
         <Typography
           variant="body1"
           paragraph
           sx={{ color: "#555", fontSize: "1.125rem", lineHeight: "1.8" }}
         >
-          Nhắc đến Scandinavian Design, không thể không nhắc đến sự mộc mạc và
-          bình dị, nhưng không kém phần tinh tế. Nét bình dị thể hiện rõ ở gam
-          màu chủ đạo của phong cách này là màu trắng và các gam màu đơn sắc
-          khác như đen, xanh, kem, xám,… Các màu sắc trung tính không những tạo
-          cảm giác nhẹ nhàng, thoải mái lại mang đến hơi thở trẻ trung, hiện đại
-          cho không gian.
+          When talking about Scandinavian Design, simplicity and rustic beauty
+          immediately come to mind. The dominant colors in this style are white
+          and other neutral tones such as black, blue, cream, gray, etc. These
+          neutral colors not only create a soft, comfortable feeling but also
+          bring a modern and youthful breath to the space.
         </Typography>
         <Typography
           variant="body1"
           paragraph
           sx={{ color: "#555", fontSize: "1.125rem", lineHeight: "1.8" }}
         >
-          Điểm nổi bật trong Scandinavian Design đó là chủ nghĩa tối giản. Nét
-          tối giản thể hiện ở sự gọn gàng khi sắp xếp đồ đạc, lựa chọn các sản
-          phẩm nội thất đa công năng giúp tiết kiệm diện tích. Nhìn vào những
-          căn phòng thiết kế theo phong cách Bắc Âu, chúng ta thấy được sự tinh
-          tế trong sự lựa chọn và bố trí đồ đạc, giúp tạo nên một không gian
-          thoáng đãng, rộng rãi và tràn ngập ánh sáng.
+          A highlight of Scandinavian Design is minimalism. This minimalism is
+          reflected in the neat arrangement of furniture and the choice of
+          multifunctional pieces that save space. Looking at rooms designed in
+          the Nordic style, we can see the sophistication in choosing and
+          arranging furniture, creating an airy, spacious, and well-lit
+          environment.
         </Typography>
 
-        {/* Trích dẫn */}
+        {/* Quote */}
         <Card
           sx={{
             my: 4,
@@ -159,19 +157,19 @@ export default function BlogDetail() {
           gutterBottom
           sx={{ fontSize: "1.5rem", color: "#333" }}
         >
-          Tính ứng dụng cao của phong cách Scandinavian Design
+          High Applicability of Scandinavian Design
         </Typography>
         <Typography
           variant="body1"
           paragraph
           sx={{ color: "#555", fontSize: "1.125rem", lineHeight: "1.8" }}
         >
-          Điểm nổi bật trong Scandinavian Design đó là chủ nghĩa tối giản. Nét
-          tối giản thể hiện ở sự gọn gàng khi sắp xếp đồ đạc, lựa chọn các sản
-          phẩm nội thất đa công năng giúp tiết kiệm diện tích. Nhìn vào những
-          căn phòng thiết kế theo phong cách Bắc Âu, chúng ta thấy được sự tinh
-          tế trong sự lựa chọn và bố trí đồ đạc, giúp tạo nên một không gian
-          thoáng đãng, rộng rãi và tràn ngập ánh sáng.
+          The highlight of Scandinavian Design is minimalism. This minimalism is
+          reflected in the neat arrangement of furniture and the choice of
+          multifunctional pieces that save space. Looking at rooms designed in
+          the Nordic style, we can see the sophistication in choosing and
+          arranging furniture, creating an airy, spacious, and well-lit
+          environment.
         </Typography>
 
         <Typography
@@ -180,17 +178,16 @@ export default function BlogDetail() {
           gutterBottom
           sx={{ fontSize: "1.9rem", color: "#333" }}
         >
-          TOP mẫu nhà bếp phong cách Scandinavian Design đẹp, hiện đại, xu hướng
-          2023
+          Top Scandinavian Style Kitchen Designs for 2023
         </Typography>
       </Box>
       <Container maxWidth="lg" sx={{ my: 6 }}>
         <Grid container spacing={4} alignItems="center">
-          {/* Hình ảnh bên trái */}
+          {/* Image on the Left */}
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="/Images/bg/blogdetail3.jpg" // Đường dẫn hình ảnh thay thế
+              src="/Images/bg/blogdetail3.jpg" // Replace with image path
               alt="Featured Image"
               sx={{
                 width: "100%",
@@ -200,10 +197,10 @@ export default function BlogDetail() {
             />
           </Grid>
 
-          {/* Nội dung bên phải */}
+          {/* Content on the Right */}
           <Grid item xs={12} md={6}>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              Bởi Nguyễn Văn A | 15 Tháng 5, 2023
+              By Nguyen Van A | May 15, 2023
             </Typography>
             <Typography
               variant="h4"
@@ -211,21 +208,21 @@ export default function BlogDetail() {
               fontWeight="bold"
               gutterBottom
             >
-              Mẫu nhà bếp sử dụng tông màu trắng chủ đạo
+              A Kitchen with White as the Main Color
             </Typography>
             <Typography variant="body1" color="text.secondary" paragraph>
-              Màu trắng là gam màu đặc trưng của phong cách Scandinavian Design.
-              Nó mang đến vẻ đẹp đơn giản, nhẹ nhàng nhưng tinh tế. Màu trắng
-              còn dễ kết hợp với các màu sắc trung tính khác như đen, xám, nâu,
-              xanh,… tạo nên nét tương phản độc đáo. Ngoài ra, với màu trắng chủ
-              đạo, thiết kế này giúp cho không gian được mở rộng, thoáng đãng và
-              hiện đại hơn...
+              White is the characteristic color of Scandinavian Design. It
+              brings a simple, light, yet elegant beauty. White is also easy to
+              combine with other neutral colors like black, gray, brown, and
+              blue, creating a unique contrast. Additionally, with white as the
+              dominant color, this design helps to open up the space, making it
+              more airy, spacious, and modern...
             </Typography>
 
             <Button
               component="a"
               href="https://jysk.vn/trang-tri-nha-bep-phong-cach-scandinavian-design-tinh-te-va-hien-dai"
-              target="_blank" // Mở liên kết trong tab mới
+              target="_blank" // Opens link in new tab
               rel="noopener noreferrer"
               variant="outlined"
               size="large"
@@ -245,16 +242,6 @@ export default function BlogDetail() {
           </Grid>
         </Grid>
       </Container>
-      {/* Phần chia sẻ trên mạng xã hội */}
-      <Box sx={{ my: 4, display: "flex", justifyContent: "flex-end" }}>
-        <Typography variant="h6" sx={{ mr: 2 }}>
-          Search:
-        </Typography>
-        <Facebook sx={{ mx: 1, cursor: "pointer", color: "#4267B2" }} />
-        <Twitter sx={{ mx: 1, cursor: "pointer", color: "#1DA1F2" }} />
-        <Instagram sx={{ mx: 1, cursor: "pointer", color: "#C13584" }} />
-        <LinkedIn sx={{ mx: 1, cursor: "pointer", color: "#0077b5" }} />
-      </Box>
     </Container>
   );
 }
