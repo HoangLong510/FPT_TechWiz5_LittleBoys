@@ -17,7 +17,6 @@ import { motion } from "framer-motion";
 export default function Home() {
   return (
     <Box className="home-container">
-      {/* Video Section */}
       <Box
         className="video-section"
         sx={{
@@ -92,22 +91,47 @@ export default function Home() {
         <Gallery />
       </Box>
      
-      {/* Product Slider */}
-      <Box sx={{ mt: 3 }}>
-        <ProductsSwiper />
-      </Box>
+      
       <Box
+        className="video-section"
         sx={{
-          backgroundImage: `url('/Images/bg/living-room-2732939.jpg')`, 
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "600px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "inset 0 0 0 1000px rgba(0, 0, 0, 0.3)", 
+          position: "relative",
+          overflow: "hidden",
+          height: "70vh",
+          backgroundImage: "url('/video/bg-homepage-df.png')",
         }}
       >
+        <video
+          className="video-background"
+          autoPlay
+          loop
+          muted
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        >
+          <source src="/video/video3.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <Box
+          className="video-overlay"
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            color: "white",
+          }}
+        >
         <Container>
           <Typography
             variant="h2"
@@ -148,6 +172,7 @@ export default function Home() {
             OWN IT NOW
           </Button>
         </Container>
+      </Box>
       </Box>
 
       {/* Section về các sản phẩm nổi bật */}
@@ -333,4 +358,4 @@ export default function Home() {
       <FAQ />
     </Box>
   );
-}
+};

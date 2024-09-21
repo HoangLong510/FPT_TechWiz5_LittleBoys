@@ -58,6 +58,15 @@ export default function Navbar() {
                         </Button>
                     </Link>
 
+                    <Link to="/faq" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            FAQ
+                        </Button>
+                    </Link>
+                    
+
+
+
                 </Box>
             </Box>
 

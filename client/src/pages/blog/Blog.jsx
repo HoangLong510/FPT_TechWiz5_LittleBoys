@@ -347,7 +347,7 @@ const FurnitureBlog = () => {
 
                     <StyledButton
                       component={Link}
-                      to={`/post/${post.id}`}
+                      to={`/blog/blogdetailone`}
                       sx={{
                         position: "absolute",
                         bottom: 10,

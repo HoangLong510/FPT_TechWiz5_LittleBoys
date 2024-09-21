@@ -107,6 +107,15 @@ export default function NavbarMenu() {
                                 Blog
                             </Button>
                         </Link>
+                        <Link onClick={toggleDrawer(false)} to="/faq" style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <Button sx={{ width: '100%' }}>
+                                FAQ
+                            </Button>
+                        </Link>
                     </List>
 
                     <Box sx={{ padding: { xs: '0px 20px', md: '20px 20px 0px 20px' } }}>
