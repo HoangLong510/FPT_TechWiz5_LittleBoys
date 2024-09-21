@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
-export default function SupplierLayout({ children }) {
+export default function DesignerLayout({ children }) {
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -28,44 +28,42 @@ export default function SupplierLayout({ children }) {
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Link to="/supplier">
+        <Link to="/designer">
           <Button
             sx={{ width: "100%" }}
-            variant={pathname === "/supplier" ? "contained" : "text"}
+            variant={pathname === "/designer" ? "contained" : "text"}
           >
             General
           </Button>
         </Link>
-
-        <Link to="/supplier/products">
+        <Link to="/designer/account">
           <Button
             sx={{ width: "100%" }}
             variant={
-              pathname.startsWith("/supplier/products") ? "contained" : "text"
+              pathname.startsWith("/designer/account") ? "contained" : "text"
             }
           >
-            Products
+            Account
           </Button>
         </Link>
-        <Link to="/supplier/feedback">
+        <Link to="/designer/projects">
           <Button
             sx={{ width: "100%" }}
             variant={
-              pathname.startsWith("/supplier/feedback") ? "contained" : "text"
+              pathname.startsWith("/management/projects") ? "contained" : "text"
             }
           >
-            Feedback
+            Projects
           </Button>
         </Link>
-
-        <Link to="/supplier/meetings">
+        <Link to="/designer/meetings">
           <Button
             sx={{ width: "100%" }}
             variant={
-              pathname.startsWith("/supplier/meetings") ? "contained" : "text"
+              pathname.startsWith("/management/meetings") ? "contained" : "text"
             }
           >
-            Meetings
+            Projects
           </Button>
         </Link>
       </Box>
