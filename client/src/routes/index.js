@@ -31,7 +31,7 @@ import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
 import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
-
+import BlogDetail from "~/pages/blog/blogDetail/BlogDetailOne"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -42,6 +42,7 @@ const publicRoutes = [
     { path: '/register-supplier', component: RegisterSupplier , layout: DefaultLayout },
     { path: '/blog', component: Blog, layout: DefaultLayout },
     { path: '/supplier/detail', component: SupplierDetail, layout: DefaultLayout },
+    { path: '/blog/blogdetailone', component: BlogDetail , layout: DefaultLayout },
 ]
 
 const authRoutes = [
@@ -81,7 +82,7 @@ const managementRoutes = [
 ]
 
 const supplierRoutes =[
-    {path: '/supplier', component: dashboard, layout: DefaultLayout },
+    // {path: '/supplier', component: dashboard, layout: DefaultLayout },
     {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
 ]
 

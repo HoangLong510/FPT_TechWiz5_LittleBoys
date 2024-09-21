@@ -10,14 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@date-io/date-fns": "^3.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.1",
+    "@mui/lab": "^6.0.0-beta.10",
     "@mui/material": "^6.1.1",
+    "@mui/x-date-pickers": "^7.18.0",
     "@reduxjs/toolkit": "^2.2.7",
     "aos": "^2.3.4",
     "axios": "^1.7.6",
     "bootstrap": "^5.3.3",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.5.5",
     "i18next": "^23.14.0",
     "lucide-react": "^0.441.0",
