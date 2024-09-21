@@ -1,79 +1,62 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Container, Typography, Grid, Box, Button } from "@mui/material";
-import { motion } from "framer-motion";
-
-const categories = [
-  { id: "living-room", name: "Living Room" },
-  { id: "bedroom", name: "Bedroom" },
-  { id: "kitchen", name: "Kitchen" },
-  { id: "bathroom", name: "Bathroom" },
-  { id: "office", name: "Office" },
-  { id: "outdoor", name: "Outdoor Spaces" },
-];
-
-const projects = [
-  {
-    id: 1,
-    name: "Modern Living Room",
-    category: "living-room",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 2,
-    name: "Cozy Bedroom Retreat",
-    category: "bedroom",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 3,
-    name: "Sleek Kitchen Design",
-    category: "kitchen",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 4,
-    name: "Luxurious Bathroom",
-    category: "bathroom",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 5,
-    name: "Productive Home Office",
-    category: "office",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-  {
-    id: 6,
-    name: "Serene Outdoor Patio",
-    category: "outdoor",
-    designer: "Linh con cho",
-    image: "/placeholder.jpg",
-  },
-];
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom"; // Để lấy ID từ URL và điều hướng
+import {
+  Container,
+  Typography,
+  Grid,
+  Box,
+  Button,
+  CircularProgress,
+} from "@mui/material";
+import { getProjectDetailApi } from "./service"; // Import API lấy chi tiết dự án
 
 export default function ProjectDetail() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortOrder, setSortOrder] = useState("latest");
+  const { projectId } = useParams(); // Lấy projectId từ URL
+  const [project, setProject] = useState(null); // Lưu thông tin dự án
+  const [loading, setLoading] = useState(true);
 
-  const filteredProjects = projects.filter(
-    (project) =>
-      (project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.category.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === "" || project.category === selectedCategory)
-  );
+  useEffect(() => {
+    const fetchProjectDetail = async () => {
+      try {
+        const response = await getProjectDetailApi(projectId);
+        if (response.success) {
+          setProject(response.data);
+          console.log("Project Data:", response.data); // In dữ liệu dự án ra console
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to load project details:", error);
+        setLoading(false);
+      }
+    };
 
-  const sortedProjects = [...filteredProjects].sort((a, b) => {
-    if (sortOrder === "asc") return a.name.localeCompare(b.name);
-    if (sortOrder === "desc") return b.name.localeCompare(a.name);
-    return b.id - a.id; // 'latest' sort
-  });
+    fetchProjectDetail();
+  }, [projectId]);
+
+  // Nếu đang load, hiển thị loader
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Nếu không tìm thấy dự án
+  if (!project) {
+    return (
+      <Container maxWidth="lg">
+        <Typography variant="h4">Project not found.</Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -129,7 +112,7 @@ export default function ProjectDetail() {
                 textShadow: "2px 2px 4px rgba(0,0,0,1)",
               }}
             >
-              Project Detail
+              {project.name} {/* Đổ tên dự án */}
             </Typography>
             <Typography
               variant="h7"
@@ -137,9 +120,7 @@ export default function ProjectDetail() {
               paragraph
               sx={{ textShadow: "1px 1px 2px rgba(0,0,0,1)" }}
             >
-              Explore our projects and find your own style. Choose products
-              designed to suit your desires. Because the more you, the more
-              extraordinary.
+              Explore our project details and find your own style.
             </Typography>
           </Container>
         </Box>
@@ -149,8 +130,8 @@ export default function ProjectDetail() {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="/Images/bg/blogdetail3.jpg"
-              alt="Featured Image"
+              src={`${project.image}?${new Date().getTime()}`}
+              alt={project.name}
               sx={{
                 width: "100%",
                 height: "auto",
@@ -158,7 +139,6 @@ export default function ProjectDetail() {
               }}
             />
           </Grid>
-
           {/* Content on the Right */}
           <Grid item xs={12} md={6}>
             <Typography
@@ -167,17 +147,19 @@ export default function ProjectDetail() {
               fontWeight="bold"
               gutterBottom
             >
-              Tên của Designed
+              {project.name}
             </Typography>
             <Typography variant="body1" color="text.secondary" paragraph>
-              Thông tin dự án
+              {project.description || "No description available"}{" "}
+              {/* Đổ mô tả */}
             </Typography>
             <Typography variant="body1" color="text.secondary" paragraph>
-              Thời gian tạo dự án
+              Category: {project.categories || "Uncategorized"}{" "}
+              {/* Đổ categories */}
             </Typography>
             <Button
               component={Link}
-              to={`/supplier/detail`}
+              to={`/designer/detail/${project.user_id}`} // Sử dụng user_id từ project
               rel="noopener noreferrer"
               variant="outlined"
               size="large"
@@ -192,7 +174,7 @@ export default function ProjectDetail() {
                 },
               }}
             >
-              Designed Detail
+              Designer Detail
             </Button>
           </Grid>
         </Grid>

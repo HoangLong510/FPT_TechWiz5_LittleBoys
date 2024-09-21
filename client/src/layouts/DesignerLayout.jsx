@@ -63,7 +63,7 @@ export default function DesignerLayout({ children }) {
               pathname.startsWith("/management/meetings") ? "contained" : "text"
             }
           >
-            Projects
+            Meeting
           </Button>
         </Link>
       </Box>
