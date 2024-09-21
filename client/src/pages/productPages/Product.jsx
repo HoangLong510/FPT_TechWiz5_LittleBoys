@@ -116,8 +116,7 @@ export default function PageShop() {
         <Grid container spacing={3} sx={{ paddingBottom: "40px" }}>
           {!loading &&
             products.map((product) => (
-              <Grid item key={product.id} xs={12} sm={6} md={4} lg={2.4}>
-                {/* Thêm hiệu ứng khi hover vào Card */}
+              <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
                 <motion.div
                   whileHover={{ scale: 1.05 }} // Phóng to nhẹ khi hover
                   whileTap={{ scale: 0.95 }} // Thu nhỏ nhẹ khi nhấp chuột
@@ -132,7 +131,7 @@ export default function PageShop() {
                   >
                     <CardMedia
                       component="img"
-                      height="240"
+                      height="300"
                       loading="lazy"
                       image={
                         `${import.meta.env.VITE_BACKEND_URL}/storage/` +
@@ -143,25 +142,20 @@ export default function PageShop() {
                       onClick={() => goToProductDetail(product.id)}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h6" component="div">
+                      <Typography gutterBottom variant="h7" component="div">
                         {product.name}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {product.category}
                       </Typography>
                       <Typography
-                        variant="h6"
+                        variant="h7"
                         color="text.primary"
                         sx={{ mt: 2 }}
                       >
                         ${product.price}
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Button size="small" onClick={() => addToCart(product)}>
-                        Add to Cart
-                      </Button>
-                    </CardActions>
                   </Card>
                 </motion.div>
               </Grid>

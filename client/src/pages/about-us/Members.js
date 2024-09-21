@@ -1,33 +1,33 @@
 export const teamMembers = [
     {
-      name: "Nguyễn Văn A",
-      position: "CEO & Founder",
+      name: "Hoàng Gia Huy",
+      position: "LEADER",
       description:
-       "Yeah",
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      email: "nguyenvana@company.com",
+       "As a team leader, I oversee the overall direction of the furniture e-commerce business. With a strong focus on strategy and growth, I ensure the team is aligned with the company's vision and goals.",
+      avatar: "/Images/avatar/huy.jpg",
+      email: "huypg7645@gmail.com",
     },
     {
-      name: "Trần Thị B",
-      position: "CTO",
-      description: "1",
-      avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-      email: "tranthib@company.com",
+      name: "Trần Nhật Linh",
+      position: "MEMBER",
+      description: "I am responsible for driving customer engagement and brand recognition. Their creativity and expertise in marketing helps our furniture business reach a wider audience and maintain strong relationships with customers.",
+      avatar: "/Images/avatar/linh.jpg",
+      email: "nhatlinh3b122@gmail.com",
     },
     {
-      name: "Nguyễn Văn C",
-      position: "COO",
+      name: "Nguyễn Trần Hoàng Long",
+      position: "MEMBER",
       description:
-        "Nguyễn Văn C điều hành hoạt động hàng ngày của công ty và tối ưu hoá hiệu suất làm việc.",
-      avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-      email: "nguyenvanc@company.com",
+        "I ensure that our inventory is well managed and all products are delivered smoothly to our customers. Their attention to detail keeps operations efficient and our customers happy.",
+      avatar: "/Images/avatar/long.jpg",
+      email: "hoanglongnguyen0510@gmail.com",
     },
     {
-      name: "Nguyễn Văn D",
-      position: "COO",
+      name: "Nguyễn Anh Quân",
+      position: "MENBER",
       description:
-        "Nguyễn Văn D điều hành hoạt động hàng ngày của công ty và tối ưu hoá hiệu suất làm việc.",
-      avatar: "https://randomuser.me/api/portraits/men/4.jpg",
-      email: "nguyenvanc@company.com",
+        "I handle the technical side of the business, ensuring the website runs smoothly and efficiently. They focus on improving the user experience and implementing new features to improve the shopping process.",
+      avatar: "/Images/avatar/quan.jpg",
+      email: "nguyenanhquan081120@gmail.com",
     },
   ];

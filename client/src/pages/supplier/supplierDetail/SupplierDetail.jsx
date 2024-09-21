@@ -145,7 +145,6 @@ const reviews = [
 ];
 
 const categories = ["All", "Office", "Living Room", "Bedroom", "Dining Room"];
-const sortOptions = ["Name", "Category"];
 
 export default function SupplierDetail() {
   const [filteredItems, setFilteredItems] = useState(portfolioItems);
@@ -295,7 +294,6 @@ export default function SupplierDetail() {
                         color: "#333",
                         textTransform: "none",
                         fontWeight: "bold",
-                        fontFamily: "arial Bold",
                         "&:hover": {
                           backgroundColor: "#f0f0f0",
                           borderColor: "#333",
@@ -369,96 +367,6 @@ export default function SupplierDetail() {
             </AnimatePresence>
           </Grid>
         </Grid>
-        {/* Customer Reviews Section */}
-        <Box sx={{ mt: 6 }}>
-          <Typography variant="h4" gutterBottom>
-            Customer Reviews
-          </Typography>
-
-          {/* Ô nhập liệu cho comment mới */}
-          <Card sx={{ mb: 0, p: 2, border: "1px solid #ddd", borderRadius: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              Leave a Comment
-            </Typography>
-            <TextField
-              label="Your comment"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={4}
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddComment}
-            >
-              Submit
-            </Button>
-          </Card>
-
-          {/* Hiển thị danh sách bình luận */}
-          <List>
-            {comments.slice(0, visibleComments).map((review) => (
-              <ListItem key={review.id} sx={{ mb: 0 }}>
-                <Card
-                  sx={{
-                    width: "100%",
-                    p: 2,
-                    border: "1px solid #ddd",
-                    borderRadius: 2,
-                  }}
-                >
-                  <Grid container spacing={2}>
-                    <Grid item xs={2} sm={1}>
-                      <ListItemAvatar>
-                        <Avatar>{review.name[0]}</Avatar>
-                      </ListItemAvatar>
-                    </Grid>
-                    <Grid item xs={10} sm={11}>
-                      <ListItemText
-                        primary={
-                          <>
-                            <Typography variant="h6" component="span">
-                              {review.name}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              sx={{ ml: 1 }}
-                            >
-                              {review.time}
-                            </Typography>
-                          </>
-                        }
-                        secondary={
-                          <Typography
-                            variant="body1"
-                            color="text.primary"
-                            sx={{ mt: 1 }}
-                          >
-                            {review.comment}
-                          </Typography>
-                        }
-                      />
-                    </Grid>
-                  </Grid>
-                </Card>
-              </ListItem>
-            ))}
-          </List>
-
-          {/* Nút Xem thêm bình luận */}
-          {visibleComments < comments.length && (
-            <Box sx={{ textAlign: "center", mt: 0 }}>
-              <Button variant="contained" onClick={handleShowMoreComments}>
-                Xem thêm bình luận
-              </Button>
-            </Box>
-          )}
-        </Box>
       </Box>
       {/* Dialog liên hệ / yêu cầu báo giá */}
       <Dialog open={contactDialogOpen} onClose={handleContactDialogClose}>

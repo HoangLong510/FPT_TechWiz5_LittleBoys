@@ -50,10 +50,11 @@ const ContactUs = () => {
   };
 
   const faqItems = [
-    { question: 'Làm thế nào để đặt hàng?', answer: 'Bạn có thể đặt hàng trực tuyến thông qua trang web của chúng tôi hoặc gọi điện trực tiếp.' },
-    { question: 'Chính sách đổi trả như thế nào?', answer: 'Chúng tôi chấp nhận đổi trả trong vòng 30 ngày kể từ ngày mua hàng.' },
-    { question: 'Thời gian giao hàng là bao lâu?', answer: 'Thời gian giao hàng thông thường là từ 3-5 ngày làm việc.' },
+    { question: 'How do I place an order?', answer: 'You can place an order online through our website or by calling directly.' },
+    { question: 'What is the return policy?', answer: 'We accept returns within 30 days of purchase.' },
+    { question: 'How long does delivery take?', answer: 'The usual delivery time is 3-5 business days.' },
   ];
+  
 
   return (
     <Box
@@ -88,7 +89,7 @@ const ContactUs = () => {
         }}
       >
         <Typography variant="h4" align="center" fontWeight='bold' gutterBottom>
-          Liên hệ với chúng tôi
+        Contact us
         </Typography>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: 2 }}>
@@ -112,7 +113,7 @@ const ContactUs = () => {
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
-            label="Họ tên"
+            label="Name"
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -132,7 +133,7 @@ const ContactUs = () => {
           <TextField
             fullWidth
             select
-            label="Lý do liên hệ"
+            label="Reason for contact"
             name="reason"
             value={formData.reason}
             onChange={handleChange}
@@ -146,7 +147,7 @@ const ContactUs = () => {
           </TextField>
           <TextField
             fullWidth
-            label="Nội dung"
+            label="Content"
             name="message"
             multiline
             rows={4}
@@ -181,13 +182,13 @@ const ContactUs = () => {
                 },
               }}
             >
-              Gửi tin nhắn
+              Send message
             </Button>
           </Box>
         </form>
 
         <Box sx={{ mt: 4 }}>
-          <Typography variant="h6" gutterBottom>Câu hỏi thường gặp</Typography>
+          <Typography variant="h6" gutterBottom>Frequently Asked Questions</Typography>
           {faqItems.map((item, index) => (
             <Accordion key={index}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -201,8 +202,8 @@ const ContactUs = () => {
         </Box>
 
         <Typography variant="body2" color="text.secondary" align="center">
-          Để đảm bảo bạn nhận được email từ Decor Vista, vui lòng kiểm tra thư mục spam và thêm{' '}
-          <a href="mailto:decorvistafpthcm@gmail.com">decorvistafpthcm@gmail.com</a> vào danh sách người gửi an toàn của bạn.
+          To ensure you receive emails from Decor Vista, please check your spam folder and add{' '}
+          <a href="mailto:decorvistafpthcm@gmail.com">decorvistafpthcm@gmail.com</a> to your safe senders list.
         </Typography>
       </Paper>
 
@@ -211,7 +212,7 @@ const ContactUs = () => {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={() => setSnackbarOpen(false)}
-        message="Tin nhắn đã được gửi thành công!"
+        message="Message sent successfully!"
       />
     </Box>
   );

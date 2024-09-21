@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Container, Typography, Card, CardContent, Avatar, Box, Divider, Grid } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  Avatar,
+  Box,
+  Divider,
+  Grid,
+  Paper,
+} from "@mui/material";
 import { deepPurple, lightBlue, teal } from "@mui/material/colors";
 import EmailIcon from "@mui/icons-material/Email";
 import TeamIcon from "@mui/icons-material/Groups";
@@ -15,18 +25,21 @@ import "./style.css";
 
 const features = [
   {
-    title: "Hiệu Suất Cao",
-    description: "Các giải pháp của chúng tôi được tối ưu hóa cho hiệu suất cao, đảm bảo hoạt động mượt mà với lượng người dùng lớn.",
+    title: "High Performance",
+    description:
+      "Our solutions are optimized for high performance, ensuring smooth operation with large user volumes.",
     icon: <SpeedIcon sx={{ fontSize: 60, color: teal[500] }} />,
   },
   {
-    title: "Bảo Mật Cao",
-    description: "Chúng tôi luôn đặt sự bảo mật lên hàng đầu, bảo vệ thông tin người dùng với các tiêu chuẩn an ninh cao nhất.",
+    title: "High Security",
+    description:
+      "We always put security first, protecting user information with the highest security standards.",
     icon: <SecurityIcon sx={{ fontSize: 60, color: teal[500] }} />,
   },
   {
-    title: "Tương Thích Mọi Thiết Bị",
-    description: "Dịch vụ của chúng tôi hoạt động tốt trên mọi thiết bị, từ điện thoại, máy tính bảng cho đến máy tính bàn.",
+    title: "Compatible with All Devices",
+    description:
+      "Our service works well on all devices, from phones, tablets to desktops.",
     icon: <DevicesIcon sx={{ fontSize: 60, color: teal[500] }} />,
   },
 ];
@@ -59,7 +72,7 @@ export default function AboutUs() {
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
-    arrows:false,
+    arrows: false,
     responsive: [
       {
         breakpoint: 1024,
@@ -89,8 +102,8 @@ export default function AboutUs() {
           sx={{
             position: "relative",
             width: "100%",
-            height: { xs: "250px", md: "400px" },
-            backgroundImage: `url('./test.png')`,
+            height: { xs: "250px", md: "600px" },
+            backgroundImage: `url('Images/bg/blogdetail1.jpg')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundAttachment: "fixed",
@@ -108,24 +121,97 @@ export default function AboutUs() {
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
             }}
           >
-            Về Chúng Tôi
+            About Us
           </Typography>
         </Box>
       </motion.div>
-
-      <Container maxWidth="lg" sx={{ paddingTop: 8, paddingBottom: 8 }}>
-        <motion.div
+      <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
         >
-          <Typography variant="body1" align="center" paragraph>
-            Chúng tôi là một công ty công nghệ với đội ngũ nhân viên tài năng, đam mê và sáng tạo. Sứ mệnh của chúng tôi là cung cấp các giải pháp công nghệ tiên tiến, mang lại giá trị thực sự cho khách hàng. Với sự phát triển không ngừng, chúng tôi tự hào về những sản phẩm và dịch vụ mà mình cung cấp, giúp đỡ hàng ngàn người dùng trên khắp thế giới.
-          </Typography>
+          <Paper
+            elevation={4}
+            sx={{ p: 4, borderRadius: 2, backgroundColor: "#f5f5f5" }}
+          >
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <motion.img
+                  src="/Images/bg/about2.png"
+                  alt="Our Team"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  style={{
+                    width: "100%",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="h4"
+                  align="center"
+                  sx={{ mb: 2, fontWeight: "bold", color: "#333" }}
+                  component={motion.h4}
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  DECOR VISTA
+                </Typography>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  paragraph
+                  component={motion.p}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  sx={{ lineHeight: 1.8, color: "#555" }}
+                >
+                  We are a technology company with a team of talented, passionate and creative people. Our mission is to provide innovative technology solutions that bring real value to our customers. With continuous development, we are proud of the products and services we provide, helping thousands of users around the world.
+                </Typography>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  paragraph
+                  component={motion.p}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  sx={{ lineHeight: 1.8, color: "#555" }}
+                >
+                  Every detail, every product and image is a mark, a story that Decor Vista wants to convey to each customer. Decor Vista hopes that each collection, each product and service will become a part of each family's home, like a message of "bringing love to every living space". Aiming for convenience, modernity, minimalism and environmental friendliness is the desire that Decor Vista constantly pursues.
+                </Typography>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  paragraph
+                  component={motion.p}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  sx={{ lineHeight: 1.8, color: "#555" }}
+                >
+                  We create the ultimate living space, the place we call “Home”.
+                  What we want to build here is to bring high-end designs to everyone. We want to help customers personalize their living space to be truly suitable and ideal. At Decor Vista, we do everything for the customers.
+                </Typography>
+              </Grid>
+            </Grid>
+          </Paper>
         </motion.div>
 
-        <Typography variant="h5" align="center" gutterBottom sx={{ marginTop: 6 }}>
-          Tính Năng Nổi Bật
+      <Container maxWidth="lg" sx={{ paddingTop: 8, paddingBottom: 8 }}>
+        
+        <Typography
+          variant="h5"
+          align="center"
+          gutterBottom
+          sx={{ marginTop: 6 }}
+        >
+          Outstanding Features
         </Typography>
         <Grid container spacing={4} sx={{ marginBottom: 6 }}>
           {features.map((feature, index) => (
@@ -166,10 +252,10 @@ export default function AboutUs() {
             />
           </Typography>
           <Typography variant="h5" align="center" gutterBottom>
-            Tầm Nhìn và Sứ Mệnh
+          Vision and Mission
           </Typography>
           <Typography variant="body1" align="center" paragraph>
-            Tầm nhìn của chúng tôi là trở thành công ty dẫn đầu trong lĩnh vực công nghệ, mang lại những sản phẩm và dịch vụ chất lượng hàng đầu. Chúng tôi luôn không ngừng đổi mới và sáng tạo để đáp ứng nhu cầu ngày càng cao của khách hàng. Sứ mệnh của chúng tôi là giúp các doanh nghiệp và cá nhân khai phá tiềm năng của họ thông qua các giải pháp công nghệ tiên tiến, tạo nên một tương lai số hóa bền vững và thành công.
+          Our vision is to be a leading company in the interior design industry, providing top quality products and services. We are constantly innovating and creating to meet the increasing demands of our customers. Our mission is to help businesses and individuals realize their potential through advanced design solutions, creating a sustainable and modern living space.
           </Typography>
         </motion.div>
 
@@ -177,7 +263,7 @@ export default function AboutUs() {
           <TeamIcon sx={{ fontSize: 80, color: deepPurple[500] }} />
         </Box>
         <Typography variant="h5" align="center" gutterBottom mb={4} mt={2}>
-          Đội Ngũ Của Chúng Tôi
+        Our Team
         </Typography>
 
         <Slider {...sliderSettings} className="team-slider">
@@ -191,11 +277,13 @@ export default function AboutUs() {
                 <Card
                   sx={{
                     display: "flex",
+                    width:"360px",
                     flexDirection: "column",
                     margin: "10px",
                     minHeight: 230,
                     justifyContent: "space-between",
-                    transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                    transition:
+                      "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
                     "&:hover": {
                       transform: "translateY(-10px)",
                       boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
@@ -221,7 +309,10 @@ export default function AboutUs() {
                         </Typography>
                         <Box display="flex" alignItems="center" mt={1}>
                           <EmailIcon fontSize="small" sx={{ marginRight: 1 }} />
-                          <Typography variant="body2" sx={{ fontSize: "0.875rem" }}>
+                          <Typography
+                            variant="body2"
+                            sx={{ fontSize: "0.875rem" }}
+                          >
                             {member.email}
                           </Typography>
                         </Box>
@@ -238,7 +329,7 @@ export default function AboutUs() {
                         WebkitBoxOrient: "vertical",
                       }}
                     >
-                      {member.description || "Thông tin chưa được cập nhật."}
+                      {member.description}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -259,9 +350,6 @@ export default function AboutUs() {
           zIndex: 1000,
         }}
       >
-        <Typography variant="body2" color="textSecondary" align="center">
-          © 2023 Your Company Name. All rights reserved.
-        </Typography>
       </motion.div>
     </div>
   );
