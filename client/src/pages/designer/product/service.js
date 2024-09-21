@@ -1,9 +1,10 @@
 import axios from "~/axios";
 
+// Lấy danh sách tất cả các sản phẩm
 export const getProductsApi = async (data = {}) => {
     try {
         const { search = '', page = 1 } = data;
-        const res = await axios.get('/management/products', {
+        const res = await axios.get('/supplier/products', {
             params: { search, page }
         });
         return res.data;
@@ -13,9 +14,10 @@ export const getProductsApi = async (data = {}) => {
     }
 };
 
+// Lấy chi tiết một sản phẩm
 export const getProductDetailApi = async (id) => {
     try {
-        const response = await axios.get(`/management/products/${id}`);
+        const response = await axios.get(`/supplier/products/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching product detail:', error);
@@ -23,9 +25,10 @@ export const getProductDetailApi = async (id) => {
     }
 };
 
+// Tạo một sản phẩm mới
 export const createProductApi = async (formData) => {
     try {
-        const res = await axios.post('/management/products/create', formData, {
+        const res = await axios.post('/supplier/products/create', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -52,9 +55,10 @@ export const createProductApi = async (formData) => {
     }
 };
 
+// Cập nhật một sản phẩm
 export const updateProductApi = async (id, formData) => {
     try {
-        const response = await axios.post(`/management/products/${id}`, formData, {
+        const response = await axios.post(`/supplier/products/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -67,9 +71,42 @@ export const updateProductApi = async (id, formData) => {
     }
 };
 
+// Xóa một sản phẩm
+export const deleteProductApi = async (id) => {
+    try {
+        const response = await axios.delete(`/supplier/products/${id}`);
+        return response.data;
+    } catch (error) {
+        if (error) {
+            console.error('Error response:', error);
+            return {
+                success: false,
+                message: [
+                    {
+                        en: 'An error occurred while deleting the product.',
+                        vi: 'Đã xảy ra lỗi khi xóa sản phẩm.'
+                    }
+                ]
+            };
+        } else {
+            console.error('Error message:', error.message);
+            return {
+                success: false,
+                message: [
+                    {
+                        en: 'Server is busy. Please try again later!',
+                        vi: 'Máy chủ đang gặp sự cố. Vui lòng thử lại sau!'
+                    }
+                ]
+            };
+        }
+    }
+};
+
+// Lấy danh sách các danh mục
 export const getCategoriesApi = async () => {
     try {
-        const response = await axios.get('/management/categories');
+        const response = await axios.get('/supplier/categories');
         return response.data;
     } catch (error) {
         console.error('Error fetching categories:', error);
@@ -77,13 +114,5 @@ export const getCategoriesApi = async () => {
     }
 };
 
-export const deleteProductApi = async (id) => {
-    try {
-        await axios.delete(`/management/products/${id}`);
-        return { success: true };
-    } catch (error) {
-        console.error('Error deleting category:', error);
-        throw error; 
-    }
-};
+// Lấy danh sách các thương hiệu
 

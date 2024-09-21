@@ -77,7 +77,7 @@ export default function ProductCreate() {
         setSnackbarMessage(t("Product created successfully!"));
         setSnackbarSeverity("success");
         setOpenSnackbar(true);
-        setTimeout(() => navigate("/supplier/products"), 500);
+        setTimeout(() => navigate("/management/products"), 500);
       } else {
         setSnackbarMessage(message[i18n.language] || "Failed to create product.");
         setSnackbarSeverity("error");
@@ -94,7 +94,7 @@ export default function ProductCreate() {
   };
 
   const handleBack = () => {
-    navigate("/supplier/products");
+    navigate("/management/products");
   };
 
   const handleCloseSnackbar = () => {
@@ -203,7 +203,6 @@ export default function ProductCreate() {
               </Select>
             </FormControl>
 
-            {/* Trường ẩn cho brand_id (supplier_id) */}
             <input type="hidden" value={user.data.id} />
 
             <Input

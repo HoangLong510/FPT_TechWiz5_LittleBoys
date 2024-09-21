@@ -72,7 +72,7 @@ export default function ProductDetail() {
         const [categoriesRes] = await Promise.all([getCategoriesApi()]);
         setCategories(categoriesRes.categories || []);
       } catch (err) {
-        setError("Failed to fetch supplier or categories.");
+        setError("Failed to fetch categories.");
       }
     };
 
@@ -109,7 +109,7 @@ export default function ProductDetail() {
       if (res.success) {
         setSuccess(true);
         dispatch(setPopup({ type: "success", message: res.message }));
-        navigate("/supplier/products");
+        navigate("/management/products");
       } else {
         setError(res.message);
         dispatch(setPopup({ type: "error", message: res.message }));

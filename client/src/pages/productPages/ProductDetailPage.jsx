@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import {
 	Container,
@@ -230,7 +228,17 @@ export default function ProductDetail() {
 									{isFavorite ? <Favorite /> : <FavoriteBorder />}
 								</IconButton>
 							</Box>
-							
+							<Typography variant="h6" gutterBottom>
+								Specifications
+							</Typography>
+							<List>
+								<ListItem>
+									<ListItemText
+									primary={'Category:'}
+									secondary={'- ' + product.category.name}
+									/>
+								</ListItem>
+							</List>
 						</Grid>
 					</Grid>
 

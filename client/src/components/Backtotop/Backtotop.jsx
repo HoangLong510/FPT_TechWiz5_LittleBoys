@@ -46,7 +46,7 @@ export default function Backtotop() {
             backgroundColor: "#bf995c",
             svg: {
               color: "#fff",
-              },
+            },
           },
         }}
       >

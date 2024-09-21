@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\ActivityLog;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -165,79 +167,38 @@ class ManagementController extends Controller
         }
     }
 
-    // Supplier management
+    // Designer management
 
-    public function getSuppliers(Request $request)
+    public function getDesigners(Request $request)
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
 
         try {
-            $suppliers = User::where('role', 'supplier')
+            $designers = User::where('role', 'designer')
                 ->where('fullname', 'like', '%' . $search . '%')
                 ->paginate(10, ['*'], 'page', $page);
 
-            $suppliers->getCollection()->transform(function ($supplier) {
-                $supplier->image = $supplier->image ? asset('storage/' . $supplier->image) : null;
-                return $supplier;
+            $designers->getCollection()->transform(function ($designer) {
+                $designer->image = $designer->image ? asset('storage/' . $designer->image) : null;
+                return $designer;
             });
 
             return response()->json([
-                'suppliers' => $suppliers->items(),
-                'totalPages' => $suppliers->lastPage(),
-                'currentPage' => $suppliers->currentPage(),
-                'totalItems' => $suppliers->total(),
+                'designers' => $designers->items(),
+                'totalPages' => $designers->lastPage(),
+                'currentPage' => $designers->currentPage(),
+                'totalItems' => $designers->total(),
             ], 200);
         } catch (\Exception $e) {
-            \Log::error('Error fetching suppliers: ' . $e->getMessage());
+            \Log::error('Error fetching designers: ' . $e->getMessage());
             return response()->json(['error' => 'Server Error'], 500);
         }
     }
 
-    public function changeRole(Request $request, $id)
-    {
-        try {
-            $user = User::find($id);
-
-            if (!$user) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User not found.'
-                ], 404);
-            }
-
-            if ($user->role !== 'supplier') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User is not a supplier.'
-                ], 400);
-            }
-
-            $products = Product::where('user_id', $user->id)->get();
-
-            foreach ($products as $product) {
-                $product->delete();
-            }
-
-            $user->role = 'user';
-            $user->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Supplier role changed to user and products deleted.'
-            ], 200);
-        } catch (\Exception $e) {
-            \Log::error('Error changing role: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while changing the role.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
 
     // Tạo Category (Create Category)
+    
     public function createCategory(Request $request)
     {
         $validatedData = $request->validate([
@@ -399,15 +360,121 @@ class ManagementController extends Controller
     }
 
     //prodcut
+    public function createProduct(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        try {
+            $user = auth()->user();
+
+            $imagePath = null;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imagePath = $image->store('images', 'public'); // Lưu vào 'storage/app/public/images'
+            }
+
+            // Tạo sản phẩm
+            $product = Product::create([
+                'name' => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'quantity' => $validatedData['quantity'],
+                'description' => $validatedData['description'],
+                'category_id' => $validatedData['category_id'],
+                'user_id' => $user->id,
+                'image' => $imagePath
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'data' => $product
+            ], 201);
+        } catch (\Exception $e) {
+            // Log lỗi chi tiết
+            \Log::error($e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while creating the product.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateProduct(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        try {
+            $user = auth()->user();
+            $product = Product::find($id);
+
+            if (!$product || $user->role != 'admin') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found or you do not have permission to update this product.'
+                ], 404);
+            }
+
+            if ($request->hasFile('image')) {
+                if ($product->image && Storage::exists('public/' . $product->image)) {
+                    Storage::delete('public/' . $product->image);
+                }
+
+                $imagePath = $request->file('image')->store('images', 'public');
+                $validatedData['image'] = $imagePath;
+            }
+
+            $product->update($validatedData);
+
+            return response()->json([
+                'success' => true,
+                'data' => $product
+            ], 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Error updating product: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating the product.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getProduct($id)
+    {
+        $product = Product::where('id', $id)->first();
+
+        $product->image = $product->image ? asset('storage/' . $product->image) : null;
+
+        return response()->json([
+            'success' => true,
+            'data' => $product
+        ]);
+    }
+
     public function getProducts(Request $request)
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
 
         $productsQuery = Product::with([
-            'user' => function ($query) {
-                $query->where('role', 'supplier');
-            },
+
             'category'
         ])
             ->where(function ($query) use ($search) {
@@ -421,10 +488,6 @@ class ManagementController extends Controller
         $products->getCollection()->transform(function ($product) {
             $product->image = $product->image ? asset('storage/' . $product->image) : null;
 
-            if ($product->user) {
-                $product->supplier_name = $product->user->fullname;
-            }
-
             return $product;
         });
 
@@ -434,8 +497,6 @@ class ManagementController extends Controller
             'totalPages' => $products->lastPage()
         ]);
     }
-
-    //delete product 
 
     public function deleteProduct($id)
     {
@@ -529,69 +590,169 @@ class ManagementController extends Controller
 
         return response()->json($data);
     }
-  //Second Chart
-public function fetchAccountStatistics(Request $request)
-{
+    //Second Chart
+    public function fetchAccountStatistics(Request $request)
+    {
 
-    // Get the current date and time with proper timezone handling
-    $now = Carbon::now()->setTimezone('UTC'); // Adjust the timezone if needed
+        // Get the current date and time with proper timezone handling
+        $now = Carbon::now()->setTimezone('UTC'); // Adjust the timezone if needed
 
-    // Total accounts
-    $totalAccounts = User::count();
+        // Total accounts
+        $totalAccounts = User::count();
 
-    // Locked accounts (where active = 0)
-    $lockedAccounts = User::where('active', 0)->count();
+        // Locked accounts (where active = 0)
+        $lockedAccounts = User::where('active', 0)->count();
 
-    // Accounts created today
-    $accountsCreatedToday = User::whereDate('created_at', $now->toDateString())->count();
+        // Accounts created today
+        $accountsCreatedToday = User::whereDate('created_at', $now->toDateString())->count();
 
-    // Start and end of the week (considering current time)
-    $startOfWeek = $now->copy()->startOfWeek(); // Cloning $now to keep original
-    $endOfWeek = $now;
+        // Start and end of the week (considering current time)
+        $startOfWeek = $now->copy()->startOfWeek(); // Cloning $now to keep original
+        $endOfWeek = $now;
 
-    // Start and end of the month
-    $startOfMonth = $now->copy()->startOfMonth();
-    $endOfMonth = $now;
+        // Start and end of the month
+        $startOfMonth = $now->copy()->startOfMonth();
+        $endOfMonth = $now;
 
-    // Accounts created this week (from start of the week to now)
-    $accountsCreatedThisWeek = User::whereBetween('created_at', [$startOfWeek, $endOfWeek])->count();
+        // Accounts created this week (from start of the week to now)
+        $accountsCreatedThisWeek = User::whereBetween('created_at', [$startOfWeek, $endOfWeek])->count();
 
-    // Accounts created this month (from start of the month to now)
-    $accountsCreatedThisMonth = User::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        // Accounts created this month (from start of the month to now)
+        $accountsCreatedThisMonth = User::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
 
-    // Locked accounts created today
-    $lockedAccountsToday = User::where('active', 0)
-        ->whereDate('created_at', $now->toDateString())
-        ->count();
+        // Locked accounts created today
+        $lockedAccountsToday = User::where('active', 0)
+            ->whereDate('created_at', $now->toDateString())
+            ->count();
 
-    // Locked accounts created this week (from start of the week to now)
-    $lockedAccountsThisWeek = User::where('active', 0)
-        ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-        ->count();
+        // Locked accounts created this week (from start of the week to now)
+        $lockedAccountsThisWeek = User::where('active', 0)
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->count();
 
-    // Locked accounts created this month (from start of the month to now)
-    $lockedAccountsThisMonth = User::where('active', 0)
-        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-        ->count();
+        // Locked accounts created this month (from start of the month to now)
+        $lockedAccountsThisMonth = User::where('active', 0)
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->count();
 
-    // Count users with role 'user'
-    $roleUserCount = User::where('role', 'user')->count();
+        // Count users with role 'user'
+        $roleUserCount = User::where('role', 'user')->count();
 
-    // Count users with role 'supplier'
-    $roleSupplierCount = User::where('role', 'supplier')->count();
+        // Count users with role 'supplier'
+        $roleSupplierCount = User::where('role', 'designer')->count();
 
-    // Return the statistics as a JSON response
-    return response()->json([
-        'totalAccounts' => $totalAccounts,
-        'lockedAccounts' => $lockedAccounts,
-        'lockedAccountsToday' => $lockedAccountsToday,
-        'lockedAccountsThisWeek' => $lockedAccountsThisWeek,
-        'lockedAccountsThisMonth' => $lockedAccountsThisMonth,
-        'accountsCreatedToday' => $accountsCreatedToday,
-        'accountsCreatedThisWeek' => $accountsCreatedThisWeek,
-        'accountsCreatedThisMonth' => $accountsCreatedThisMonth,
-        'roleUserCount' => $roleUserCount,
-        'roleSupplierCount' => $roleSupplierCount,
-    ]);
-}
+        // Return the statistics as a JSON response
+        return response()->json([
+            'totalAccounts' => $totalAccounts,
+            'lockedAccounts' => $lockedAccounts,
+            'lockedAccountsToday' => $lockedAccountsToday,
+            'lockedAccountsThisWeek' => $lockedAccountsThisWeek,
+            'lockedAccountsThisMonth' => $lockedAccountsThisMonth,
+            'accountsCreatedToday' => $accountsCreatedToday,
+            'accountsCreatedThisWeek' => $accountsCreatedThisWeek,
+            'accountsCreatedThisMonth' => $accountsCreatedThisMonth,
+            'roleUserCount' => $roleUserCount,
+            'roleSupplierCount' => $roleSupplierCount,
+        ]);
+    }
+
+    // Order
+    public function fetchOrders()
+    {
+        $count = Order::count();
+
+        $perPage = 5;
+        $totalPage = ceil($count / $perPage);
+        $page = request('page');
+        $offset = ($page - 1) * $perPage;
+
+        $orders = Order::orderBy('created_at', 'desc')
+            ->skip($offset)
+            ->take($perPage)
+            ->get();
+
+        if (count($orders) > 0) {
+            foreach ($orders as $order) {
+                $totalPrice = 0;
+                $detail = OrderDetail::where('order_id', $order->id)->get();
+                foreach ($detail as $item) {
+                    $totalPrice += $item->quantity * $item->price;
+                }
+                $order->total_price = $totalPrice;
+            }
+        }
+
+        return response()->json([
+            "success" => true,
+            "orders" => $orders,
+            "totalPage" => $totalPage
+        ]);
+    }
+
+    public function fetchOrderDetails($id)
+    {
+        $user = auth()->user();
+
+        $order = Order::where('id', $id)->first();
+
+        if ($user->role == 'admin') {
+            $order->details = DB::table('order_details')
+                ->join("products", "product_id", "=", "products.id")
+                ->select(
+                    'products.name as name',
+                    'products.image',
+                    'order_details.price as price',
+                    'order_details.quantity as quantity'
+                )
+                ->where('order_details.order_id', $id)
+                ->get();
+
+            $order->total_price = 0;
+
+            foreach ($order->details as $item) {
+                $order->total_price += $item->quantity * $item->price;
+            }
+
+            return response()->json([
+                "success" => true,
+                "order" => $order
+            ]);
+        }
+
+        return response()->json([
+            "success" => false
+        ]);
+    }
+
+    public function updateOrderType()
+    {
+        $user = auth()->user();
+
+        $id = request('id');
+        $type = request('type');
+
+        if ($user->role == 'admin') {
+            Order::where('id', $id)->update([
+                'type' => $type
+            ]);
+
+            if ($type == 'success') {
+                $msg = new \stdClass();
+                $msg->vi = "Đã hoàn thành đơn hàng!";
+                $msg->en = "Order completed!";
+            } else {
+                $msg = new \stdClass();
+                $msg->vi = "Đã hủy bỏ đơn hàng!";
+                $msg->en = "Order Cancelled!";
+            }
+            return response()->json([
+                "success" => true,
+                'message' => [$msg]
+            ]);
+        } else {
+            return response()->json([
+                "success" => false
+            ]);
+        }
+    }
 }
