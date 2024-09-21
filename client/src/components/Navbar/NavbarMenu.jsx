@@ -61,7 +61,7 @@ export default function NavbarMenu() {
                                 {t("Homepage")}
                             </Button>
                         </Link>
-                        <Link onClick={toggleDrawer(false)} to="/" style={{
+                        <Link onClick={toggleDrawer(false)} to="/product" style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -70,22 +70,41 @@ export default function NavbarMenu() {
                                 {t("Products")}
                             </Button>
                         </Link>
-                        <Link onClick={toggleDrawer(false)} to="/" style={{
+                        <Link onClick={toggleDrawer(false)} to="/gallery" style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
                             <Button sx={{ width: '100%' }}>
-                                {t("AboutUs")}
+                                {t("Gallery")}
                             </Button>
                         </Link>
-                        <Link onClick={toggleDrawer(false)} to="https://www.facebook.com/aptech.fpt" target='_blank' style={{
+                        <Link onClick={toggleDrawer(false)} to="/about-us" style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
                             <Button sx={{ width: '100%' }}>
-                                Fanpage
+                                {t("About Us")}
+                            </Button>
+                        </Link>
+                        <Link onClick={toggleDrawer(false)} to="/contact-us" style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <Button sx={{ width: '100%' }}>
+                                {t("Contact Us")}
+                            </Button>
+                        </Link>
+
+                        <Link onClick={toggleDrawer(false)} to="/blog" style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <Button sx={{ width: '100%' }}>
+                                Blog
                             </Button>
                         </Link>
                     </List>

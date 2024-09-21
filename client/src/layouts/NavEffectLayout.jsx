@@ -174,16 +174,22 @@ export default function NavEffectLayout({ children }) {
                     <Button className="scroll-button">{t("Products")}</Button>
                   </Link>
                   <Link
+                    to="/gallery"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <Button className="scroll-button">{t("Gallery")}</Button>
+                  </Link>
+                  <Link
                     to="/about-us"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">{t("AboutUs")}</Button>
+                    <Button className="scroll-button">{t("About Us")}</Button>
                   </Link>
                   <Link
                     to="/contact-us"
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button className="scroll-button">{t("ContactUs")}</Button>
+                    <Button className="scroll-button">{t("Contact Us")}</Button>
                   </Link>
                   <Link
                     to="/blog"
@@ -290,7 +296,7 @@ export default function NavEffectLayout({ children }) {
                         </Link>
                         <Link
                           onClick={toggleDrawer(false)}
-                          to="/"
+                          to="/product"
                           style={{
                             display: "flex",
                             alignItems: "center",
@@ -303,26 +309,49 @@ export default function NavEffectLayout({ children }) {
                         </Link>
                         <Link
                           onClick={toggleDrawer(false)}
-                          to="/"
+                          to="/gallery"
                           style={{
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                           }}
                         >
-                          <Button sx={{ width: "100%" }}>{t("AboutUs")}</Button>
+                          <Button sx={{ width: "100%" }}>
+                            {t("Gallery")}
+                          </Button>
                         </Link>
                         <Link
                           onClick={toggleDrawer(false)}
-                          to="https://www.facebook.com/aptech.fpt"
-                          target="_blank"
+                          to="/about-us"
                           style={{
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                           }}
                         >
-                          <Button sx={{ width: "100%" }}>Fanpage</Button>
+                          <Button sx={{ width: "100%" }}>{t("About Us")}</Button>
+                        </Link>
+                        <Link
+                          onClick={toggleDrawer(false)}
+                          to="/contact-us"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button sx={{ width: "100%" }}>Contact Us</Button>
+                        </Link>
+                        <Link
+                          onClick={toggleDrawer(false)}
+                          to="/blog"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button sx={{ width: "100%" }}>Blog</Button>
                         </Link>
                       </List>
                       {/* Right   */}

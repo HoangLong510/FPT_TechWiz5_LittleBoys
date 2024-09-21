@@ -224,12 +224,6 @@ const FurnitureBlog = () => {
                     <StyledCard>
                       <StyledCardMedia image={post.image} title={post.title} />
                       <CardContent>
-                        <Chip
-                          label={post.category}
-                          color="primary"
-                          size="small"
-                          sx={{ mb: 1 }}
-                        />
                         <Typography variant="h5" component="h2" gutterBottom>
                           {post.title}
                         </Typography>
@@ -386,22 +380,8 @@ const FurnitureBlog = () => {
 
           <Grid item xs={12} md={4} sx={{ mt: 6.68 }}>
             <Box sx={{ position: "sticky", top: 20 }}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Categories
-                  </Typography>
-                  <List>
-                    {categories.map((category, index) => (
-                      <ListItem key={index} disablePadding>
-                        <ListItemText primary={category} />
-                      </ListItem>
-                    ))}
-                  </List>
-                </CardContent>
-              </Card>
 
-              <Card sx={{ mt: 4 }}>
+              <Card sx={{ mt: 0 }}>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>
                     Popular Posts
@@ -413,54 +393,6 @@ const FurnitureBlog = () => {
                       </ListItem>
                     ))}
                   </List>
-                </CardContent>
-              </Card>
-
-              <Card sx={{ mt: 4 }}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Newsletter Signup
-                  </Typography>
-                  <form onSubmit={handleNewsletterSignup}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      placeholder="Your email address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <EmailIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      sx={{ mb: 2 }}
-                    />
-                    <StyledButton type="submit" fullWidth>
-                      Sign Up
-                    </StyledButton>
-                  </form>
-                </CardContent>
-              </Card>
-
-              <Card sx={{ mt: 4 }}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Follow Us
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      mt: 2,
-                    }}
-                  >
-                    <FacebookIcon color="primary" />
-                    <TwitterIcon color="primary" />
-                    <InstagramIcon color="primary" />
-                    <PinterestIcon color="primary" />
-                  </Box>
                 </CardContent>
               </Card>
             </Box>
@@ -552,7 +484,7 @@ const FurnitureBlog = () => {
           color="text.secondary"
           sx={{ mt: 4, opacity: 0.8 }}
         >
-          © 2023 Decor Vista. All rights reserved.
+          © 2024 Decor Vista. All rights reserved.
         </Typography>
       </Box>
     </Box>
