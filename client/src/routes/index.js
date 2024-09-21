@@ -23,17 +23,17 @@ import Security from "../pages/user/security/security"
 import notification from "../pages/user/notification/notification"
 import favorite from "~/pages/user/favorite/Favorite"
 import orders from "~/pages/user/orders/oders"
-import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
+import RegisterDesigner from "~/pages/auth/register/RegisterDesigner"
 import Blog from "~/pages/blog/Blog"
-import SupplierProductCreate from "~/pages/supplier/product/SupplierProductCreate"
-import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
+import DesignProjectCreate from "~/pages/supplier/project/DesignProjectCreate"
+import DesignDetails from "~/pages/supplier/DesignDetail/DesignDetails"
 import BlogDetail from "~/pages/blog/blogDetail/BlogDetailOne"
-import SupplierProductList from "~/pages/supplier/product/SupplierProductList"
-import SupplierProductDetails from "~/pages/supplier/product/SupplierProductDetails"
+import DesignProjectList from "~/pages/supplier/project/DesignProjectList"
+import DesignProjectDetails from "~/pages/supplier/project/DesignProjectDetails"
 
 import Meetings from "~/pages/supplier/meetings/Meetings"
 import Feedback from "~/pages/supplier/feedback/Feedback"
-import Supplier from "~/pages/supplier/Supplier"
+import Supplier from "~/pages/supplier/Design"
 
 import Favorite from "~/pages/user/favorite/Favorite"
 
@@ -44,16 +44,16 @@ const publicRoutes = [
     { path: '/contact-us', component: ContactUs, layout: DefaultLayout },
     { path: '/product', component: Product, layout: DefaultLayout },
     { path: '/product/:productId', component: ProductDetailPage, layout: DefaultLayout },
-    { path: '/register-supplier', component: RegisterSupplier , layout: DefaultLayout },
+    { path: '/register-designer', component: RegisterDesigner , layout: DefaultLayout },
     { path: '/blog', component: Blog, layout: DefaultLayout },
-    { path: '/supplier/detail', component: SupplierDetail, layout: DefaultLayout },
+    { path: '/designer/detail/userId', component: DesignDetails, layout: DefaultLayout },
     { path: '/blog/blogdetailone', component: BlogDetail , layout: DefaultLayout },
 ]
 
 const authRoutes = [
     { path: '/auth/login', component: Login, layout: DefaultLayout },
     { path: '/auth/register', component: Register, layout: DefaultLayout },
-    { path: '/auth/register-supplier/:{id}', component: RegisterSupplier, layout: DefaultLayout },
+    { path: '/auth/register-designer', component: RegisterDesigner, layout: DefaultLayout },
     { path: '/auth/forgot-password', component: ForgotPassword, layout: DefaultLayout }
 ]
 
@@ -82,15 +82,14 @@ const managementRoutes = [
 
 ]
 
-const supplierRoutes =[
-    {path : '/supplier' ,  component: Supplier , layout: DefaultLayout},
-    {path :'/supplier/products/', component: SupplierProductList , layout: DefaultLayout},
-    {path :'/supplier/products/:productId', component: SupplierProductDetails , layout: DefaultLayout},
+const designerRoutes =[
+    {path : '/designer' ,  component: Supplier , layout: DefaultLayout},
+    {path :'/designer/projects/', component: DesignProjectList , layout: DefaultLayout},
+    {path :'/designer/projects/:projectId', component: DesignProjectDetails , layout: DefaultLayout},
 
-    {path :'/supplier/products/create', component: SupplierProductCreate , layout: DefaultLayout},
-    {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout},
-    {path : '/supplier/meetings', component: Meetings, layout: DefaultLayout},
-    {path : '/supplier/feedback', component: Feedback, layout: DefaultLayout},
+    {path :'/designer/projects/create', component: DesignProjectCreate , layout: DefaultLayout},
+    {path : '/designer/meetings', component: Meetings, layout: DefaultLayout},
+    {path : '/designer/feedback', component: Feedback, layout: DefaultLayout},
 ]
 
-export { publicRoutes, userRoutes, authRoutes, managementRoutes, supplierRoutes }
+export { publicRoutes, userRoutes, authRoutes, managementRoutes, designerRoutes }

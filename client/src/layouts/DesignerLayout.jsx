@@ -28,41 +28,41 @@ export default function SupplierLayout({ children }) {
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Link to="/supplier">
+        <Link to="/designer">
           <Button
             sx={{ width: "100%" }}
-            variant={pathname === "/supplier" ? "contained" : "text"}
+            variant={pathname === "/designer" ? "contained" : "text"}
           >
             General
           </Button>
         </Link>
 
-        <Link to="/supplier/products">
+        <Link to="/designer/projects">
           <Button
             sx={{ width: "100%" }}
             variant={
-              pathname.startsWith("/supplier/products") ? "contained" : "text"
+              pathname.startsWith("/designer/projects") ? "contained" : "text"
             }
           >
-            Products
+            Projects
           </Button>
         </Link>
-        <Link to="/supplier/feedback">
+        <Link to="/designer/feedback">
           <Button
             sx={{ width: "100%" }}
             variant={
-              pathname.startsWith("/supplier/feedback") ? "contained" : "text"
+              pathname.startsWith("/designer/feedback") ? "contained" : "text"
             }
           >
             Feedback
           </Button>
         </Link>
 
-        <Link to="/supplier/meetings">
+        <Link to="/designer/meetings">
           <Button
             sx={{ width: "100%" }}
             variant={
-              pathname.startsWith("/supplier/meetings") ? "contained" : "text"
+              pathname.startsWith("/designer/meetings") ? "contained" : "text"
             }
           >
             Meetings

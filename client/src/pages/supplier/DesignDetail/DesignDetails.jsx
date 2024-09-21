@@ -513,13 +513,15 @@ export default function SupplierDetail() {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ mt: 2, "&:hover": {
-                          backgroundColor: "#f0f0f0",
-                          borderColor: "#333",
-                          color: "black",
-                        },}}
+            sx={{
+              mt: 2,
+              "&:hover": {
+                backgroundColor: "#f0f0f0",
+                borderColor: "#333",
+                color: "black",
+              },
+            }}
             onClick={handleContactDialogClose}
-            
           >
             Gửi yêu cầu
           </Button>
