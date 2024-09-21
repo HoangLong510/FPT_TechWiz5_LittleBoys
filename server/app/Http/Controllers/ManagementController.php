@@ -197,6 +197,7 @@ class ManagementController extends Controller
     }
 
 
+    // Tạo Category (Create Category)
     
     public function createCategory(Request $request)
     {
@@ -473,6 +474,7 @@ class ManagementController extends Controller
         $page = $request->query('page', 1);
 
         $productsQuery = Product::with([
+
             'category'
         ])
             ->where(function ($query) use ($search) {
@@ -485,7 +487,7 @@ class ManagementController extends Controller
 
         $products->getCollection()->transform(function ($product) {
             $product->image = $product->image ? asset('storage/' . $product->image) : null;
-          
+
             return $product;
         });
 
