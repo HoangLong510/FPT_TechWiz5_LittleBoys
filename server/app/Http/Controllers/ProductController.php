@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Cart;
 use App\Models\Comment;
+use App\Models\Favorite;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -69,16 +70,20 @@ class ProductController extends Controller
     {
         $product = Product::where('id', $id)->first();
         $existsCart = false;
+        $existsFavorite = false;
         $user = auth()->user();
         if ($user) {
             $existsCart = Cart::where('product_id', $id)->where('user_id', $user->id)->exists();
+            $existsFavorite = Favorite::where('user_id', $user->id)
+                ->where('product_id', $id)->exists();
         }
 
         if ($product) {
             return response()->json([
                 "success" => true,
                 "product" => $product,
-                "existsCart" => $existsCart
+                "existsCart" => $existsCart,
+                "existsFavorite" => $existsFavorite
             ]);
         } else {
             return response()->json([
@@ -144,7 +149,7 @@ class ProductController extends Controller
             $comments = DB::table('comments')
                 ->join("users", "user_id", "=", "users.id")
                 ->where("comments.product_id", $productId)
-                ->select('comments.id as id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
+                ->select('comments.id as id', 'users.id as user_id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
                 ->orderBy("created_at", "desc")
                 ->get();
 
@@ -165,13 +170,67 @@ class ProductController extends Controller
         $comments = DB::table('comments')
             ->join("users", "user_id", "=", "users.id")
             ->where("comments.product_id", $productId)
-            ->select('comments.id as id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
+            ->select('comments.id as id', 'users.id as user_id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
             ->orderBy("created_at", "desc")
             ->get();
 
         return response()->json([
             "success" => true,
             "comments" => $comments
+        ]);
+    }
+
+    public function removeComment()
+    {
+        $id = request('id');
+        $productId = request('productId');
+
+        $user = auth()->user();
+
+        $find = Comment::where('id', $id)->first();
+
+        if ($user->id == $find->user_id || $user->role == 'admin') {
+            Comment::where('id', $id)->delete();
+        }
+
+        $comments = DB::table('comments')
+            ->join("users", "user_id", "=", "users.id")
+            ->where("comments.product_id", $productId)
+            ->select('comments.id as id', 'users.id as user_id', 'users.fullname as fullname', 'comments.content as content', 'comments.created_at as created_at')
+            ->orderBy("created_at", "desc")
+            ->get();
+
+        $msg = new \stdClass();
+        $msg->en = "Remove this comment successfully!";
+        $msg->vi = "Xóa bình luận thành công!";
+
+        return response()->json([
+            "success" => true,
+            "comments" => $comments,
+            "message" => [$msg]
+        ]);
+    }
+
+    // favorite
+    public function toggleFavorite($productId)
+    {
+        $user = auth()->user();
+
+        $existsFavorite = Favorite::where('user_id', $user->id)
+            ->where('product_id', $productId)->exists();
+
+        if (!$existsFavorite) {
+            $favorite = new Favorite();
+            $favorite->user_id = $user->id;
+            $favorite->product_id = $productId;
+            $favorite->save();
+        } else {
+            Favorite::where('user_id', $user->id)
+                ->where('product_id', $productId)->delete();
+        }
+
+        return response()->json([
+            "success" => true
         ]);
     }
 }
