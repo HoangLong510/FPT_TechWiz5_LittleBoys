@@ -26,7 +26,7 @@ class supplierController extends Controller
             'quantity' => 'required|integer',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         try {
@@ -74,7 +74,7 @@ class supplierController extends Controller
             'quantity' => 'required|integer',
             'description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         try {
@@ -93,8 +93,7 @@ class supplierController extends Controller
                     Storage::delete('public/' . $product->image);
                 }
 
-                $image = $request->file('image');
-                $imagePath = $image->store('images', 'public');
+                $imagePath = $request->file('image')->store('images', 'public');
                 $validatedData['image'] = $imagePath;
             }
 
@@ -117,16 +116,14 @@ class supplierController extends Controller
     }
 
 
-    // Optionally, you might want to add methods to get products and product details
     public function getProducts(Request $request)
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
-        $user = auth()->user(); // Lấy thông tin người dùng hiện tại
+        $user = auth()->user();
 
-        // Lọc sản phẩm dựa trên từ khóa tìm kiếm và user_id
         $productsQuery = Product::with(['category'])
-            ->where('user_id', $user->id)  // Chỉ lấy sản phẩm của user hiện tại
+            ->where('user_id', $user->id)
             ->where(function ($query) use ($search) {
                 if ($search) {
                     $query->where('name', 'like', '%' . $search . '%');
@@ -136,7 +133,6 @@ class supplierController extends Controller
         // Phân trang
         $products = $productsQuery->paginate(10, ['*'], 'page', $page);
 
-        // Đảm bảo chỉ thêm 'storage/' một lần
         $products->getCollection()->transform(function ($product) {
             $product->image = $product->image ? asset('storage/' . $product->image) : null;
             return $product;
@@ -196,10 +192,9 @@ class supplierController extends Controller
     public function deleteProduct($id)
     {
         try {
-            $user = auth()->user(); // Lấy thông tin người dùng hiện tại
+            $user = auth()->user();
             $product = Product::find($id);
 
-            // Kiểm tra sản phẩm có tồn tại và có thuộc về người dùng hiện tại không
             if (!$product || $product->user_id !== $user->id) {
                 return response()->json([
                     'success' => false,
@@ -207,7 +202,6 @@ class supplierController extends Controller
                 ], 404);
             }
 
-            // Xóa sản phẩm và ảnh liên quan
             if ($product->image && Storage::exists('public/' . $product->image)) {
                 Storage::delete('public/' . $product->image);
             }

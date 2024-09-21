@@ -54,8 +54,8 @@ export default function ProductDetail() {
           setPrice(price || "");
           setQuantity(quantity || "");
           setDescription(description || "");
-          setCategory(category?.id || ""); // Đảm bảo category có id
-          setImage(image || ""); // Lưu đường dẫn hình ảnh cũ
+          setCategory(category?.id || "");
+          setImage(image || "");
         } else {
           setError("Product not found.");
         }
