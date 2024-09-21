@@ -8,7 +8,14 @@ use App\Models\Category;
 
 class supplierController extends Controller
 {
-    //prodcut
+    public function __construct()
+    {
+        $this->middleware('auth:api', [
+            'except' => [
+
+            ]
+        ]);
+    }
 
     // Create a new product
     public function createProduct(Request $request)
@@ -23,13 +30,8 @@ class supplierController extends Controller
         ]);
 
         try {
-            // Lấy thông tin user đang đăng nhập
-            $supplier = auth()->user();  // Giả sử supplier là brand luôn
+            $user = auth()->user();
 
-            // Gán brand_id là supplier_id (nếu supplier là brand)
-            $brandId = $supplier->id;
-
-            // Xử lý hình ảnh
             $imagePath = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -43,7 +45,7 @@ class supplierController extends Controller
                 'quantity' => $validatedData['quantity'],
                 'description' => $validatedData['description'],
                 'category_id' => $validatedData['category_id'],
-                'brand_id' => $brandId, // Gán brand_id tự động
+                'user_id' => $user->id,
                 'image' => $imagePath
             ]);
 
@@ -76,42 +78,36 @@ class supplierController extends Controller
         ]);
 
         try {
+            $user = auth()->user();
             $product = Product::find($id);
 
-            if ($product) {
-                if ($request->hasFile('image')) {
-                    // Delete old image if it exists
-                    if ($product->image && Storage::exists('public/' . $product->image)) {
-                        Storage::delete('public/' . $product->image);
-                    }
-
-                    $imagePath = null;
-                    if ($request->hasFile('image')) {
-                        $image = $request->file('image');
-                        // Save the new image in the 'public/images' directory
-                        $imagePath = $image->store('images', 'public');
-                        $validatedData['image'] = $imagePath;
-                    }
-
-                    $product->update($validatedData);
-                } else {
-                    $product->update([
-                        'name' => $request->name,
-                        'image' => $product->image
-                    ]);
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'data' => $product
-                ], 200);
-            } else {
+            if (!$product || $product->user_id !== $user->id) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Category not found.'
+                    'message' => 'Product not found or you do not have permission to update this product.'
                 ], 404);
             }
+
+            if ($request->hasFile('image')) {
+                if ($product->image && Storage::exists('public/' . $product->image)) {
+                    Storage::delete('public/' . $product->image);
+                }
+
+                $image = $request->file('image');
+                $imagePath = $image->store('images', 'public');
+                $validatedData['image'] = $imagePath;
+            }
+
+            $product->update($validatedData);
+
+            return response()->json([
+                'success' => true,
+                'data' => $product
+            ], 200);
+
         } catch (\Exception $e) {
+            \Log::error('Error updating product: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while updating the product.',
@@ -126,9 +122,11 @@ class supplierController extends Controller
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
+        $user = auth()->user(); // Lấy thông tin người dùng hiện tại
 
-        // Lọc sản phẩm dựa trên từ khóa tìm kiếm
+        // Lọc sản phẩm dựa trên từ khóa tìm kiếm và user_id
         $productsQuery = Product::with(['category'])
+            ->where('user_id', $user->id)  // Chỉ lấy sản phẩm của user hiện tại
             ->where(function ($query) use ($search) {
                 if ($search) {
                     $query->where('name', 'like', '%' . $search . '%');
@@ -151,9 +149,11 @@ class supplierController extends Controller
         ]);
     }
 
+
     public function getProduct($id)
     {
-        $product = Product::with(['category'])->findOrFail($id);
+        $user = auth()->user(); // Lấy thông tin người dùng hiện tại
+        $product = Product::with(['user', 'category'])->where('user_id', $user->id)->findOrFail($id);
 
         // Xử lý hình ảnh nếu có
         $product->image = $product->image ? asset('storage/' . $product->image) : null;
@@ -190,6 +190,43 @@ class supplierController extends Controller
         } catch (\Exception $e) {
             \Log::error('Error fetching categories: ' . $e->getMessage());
             return response()->json(['error' => 'Server Error'], 500);
+        }
+    }
+
+    public function deleteProduct($id)
+    {
+        try {
+            $user = auth()->user(); // Lấy thông tin người dùng hiện tại
+            $product = Product::find($id);
+
+            // Kiểm tra sản phẩm có tồn tại và có thuộc về người dùng hiện tại không
+            if (!$product || $product->user_id !== $user->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found or you do not have permission to delete this product.'
+                ], 404);
+            }
+
+            // Xóa sản phẩm và ảnh liên quan
+            if ($product->image && Storage::exists('public/' . $product->image)) {
+                Storage::delete('public/' . $product->image);
+            }
+
+            $product->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully.'
+            ], 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Error deleting product: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while deleting the product.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

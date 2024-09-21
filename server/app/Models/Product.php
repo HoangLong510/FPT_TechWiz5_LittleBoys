@@ -10,12 +10,12 @@ class Product extends Model
     use HasFactory;
 
     // Danh sách các thuộc tính có thể gán giá trị
-    protected $fillable = ['name', 'supplier_id', 'price', 'quantity', 'category_id', 'description', 'image'];
+    protected $fillable = ['name', 'user_id', 'price', 'quantity', 'category_id', 'description', 'image'];
 
     // Định nghĩa quan hệ với supplier
-    public function supplier()
+    public function user()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(User::class);
     }
 
     // Định nghĩa quan hệ với Category

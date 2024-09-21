@@ -30,8 +30,12 @@ import favorite from "~/pages/user/favorite/favorite"
 import orders from "~/pages/user/orders/oders"
 import RegisterSupplier from "~/pages/auth/register/RegisterSupplier"
 import Blog from "~/pages/blog/Blog"
+import SupplierProductCreate from "~/pages/supplier/product/SupplierProductCreate"
+import Dashboard from "~/pages/supplier/dashboard"
 import SupplierDetail from "~/pages/supplier/supplierDetail/SupplierDetail"
 import BlogDetail from "~/pages/blog/blogDetail/BlogDetailOne"
+import SupplierProductList from "~/pages/supplier/product/SupplierProductList"
+import SupplierProductDetails from "~/pages/supplier/product/SupplierProductDetails"
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -82,7 +86,10 @@ const managementRoutes = [
 ]
 
 const supplierRoutes =[
-    // {path: '/supplier', component: dashboard, layout: DefaultLayout },
+    {path : '/supplier' ,  component: Dashboard , layout: DefaultLayout},
+    {path :'/supplier/products/', component: SupplierProductList , layout: DefaultLayout},
+    {path :'/supplier/products/:productId', component: SupplierProductDetails , layout: DefaultLayout},
+    {path :'/supplier/products/create', component: SupplierProductCreate , layout: DefaultLayout},
     {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
 ]
 

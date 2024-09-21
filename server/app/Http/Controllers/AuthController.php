@@ -437,29 +437,12 @@ class AuthController extends Controller
         }
     }
 
-    public function updateToSupplier(Request $request, $id)
+    public function updateToSupplier(Request $request, $userId)
     {
-        // Xác thực dữ liệu
-        $validatedData = $request->validate([
-            'fullname' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-        ]);
+        $user = User::findOrFail($userId);
 
-        // Tìm người dùng theo ID
-        $user = User::findOrFail($id);
-
-        // Cập nhật thông tin
-        $user->fullname = $validatedData['fullname'];
-        $user->address = $validatedData['address'];
-        $user->role = 'supplier'; // Đổi vai trò thành nhà cung cấp
+        $user->role = 'supplier';
         $user->save();
-
-        // Tạo bản ghi mới trong bảng suppliers
-        Supplier::create([
-            'name' => $user->fullname, // Lưu tên của nhà cung cấp
-            'image' => null, // Hoặc có thể thêm logic để lưu ảnh nếu có
-            // Thêm các trường khác nếu cần
-        ]);
 
         return response()->json([
             'success' => true,

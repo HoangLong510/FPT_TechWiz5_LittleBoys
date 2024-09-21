@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   TextField,
   MenuItem,
@@ -97,13 +97,13 @@ const ContactUs = () => {
               <PhoneIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Gửi email cho chúng tôi">
-            <IconButton color="primary" aria-label="email" href="mailto:decorvistafpthcm@gmail.com">
+          <Tooltip title="Gửi email cho chúng tôi" >
+            <IconButton color="primary" aria-label="email" href="mailto:decorvistafpthcm@gmail.com" >
               <EmailIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Ghé thăm chúng tôi">
-            <IconButton color="primary" aria-label="location">
+            <IconButton color="primary" aria-label="location" target='_blank' component={Link} to={'https://maps.app.goo.gl/KdPzavXu21cp1Nts6'}>
               <LocationOnIcon />
             </IconButton>
           </Tooltip>

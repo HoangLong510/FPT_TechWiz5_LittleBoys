@@ -93,13 +93,4 @@ export const getCategoriesApi = async () => {
     }
 };
 
-// Lấy danh sách các thương hiệu
-export const getBrandsApi = async () => {
-    try {
-        const response = await axios.get('/management/brands');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching brands:', error);
-        return [];
-    }
-};
+

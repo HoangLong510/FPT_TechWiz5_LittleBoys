@@ -153,10 +153,10 @@ class UserController extends Controller
     public function removeToCart($id)
     {
         $user = auth()->user();
-        $find = Cart::where("id", $id)->first();
+        $find = Cart::where("product_id", $id)->where("user_id", $user->id)->first();
 
         if ($user->id == $find->user_id) {
-            Cart::where("id", $id)->delete();
+            Cart::where("id", $find->id)->delete();
         }
 
         $carts = DB::table('carts')

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Supplier;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ActivityLog;
@@ -172,7 +171,7 @@ class ManagementController extends Controller
         $page = $request->query('page', 1);
 
         try {
-            $supplier = Supplier::where('name', 'like', '%' . $search . '%')
+            $supplier = User::where('name', 'like', '%' . $search . '%')
                 ->paginate(10, ['*'], 'page', $page);
 
             // Đảm bảo chỉ thêm 'storage/' một lần
@@ -196,7 +195,7 @@ class ManagementController extends Controller
     public function getSupplierDetail($id)
     {
         try {
-            $supplier = supplier::find($id);
+            $supplier = User::find($id);
 
             if ($supplier) {
                 // Xử lý hình ảnh nếu có
