@@ -65,6 +65,110 @@ export default function Navbar() {
           <Link to="/blog" style={{ display: "flex", alignItems: "center" }}>
             <Button>Blog</Button>
           </Link>
+    const activityLogs = [];
+
+
+    return (
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: '60px',
+            padding: '0px 20px'
+        }}>
+            {/* Left */}
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '20px'
+            }}>
+                <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo" height={'50px'} />
+                </Link>
+                <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
+                    <Link to="/product" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            {t("Products")}
+                        </Button>
+                    </Link>
+                    <Link to="/gallery" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            Gallery
+                        </Button>
+                    </Link>
+                    <Link to="/about-us" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            {t("About Us")}
+                        </Button>
+                    </Link>
+                    <Link to="/contact-us" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            {t("Contact Us")}
+                        </Button>
+                    </Link>
+                    <Link to="/blog" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            Blog
+                        </Button>
+                    </Link>
+
+                    <Link to="/faq" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button>
+                            FAQ
+                        </Button>
+                    </Link>
+                    
+
+
+
+                </Box>
+            </Box>
+
+            {/* Right */}
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '20px'
+            }}>
+
+                {!user.exist && (
+                    <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%' }, alignItems: 'center', gap: '8px' }}>
+                        <Link to="/auth/login" style={{ display: 'flex', alignItems: 'center' }}>
+                            <Button>
+                                {t("Login")}
+                            </Button>
+                        </Link>
+                        <Link to="/auth/register" style={{ display: 'flex', alignItems: 'center' }}>
+                            <Button variant="contained">
+                                {t("CreateAccount")}
+                            </Button>
+                        </Link>
+                    </Box>
+                )}
+                {user.exist && (
+                    <>
+                        <Cart />
+                        <Link to="/user/notification">
+                            <Tooltip>
+                                <IconButton
+                                    aria-label="notifications"
+                                    color="primary"
+                                    sx={{
+                                        marginLeft: "10px"
+                                    }}
+                                >
+                                    <Badge
+                                        color="error"
+                                    >
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                            </Tooltip>
+                        </Link>
+                    </>
+                )}
+                <NavbarMenu />
+            </Box>
         </Box>
       </Box>
 

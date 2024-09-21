@@ -203,6 +203,12 @@ export default function NavEffectLayout({ children }) {
                   >
                     <Button className="scroll-button">Blog</Button>
                   </Link>
+                  <Link
+                    to="/faq"
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <Button className="scroll-button">FAQ</Button>
+                  </Link>
                 </Box>
               </Box>
 
@@ -357,6 +363,17 @@ export default function NavEffectLayout({ children }) {
                           }}
                         >
                           <Button sx={{ width: "100%" }}>Blog</Button>
+                        </Link>
+                        <Link
+                          onClick={toggleDrawer(false)}
+                          to="/faq"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button sx={{ width: "100%" }}>FAQ</Button>
                         </Link>
                       </List>
                       {/* Right   */}

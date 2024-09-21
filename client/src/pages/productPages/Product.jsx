@@ -69,6 +69,70 @@ export default function PageShop() {
 
   return (
     <>
+    <Box
+        className="video-section"
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          height: "50vh",
+          backgroundImage: "url('/video/blog-df.png')",
+        }}
+      >
+        <video
+          className="video-background"
+          autoPlay
+          loop
+          muted
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        >
+          <source src="/video/video4.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <Box
+          className="video-overlay"
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            color: "white",
+          }}
+        >
+          <Container maxWidth="sm">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              gutterBottom
+              sx={{
+                fontWeight: "bold",
+                textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+              }}
+            >
+              Products  
+            </Typography>
+            <Typography
+              variant="h7"
+              align="center"
+              paragraph
+              sx={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}
+            >
+              Discover all our exquisite furniture products, where you will find the perfect products for every living space
+            </Typography>
+          </Container>
+        </Box>
+      </Box>
       <Container maxWidth="xl" sx={{ mt: 4 }}>
         <Grid container spacing={2} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={4}>

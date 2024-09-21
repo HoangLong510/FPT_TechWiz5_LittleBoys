@@ -40,8 +40,14 @@ import ManagementProductCreate from "~/pages/management/product/productCreate"
 import ManagementProductDetail from "~/pages/management/product/productDetails"
 import Gallery from "~/pages/gallery/Gallery"
 import ProjectDetail from "../pages/gallery/ProjectDetail";
+
+import FAQ from "~/pages/faq/FAQ"
+
+
+
 import DesignerProjectList from "~/pages/designer/project/DesignerProjectList"
 import DesignerProjectCreate from "~/pages/designer/project/DesignerProjectCreate"
+
 
 const publicRoutes = [
     { path: '/', component: Home, layout: NavEffectLayout },
@@ -55,6 +61,8 @@ const publicRoutes = [
     { path: '/gallery', component: Gallery , layout: DefaultLayout },
     { path: '/projects/:projectId', component: ProjectDetail , layout: DefaultLayout },
     { path: '/designer/detail/:userId', component: DesignDetails , layout: DefaultLayout },
+    { path: '/project/detail', component: ProjectDetail , layout: DefaultLayout },
+    { path: '/faq', component: FAQ, layout: DefaultLayout },
 ]
 
 const authRoutes = [
