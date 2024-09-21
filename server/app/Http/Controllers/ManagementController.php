@@ -171,55 +171,69 @@ class ManagementController extends Controller
         $page = $request->query('page', 1);
 
         try {
-            $supplier = User::where('name', 'like', '%' . $search . '%')
+            $suppliers = User::where('role', 'supplier')
+                ->where('fullname', 'like', '%' . $search . '%')
                 ->paginate(10, ['*'], 'page', $page);
 
-            // Đảm bảo chỉ thêm 'storage/' một lần
-            $supplier->getCollection()->transform(function ($supplier) {
+            $suppliers->getCollection()->transform(function ($supplier) {
                 $supplier->image = $supplier->image ? asset('storage/' . $supplier->image) : null;
                 return $supplier;
             });
 
             return response()->json([
-                'supplier' => $supplier->items(),
-                'totalPages' => $supplier->lastPage(),
-                'currentPage' => $supplier->currentPage(),
-                'totalItems' => $supplier->total()
-            ]);
+                'suppliers' => $suppliers->items(),
+                'totalPages' => $suppliers->lastPage(),
+                'currentPage' => $suppliers->currentPage(),
+                'totalItems' => $suppliers->total(),
+            ], 200);
         } catch (\Exception $e) {
-            \Log::error('Error fetching supplier: ' . $e->getMessage());
+            \Log::error('Error fetching suppliers: ' . $e->getMessage());
             return response()->json(['error' => 'Server Error'], 500);
         }
     }
 
-    public function getSupplierDetail($id)
+    public function changeRole(Request $request, $id)
     {
         try {
-            $supplier = User::find($id);
+            $user = User::find($id);
 
-            if ($supplier) {
-                // Xử lý hình ảnh nếu có
-                $supplier->image = $supplier->image ? asset('storage/' . $supplier->image) : null;
-
-                return response()->json([
-                    'success' => true,
-                    'supplier' => $supplier
-                ], 200);
-            } else {
+            if (!$user) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Supplier not found.'
+                    'message' => 'User not found.'
                 ], 404);
             }
+
+            if ($user->role !== 'supplier') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User is not a supplier.'
+                ], 400);
+            }
+
+            $products = Product::where('user_id', $user->id)->get();
+
+            foreach ($products as $product) {
+                $product->delete();
+            }
+
+            $user->role = 'user';
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Supplier role changed to user and products deleted.'
+            ], 200);
         } catch (\Exception $e) {
-            \Log::error('Error fetching supplier details: ' . $e->getMessage());
-            return response()->json(['error' => 'Server Error'], 500);
+            \Log::error('Error changing role: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while changing the role.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
-
-
-
-    //category
 
     // Tạo Category (Create Category)
     public function createCategory(Request $request)
@@ -290,7 +304,6 @@ class ManagementController extends Controller
             $category = Category::find($id);
 
             if ($category) {
-                // Process the image path if available
                 $category->image = $category->image ? asset('storage/' . $category->image) : null;
 
                 return response()->json([
@@ -313,7 +326,7 @@ class ManagementController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         try {
@@ -321,7 +334,6 @@ class ManagementController extends Controller
 
             if ($category) {
                 if ($request->hasFile('image')) {
-                    // Delete old image if it exists
                     if ($category->image && Storage::exists('public/' . $category->image)) {
                         Storage::delete('public/' . $category->image);
                     }
@@ -366,7 +378,6 @@ class ManagementController extends Controller
         $category = Category::find($id);
 
         if ($category) {
-            // Delete the image if it exists
             if ($category->image && Storage::exists('public/' . $category->image)) {
                 Storage::delete('public/' . $category->image);
             }

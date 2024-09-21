@@ -33,11 +33,10 @@ Route::group([
     Route::get('/lock-account/{id}', [ManagementController::class, 'lockAccount']);
     Route::get('/unlock-account/{id}', [ManagementController::class, 'unlockAccount']);
 
-    Route::post('/create-brand', [ManagementController::class, 'createBrand']);
-    Route::get('/brands', [ManagementController::class, 'getBrands']);
-    Route::get('/get-brand-detail/{id}', [ManagementController::class, 'getBrandDetail']);
-    Route::post('/update-brand/{id}', [ManagementController::class, 'updateBrand']);
-    Route::delete('/delete-brand/{id}', [ManagementController::class, 'deleteBrand']);
+    Route::get('/supplier', [ManagementController::class, 'getSuppliers']);
+    Route::put('/change-role/{id}', [ManagementController::class, 'changeRole']);
+
+
 
     // Các route cho Category
     Route::post('/create-category', [ManagementController::class, 'createCategory']);

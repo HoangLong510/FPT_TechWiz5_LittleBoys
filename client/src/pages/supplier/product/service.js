@@ -37,15 +37,9 @@ export const createProductApi = async (formData) => {
     } catch (error) {
         if (error.response) {
             console.error('Error response:', error.response.data);
-            return {
-                success: false,
-                message: [
-                    {
-                        en: error.response.data.message || 'An error occurred while creating the product.',
-                        vi: error.response.data.message || 'Đã xảy ra lỗi khi tạo sản phẩm.'
-                    }
-                ]
-            };
+            console.error('Error status:', error.response.status);
+            console.error('Error headers:', error.response.headers);
+            return error.response.data;
         } else {
             console.error('Error message:', error.message);
             return {
@@ -69,32 +63,11 @@ export const updateProductApi = async (id, formData) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        console.log('API Response:', response.data); // Xem dữ liệu trả về từ API
+        console.log('API Response:', response.data);
         return response.data;
     } catch (error) {
-        if (error.response) {
-            console.error('Error response:', error.response.data);
-            return {
-                success: false,
-                message: [
-                    {
-                        en: error.response.data.message || 'An error occurred while updating the product.',
-                        vi: error.response.data.message || 'Đã xảy ra lỗii khi cập nhật sản phẩm.'
-                    }
-                ]
-            };
-        } else {
-            console.error('Error message:', error.message);
-            return {
-                success: false,
-                message: [
-                    {
-                        en: 'Server is busy. Please try again later!',
-                        vi: 'Máy chủ đang gặp sự cố. Vui lòng thử lại sau!'
-                    }
-                ]
-            };
-        }
+        console.error('Error updating product:', error);
+        throw error;
     }
 };
 
@@ -104,14 +77,14 @@ export const deleteProductApi = async (id) => {
         const response = await axios.delete(`/supplier/products/${id}`);
         return response.data;
     } catch (error) {
-        if (error.response) {
-            console.error('Error response:', error.response.data);
+        if (error) {
+            console.error('Error response:', error);
             return {
                 success: false,
                 message: [
                     {
-                        en: error.response.data.message || 'An error occurred while deleting the product.',
-                        vi: error.response.data.message || 'Đã xảy ra lỗi khi xóa sản phẩm.'
+                        en: 'An error occurred while deleting the product.',
+                        vi: 'Đã xảy ra lỗi khi xóa sản phẩm.'
                     }
                 ]
             };

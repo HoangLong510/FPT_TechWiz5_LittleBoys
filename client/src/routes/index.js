@@ -7,8 +7,6 @@ import AboutUs from "~/pages/about-us/AboutUs"
 import ContactUs from "~/pages/contact-us/ContactUs"
 import AccountDetail from "~/pages/management/account/AccountDetail"
 import BrandList from "~/pages/management/brand/BrandList";
-import BrandCreate from "~/pages/management/brand/BrandCreate";
-import BrandDetail from "~/pages/management/brand/BrandDetail";
 import CategoryList from "~/pages/management/category/CategoryList"; 
 import CategoryCreate from "~/pages/management/category/CategoryCreate"; 
 import CategoryDetail from "~/pages/management/category/CategoryDetail"; 
@@ -71,9 +69,7 @@ const managementRoutes = [
     { path: '/management/account', component: AccountManagement, layout: DefaultLayout },
     { path: '/management/account/:userId', component: AccountDetail, layout: DefaultLayout },
   
-    { path: '/management/brands', component: BrandList, layout: DefaultLayout }, 
-    { path: '/management/brands/create', component: BrandCreate, layout: DefaultLayout }, 
-    { path: '/management/brands/:brandId', component: BrandDetail, layout: DefaultLayout }, 
+    { path: '/management/suppliers', component: BrandList, layout: DefaultLayout }, 
   
     { path: '/management/categories', component: CategoryList, layout: DefaultLayout }, 
     { path: '/management/categories/create', component: CategoryCreate, layout: DefaultLayout }, 
@@ -89,6 +85,7 @@ const supplierRoutes =[
     {path : '/supplier' ,  component: Dashboard , layout: DefaultLayout},
     {path :'/supplier/products/', component: SupplierProductList , layout: DefaultLayout},
     {path :'/supplier/products/:productId', component: SupplierProductDetails , layout: DefaultLayout},
+
     {path :'/supplier/products/create', component: SupplierProductCreate , layout: DefaultLayout},
     {path : '/supplier/categories', component: CategoryList, layout: DefaultLayout}
 ]
