@@ -46,11 +46,8 @@ Route::group([
     Route::delete('/delete-category/{id}', [ManagementController::class, 'deleteCategory']);
 
     //product
-    Route::post('/products', [ManagementController::class, 'createProduct']);
-    Route::post('/products/{id}', [ManagementController::class, 'updateProduct']);
     Route::delete('/products/{id}', [ManagementController::class, 'deleteProduct']);
     Route::get('/products', [ManagementController::class, 'getProducts']);
-    Route::get('/products/{id}', [ManagementController::class, 'getProduct']);
 
     //hoat động 
     Route::get('/fetch-activity-logs', [ManagementController::class, 'fetchActivityLogs']);
