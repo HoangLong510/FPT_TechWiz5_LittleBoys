@@ -25,14 +25,6 @@ export default function Notification() {
 
   return (
     <Box>
-      <Tooltip title="Notifications">
-        <IconButton>
-          <Badge badgeContent={activityLogs.length} color="primary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-      </Tooltip>
-
       <Box mt={2}>
         <Typography variant="h6">Recent Activities</Typography>
         {loading ? (

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\ActivityLog;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -195,7 +197,7 @@ class ManagementController extends Controller
     }
 
 
-    // Tạo Category (Create Category)
+    
     public function createCategory(Request $request)
     {
         $validatedData = $request->validate([
@@ -357,15 +359,120 @@ class ManagementController extends Controller
     }
 
     //prodcut
+    public function createProduct(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        try {
+            $user = auth()->user();
+
+            $imagePath = null;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imagePath = $image->store('images', 'public'); // Lưu vào 'storage/app/public/images'
+            }
+
+            // Tạo sản phẩm
+            $product = Product::create([
+                'name' => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'quantity' => $validatedData['quantity'],
+                'description' => $validatedData['description'],
+                'category_id' => $validatedData['category_id'],
+                'user_id' => $user->id,
+                'image' => $imagePath
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'data' => $product
+            ], 201);
+        } catch (\Exception $e) {
+            // Log lỗi chi tiết
+            \Log::error($e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while creating the product.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateProduct(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        try {
+            $user = auth()->user();
+            $product = Product::find($id);
+
+            if (!$product || $user->role != 'admin') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product not found or you do not have permission to update this product.'
+                ], 404);
+            }
+
+            if ($request->hasFile('image')) {
+                if ($product->image && Storage::exists('public/' . $product->image)) {
+                    Storage::delete('public/' . $product->image);
+                }
+
+                $imagePath = $request->file('image')->store('images', 'public');
+                $validatedData['image'] = $imagePath;
+            }
+
+            $product->update($validatedData);
+
+            return response()->json([
+                'success' => true,
+                'data' => $product
+            ], 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Error updating product: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating the product.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getProduct($id)
+    {
+        $product = Product::where('id', $id)->first();
+
+        $product->image = $product->image ? asset('storage/' . $product->image) : null;
+
+        return response()->json([
+            'success' => true,
+            'data' => $product
+        ]);
+    }
+
     public function getProducts(Request $request)
     {
         $search = $request->query('search', '');
         $page = $request->query('page', 1);
 
         $productsQuery = Product::with([
-            'user' => function ($query) {
-                $query->where('role', 'designer');
-            },
             'category'
         ])
             ->where(function ($query) use ($search) {
@@ -378,11 +485,7 @@ class ManagementController extends Controller
 
         $products->getCollection()->transform(function ($product) {
             $product->image = $product->image ? asset('storage/' . $product->image) : null;
-
-            if ($product->user) {
-                $product->designer_name = $product->user->fullname;
-            }
-
+          
             return $product;
         });
 
@@ -392,8 +495,6 @@ class ManagementController extends Controller
             'totalPages' => $products->lastPage()
         ]);
     }
-
-    //delete product 
 
     public function deleteProduct($id)
     {
@@ -551,5 +652,105 @@ class ManagementController extends Controller
             'roleUserCount' => $roleUserCount,
             'roleSupplierCount' => $roleSupplierCount,
         ]);
+    }
+
+    // Order
+    public function fetchOrders()
+    {
+        $count = Order::count();
+
+        $perPage = 5;
+        $totalPage = ceil($count / $perPage);
+        $page = request('page');
+        $offset = ($page - 1) * $perPage;
+
+        $orders = Order::orderBy('created_at', 'desc')
+            ->skip($offset)
+            ->take($perPage)
+            ->get();
+
+        if (count($orders) > 0) {
+            foreach ($orders as $order) {
+                $totalPrice = 0;
+                $detail = OrderDetail::where('order_id', $order->id)->get();
+                foreach ($detail as $item) {
+                    $totalPrice += $item->quantity * $item->price;
+                }
+                $order->total_price = $totalPrice;
+            }
+        }
+
+        return response()->json([
+            "success" => true,
+            "orders" => $orders,
+            "totalPage" => $totalPage
+        ]);
+    }
+
+    public function fetchOrderDetails($id)
+    {
+        $user = auth()->user();
+
+        $order = Order::where('id', $id)->first();
+
+        if ($user->role == 'admin') {
+            $order->details = DB::table('order_details')
+                ->join("products", "product_id", "=", "products.id")
+                ->select(
+                    'products.name as name',
+                    'products.image',
+                    'order_details.price as price',
+                    'order_details.quantity as quantity'
+                )
+                ->where('order_details.order_id', $id)
+                ->get();
+
+            $order->total_price = 0;
+
+            foreach ($order->details as $item) {
+                $order->total_price += $item->quantity * $item->price;
+            }
+
+            return response()->json([
+                "success" => true,
+                "order" => $order
+            ]);
+        }
+
+        return response()->json([
+            "success" => false
+        ]);
+    }
+
+    public function updateOrderType()
+    {
+        $user = auth()->user();
+
+        $id = request('id');
+        $type = request('type');
+
+        if ($user->role == 'admin') {
+            Order::where('id', $id)->update([
+                'type' => $type
+            ]);
+
+            if ($type == 'success') {
+                $msg = new \stdClass();
+                $msg->vi = "Đã hoàn thành đơn hàng!";
+                $msg->en = "Order completed!";
+            } else {
+                $msg = new \stdClass();
+                $msg->vi = "Đã hủy bỏ đơn hàng!";
+                $msg->en = "Order Cancelled!";
+            }
+            return response()->json([
+                "success" => true,
+                'message' => [$msg]
+            ]);
+        } else {
+            return response()->json([
+                "success" => false
+            ]);
+        }
     }
 }
