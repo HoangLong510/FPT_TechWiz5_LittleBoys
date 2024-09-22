@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -19,18 +19,19 @@ import {
   Box,
 } from "@mui/material";
 import { createMeetingApi, getDesignerInfoApi, getDesignerProjectsApi } from "./service";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPopup } from "~/libs/features/popup/popupSlice";
 
 export default function DesignDetails() {
   const dispatch = useDispatch()
 
+  const user = useSelector(state => state.user.value)
   const { userId } = useParams();
   const [designerInfo, setDesignerInfo] = useState(null);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
-  
+
 
   const [scheduled, setScheduled] = useState("")
   const [message, setMessage] = useState("")
@@ -130,12 +131,21 @@ export default function DesignDetails() {
                   />
                 </ListItem>
               </List>
-              <Button
-                variant="outlined"
-                onClick={() => setContactDialogOpen(true)}
-              >
-                Contact / Request Quote
-              </Button>
+              {user.exist && (
+                <Button
+                  variant="outlined"
+                  onClick={() => setContactDialogOpen(true)}
+                >
+                  Contact / Request Quote
+                </Button>
+              )}
+              {!user.exist && (
+                <Link to='/auth/login'>
+                  <Button variant="outlined">
+                    Contact / Request Quote
+                  </Button>
+                </Link>
+              )}
             </CardContent>
           </Card>
         </Grid>
