@@ -220,17 +220,7 @@ export default function Register() {
                 paddingBottom: "5px",
               }}
             >
-              {t("Register")}
-            </span>
-            <span
-              style={{
-                fontSize: "15px",
-                paddingBottom: "10px",
-              }}
-            >
-              {t(
-                "RegisterToShopAndTrackOrdersSaveFavoriteProductListsAndReceiveManyOffers"
-              )}
+              {t("RegisterDesigner")}
             </span>
           </Box>
 

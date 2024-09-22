@@ -16,21 +16,29 @@ import {
   DialogContent,
   TextField,
   CircularProgress,
+  Box,
 } from "@mui/material";
-import { getDesignerInfoApi, getDesignerProjectsApi } from "./service";
+import { createMeetingApi, getDesignerInfoApi, getDesignerProjectsApi } from "./service";
+import { useDispatch } from "react-redux";
+import { setPopup } from "~/libs/features/popup/popupSlice";
 
 export default function DesignDetails() {
+  const dispatch = useDispatch()
+
   const { userId } = useParams();
   const [designerInfo, setDesignerInfo] = useState(null);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
-  const [newComment, setNewComment] = useState("");
+  
+
+  const [scheduled, setScheduled] = useState("")
+  const [message, setMessage] = useState("")
 
   useEffect(() => {
     const fetchDesignerDetails = async () => {
       try {
-        const designerResponse = await getDesignerInfoApi(userId); // userId từ URL
+        const designerResponse = await getDesignerInfoApi(userId);
         setDesignerInfo(designerResponse.data);
 
         const projectsResponse = await getDesignerProjectsApi(userId);
@@ -52,8 +60,39 @@ export default function DesignDetails() {
     return <Typography variant="h4">Designer not found.</Typography>;
   }
 
+  const handleCreateMeeting = async () => {
+    const data = {
+      designer_id: userId,
+      date: scheduled,
+      message
+    }
+
+    const res = await createMeetingApi(data)
+
+    if (res.success) {
+      const dataPopup = {
+        type: "success",
+        message: [{
+          en: "Meeting scheduled successfully.",
+          vi: "Lịch hẹn đã được tạo thành công."
+        }]
+      }
+      dispatch(setPopup(dataPopup))
+      setContactDialogOpen(false)
+    } else {
+      const dataPopup = {
+        type: "error",
+        message: [{
+          vi: "Lỗi trong quá trình tạo cuộc hợp.",
+          en: "An error occurred while creating the meeting."
+        }]
+      }
+      dispatch(setPopup(dataPopup))
+    }
+  }
+
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ padding: '50px 20px' }}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>
           <Card>
@@ -73,20 +112,20 @@ export default function DesignDetails() {
                 <ListItem>
                   <ListItemText
                     primary={
-                      designerInfo.contact.email || "Email not available"
+                      designerInfo.email || "Email not available"
                     }
                     secondary="Email"
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary={designerInfo.contact.phone}
+                    primary={designerInfo.phone}
                     secondary="Phone"
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary={designerInfo.contact.address}
+                    primary={designerInfo.address}
                     secondary="Address"
                   />
                 </ListItem>
@@ -133,7 +172,7 @@ export default function DesignDetails() {
       >
         <DialogTitle>Contact / Request Quote</DialogTitle>
         <DialogContent>
-          <TextField
+          <TextField sx={{ m: '20px 0px' }}
             autoFocus
             margin="dense"
             label="Name"
@@ -141,35 +180,49 @@ export default function DesignDetails() {
             fullWidth
             variant="outlined"
           />
-          <TextField
+          <TextField sx={{ m: '20px 0px' }}
             margin="dense"
             label="Email"
             type="email"
             fullWidth
             variant="outlined"
           />
-          <TextField
+          <TextField sx={{ m: '20px 0px' }}
             margin="dense"
             label="Phone"
             type="tel"
             fullWidth
             variant="outlined"
           />
-          <TextField
+          <TextField sx={{ m: '20px 0px' }}
+            label="Scheduled"
+            type="datetime-local"
+            fullWidth
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              step: 300, // 5 min step for time picker
+            }}
+            value={scheduled}
+            onChange={(e) => setScheduled(e.target.value)}
+          />
+          <TextField sx={{ m: '20px 0px' }}
             margin="dense"
             label="Message"
             multiline
             rows={4}
             fullWidth
             variant="outlined"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
           />
         </DialogContent>
         <Button onClick={() => setContactDialogOpen(false)}>Cancel</Button>
         <Button
           onClick={() => {
-            /* Handle send message */
+            handleCreateMeeting()
           }}
         >
           Send
