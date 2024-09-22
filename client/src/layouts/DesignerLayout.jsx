@@ -28,14 +28,6 @@ export default function DesignerLayout({ children }) {
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Link to="/designer">
-          <Button
-            sx={{ width: "100%" }}
-            variant={pathname === "/designer" ? "contained" : "text"}
-          >
-            General
-          </Button>
-        </Link>
         <Link to="/designer/projects">
           <Button
             sx={{ width: "100%" }}

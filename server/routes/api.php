@@ -124,10 +124,8 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'meetings'
 ], function ($router) {
-    Route::get('/', [MeetingController::class, 'index']); // Lấy danh sách cuộc hẹn
-    Route::post('/', [MeetingController::class, 'store']); // Tạo cuộc hẹn mới
-    Route::put('/{id}/status', [MeetingController::class, 'updateStatus']); // Cập nhật trạng thái cuộc hẹn
-    Route::delete('/{id}', [MeetingController::class, 'destroy']); // Xóa cuộc hẹn
+    Route::get('/', [MeetingController::class, 'index']);
+    Route::post('/{id}/status', [MeetingController::class, 'updateStatus']);
 });
 
 Route::group([
