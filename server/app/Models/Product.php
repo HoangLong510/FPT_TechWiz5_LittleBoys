@@ -12,7 +12,6 @@ class Product extends Model
     // Danh sách các thuộc tính có thể gán giá trị
     protected $fillable = ['name', 'user_id', 'price', 'quantity', 'category_id', 'description', 'image'];
 
-    // Định nghĩa quan hệ với supplier
     public function user()
     {
         return $this->belongsTo(User::class);

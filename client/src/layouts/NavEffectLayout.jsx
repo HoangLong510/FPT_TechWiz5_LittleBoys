@@ -12,6 +12,9 @@ import {
   Select,
   TextField,
   InputAdornment,
+  Tooltip,
+  IconButton,
+  Badge,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -24,6 +27,8 @@ import { setLogout } from "~/libs/features/logout/logoutSlice";
 import locales from "~/locales";
 import Footer from "~/components/Footer/Footer";
 import Backtotop from "~/components/Backtotop/Backtotop";
+import Cart from "~/components/Cart/Cart";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 export default function NavEffectLayout({ children }) {
   const { t, i18n } = useTranslation();
@@ -215,7 +220,7 @@ export default function NavEffectLayout({ children }) {
               {/* Right */}
 
               <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                {!user.exist && (
+                {!user.exist ? (
                   <Box
                     sx={{
                       display: { xs: "none", md: "flex" },
@@ -224,6 +229,9 @@ export default function NavEffectLayout({ children }) {
                       width: "100%",
                     }}
                   >
+                    <Link to="/auth/register-designer" style={{ display: "flex", alignItems: "center" }}>
+                      <Button className="scroll-button">{t("CreateAccountDesigner")}</Button>
+                    </Link>
                     <Link
                       to="/auth/login"
                       style={{ display: "flex", alignItems: "center" }}
@@ -239,6 +247,25 @@ export default function NavEffectLayout({ children }) {
                       </Button>
                     </Link>
                   </Box>
+                ) : (
+                  <>
+                    <Cart textColor={textColor} />
+                    <Link to="/user/notification">
+                      <Tooltip>
+                        <IconButton className="scroll-button"
+                          aria-label="notifications"
+                          color="primary"
+                          sx={{
+                            marginLeft: "10px",
+                          }}
+                        >
+                          <Badge color="error">
+                            <NotificationsIcon />
+                          </Badge>
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
+                  </>
                 )}
                 {/* Start NavbarMenu */}
                 <div className="navbar-menu">
@@ -483,21 +510,6 @@ export default function NavEffectLayout({ children }) {
                               </span>
                             </Button>
                           </Link>
-                          {/* {user.data.role === "user" && (
-                            <Link
-                              onClick={toggleDrawer(false)}
-                              to="/register-designer"
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <Button sx={{ width: "100%" }}>
-                                {t("RegisterSupplier")}
-                              </Button>
-                            </Link>
-                          )} */}
                           {user.data.role === "admin" && (
                             <Link
                               onClick={toggleDrawer(false)}
