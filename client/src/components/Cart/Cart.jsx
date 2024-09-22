@@ -11,7 +11,7 @@ import FormUpdateQuantity from './FormUpdateQuantity'
 import { useNavigate } from 'react-router-dom'
 import ProceedToCheckout from './ProceedToCheckout'
 
-export default function Cart() {
+export default function Cart({textColor}) {
     const [open, setOpen] = React.useState(false)
     const navigate = useNavigate()
 
@@ -28,7 +28,7 @@ export default function Cart() {
 
     return (
         <>
-            <Badge onClick={toggleDrawer(true)} badgeContent={carts.data.length} color="error" className='button'>
+            <Badge onClick={toggleDrawer(true)} badgeContent={carts.data.length} style={{ color: textColor ? textColor : '#000' }} className='button'>
                 <ShoppingCartIcon />
             </Badge>
             <Drawer open={open} onClose={toggleDrawer(false)} anchor='right'>

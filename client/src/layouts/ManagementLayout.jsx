@@ -46,18 +46,6 @@ export default function ManagementLayout({ children }) {
             Account
           </Button>
         </Link>
-        <Link to="/management/designers">
-          <Button
-            sx={{ width: "100%" }}
-            variant={
-              pathname.startsWith("/management/designers")
-                ? "contained"
-                : "text"
-            }
-          >
-            Suppliers
-          </Button>
-        </Link>
         <Link to="/management/categories">
           <Button
             sx={{ width: "100%" }}

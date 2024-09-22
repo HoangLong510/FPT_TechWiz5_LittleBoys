@@ -61,7 +61,7 @@ export default function NavbarMenu() {
         anchor="right"
         PaperProps={{ sx: { width: { xs: "100%", md: "auto" } } }}
       >
-        <Box sx={{ width: { xs: "100%", md: 350 }, padding: { xs: "0 20px", md: "20px" } }} role="presentation">
+        <Box sx={{ width: { xs: "100%", md: 350 }, padding: { xs: "0 20px" } }} role="presentation">
           <Box
             sx={{
               display: { xs: "flex", md: "none" },

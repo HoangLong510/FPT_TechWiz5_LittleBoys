@@ -6,11 +6,10 @@ import AccountManagement from "~/pages/management/account/Account"
 import AboutUs from "~/pages/about-us/AboutUs"
 import ContactUs from "~/pages/contact-us/ContactUs"
 import AccountDetail from "~/pages/management/account/AccountDetail"
-import BrandList from "~/pages/management/brand/BrandList";
-import CategoryList from "~/pages/management/category/CategoryList";
-import CategoryCreate from "~/pages/management/category/CategoryCreate";
-import CategoryDetail from "~/pages/management/category/CategoryDetail";
-import ManagementProductList from "~/pages/management/product/ProductList";
+import CategoryList from "~/pages/management/category/CategoryList"
+import CategoryCreate from "~/pages/management/category/CategoryCreate"
+import CategoryDetail from "~/pages/management/category/CategoryDetail"
+import ManagementProductList from "~/pages/management/product/ProductList"
 import DefaultLayout from "~/layouts/DefaultLayout"
 import PaymentsLayout from "~/layouts/PaymentsLayout"
 import Payments from "~/pages/payments/Payments"
@@ -24,12 +23,9 @@ import notification from "../pages/user/notification/notification"
 import Orders from "~/pages/user/orders/oders"
 import RegisterDesigner from "~/pages/auth/register/RegisterDesigner"
 import Blog from "~/pages/blog/Blog"
-// import SupplierDetail from "~/pages/supplier/DesignerDetail/DesignerDetail"
 import BlogDetail from "~/pages/blog/blogDetail/BlogDetailOne"
-// import SupplierProductList from "~/pages/supplier/product/DesignerProductList"
 import DesignerProjectDetails from "~/pages/designer/project/DesignerProjectDetails"
 import Meetings from "~/pages/designer/meetings/Meetings"
-import Feedback from "~/pages/supplier/feedback/Feedback"
 import Designer from "~/pages/designer/Designer"
 import DesignDetails from "~/pages/designer/designerdetail/DesignerDetails"
 import Favorite from "~/pages/user/favorite/Favorite"
@@ -39,11 +35,9 @@ import OrderDetailManagement from "~/pages/management/order/OrderDetailManagemen
 import ManagementProductCreate from "~/pages/management/product/productCreate"
 import ManagementProductDetail from "~/pages/management/product/productDetails"
 import Gallery from "~/pages/gallery/Gallery"
-import ProjectDetail from "../pages/gallery/ProjectDetail";
+import ProjectDetail from "../pages/gallery/ProjectDetail"
 
 import FAQ from "~/pages/faq/FAQ"
-
-
 
 import DesignerProjectList from "~/pages/designer/project/DesignerProjectList"
 import DesignerProjectCreate from "~/pages/designer/project/DesignerProjectCreate"
@@ -87,8 +81,6 @@ const managementRoutes = [
     { path: '/management/account', component: AccountManagement, layout: DefaultLayout },
     { path: '/management/account/:userId', component: AccountDetail, layout: DefaultLayout },
 
-    { path: '/management/suppliers', component: BrandList, layout: DefaultLayout },
-
     { path: '/management/categories', component: CategoryList, layout: DefaultLayout },
     { path: '/management/categories/create', component: CategoryCreate, layout: DefaultLayout },
     { path: '/management/categories/:categoryId', component: CategoryDetail, layout: DefaultLayout },
@@ -109,7 +101,6 @@ const designerRoutes = [
 
     { path: '/designer/categories', component: CategoryList, layout: DefaultLayout },
     { path: '/designer/meetings', component: Meetings, layout: DefaultLayout },
-    { path: '/designer/feedback', component: Feedback, layout: DefaultLayout },
 ]
 
 export { publicRoutes, userRoutes, authRoutes, managementRoutes, designerRoutes }
