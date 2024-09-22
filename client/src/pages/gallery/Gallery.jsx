@@ -83,13 +83,12 @@ export default function Gallery() {
   });
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 4, mb: -6 }}>
+    <Container maxWidth="xl" sx={{ mt: 4, mb: 0 }}>
       <Box
         sx={{
           backgroundImage: `url('/Images/bg/room-1336497.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "600px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",

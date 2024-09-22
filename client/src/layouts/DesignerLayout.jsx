@@ -36,16 +36,6 @@ export default function DesignerLayout({ children }) {
             General
           </Button>
         </Link>
-        <Link to="/designer/account">
-          <Button
-            sx={{ width: "100%" }}
-            variant={
-              pathname.startsWith("/designer/account") ? "contained" : "text"
-            }
-          >
-            Account
-          </Button>
-        </Link>
         <Link to="/designer/projects">
           <Button
             sx={{ width: "100%" }}

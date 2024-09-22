@@ -10,8 +10,6 @@ export default function Navbar() {
   const { t } = useTranslation();
   const user = useSelector((state) => state.user.value);
 
-  const activityLogs = [];
-
   return (
     <Box
       sx={{
@@ -22,7 +20,7 @@ export default function Navbar() {
         padding: "0px 20px",
       }}
     >
-      {/* Left */}
+      {/* Left Section */}
       <Box
         sx={{
           display: "flex",
@@ -34,7 +32,7 @@ export default function Navbar() {
           <img
             src="/Images/Logo/logo-navbar-white.png"
             alt="logo"
-            height={"50px"}
+            height="50px"
           />
         </Link>
         <Box
@@ -50,10 +48,7 @@ export default function Navbar() {
           <Link to="/gallery" style={{ display: "flex", alignItems: "center" }}>
             <Button>Gallery</Button>
           </Link>
-          <Link
-            to="/about-us"
-            style={{ display: "flex", alignItems: "center" }}
-          >
+          <Link to="/about-us" style={{ display: "flex", alignItems: "center" }}>
             <Button>{t("About Us")}</Button>
           </Link>
           <Link
@@ -65,114 +60,13 @@ export default function Navbar() {
           <Link to="/blog" style={{ display: "flex", alignItems: "center" }}>
             <Button>Blog</Button>
           </Link>
-    const activityLogs = [];
-
-
-    return (
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: '60px',
-            padding: '0px 20px'
-        }}>
-            {/* Left */}
-            <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px'
-            }}>
-                <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src="/Images/Logo/logo-navbar-white.png" alt="logo" height={'50px'} />
-                </Link>
-                <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '8px' }}>
-                    <Link to="/product" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
-                            {t("Products")}
-                        </Button>
-                    </Link>
-                    <Link to="/gallery" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
-                            Gallery
-                        </Button>
-                    </Link>
-                    <Link to="/about-us" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
-                            {t("About Us")}
-                        </Button>
-                    </Link>
-                    <Link to="/contact-us" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
-                            {t("Contact Us")}
-                        </Button>
-                    </Link>
-                    <Link to="/blog" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
-                            Blog
-                        </Button>
-                    </Link>
-
-                    <Link to="/faq" style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button>
-                            FAQ
-                        </Button>
-                    </Link>
-                    
-
-
-
-                </Box>
-            </Box>
-
-            {/* Right */}
-            <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px'
-            }}>
-
-                {!user.exist && (
-                    <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%' }, alignItems: 'center', gap: '8px' }}>
-                        <Link to="/auth/login" style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button>
-                                {t("Login")}
-                            </Button>
-                        </Link>
-                        <Link to="/auth/register" style={{ display: 'flex', alignItems: 'center' }}>
-                            <Button variant="contained">
-                                {t("CreateAccount")}
-                            </Button>
-                        </Link>
-                    </Box>
-                )}
-                {user.exist && (
-                    <>
-                        <Cart />
-                        <Link to="/user/notification">
-                            <Tooltip>
-                                <IconButton
-                                    aria-label="notifications"
-                                    color="primary"
-                                    sx={{
-                                        marginLeft: "10px"
-                                    }}
-                                >
-                                    <Badge
-                                        color="error"
-                                    >
-                                        <NotificationsIcon />
-                                    </Badge>
-                                </IconButton>
-                            </Tooltip>
-                        </Link>
-                    </>
-                )}
-                <NavbarMenu />
-            </Box>
+          <Link to="/faq" style={{ display: "flex", alignItems: "center" }}>
+            <Button>FAQ</Button>
+          </Link>
         </Box>
       </Box>
 
-      {/* Right */}
+      {/* Right Section */}
       <Box
         sx={{
           display: "flex",
@@ -180,7 +74,7 @@ export default function Navbar() {
           gap: "20px",
         }}
       >
-        {!user.exist && (
+        {!user.exist ? (
           <Box
             sx={{
               display: { xs: "none", md: "flex", width: "100%" },
@@ -188,27 +82,17 @@ export default function Navbar() {
               gap: "8px",
             }}
           >
-            <Link
-              to="/auth/login"
-              style={{ display: "flex", alignItems: "center" }}
-            >
+            <Link to="/auth/register-designer" style={{ display: "flex", alignItems: "center" }}>
+              <Button>{t("CreateAccountDesigner")}</Button>
+            </Link>
+            <Link to="/auth/login" style={{ display: "flex", alignItems: "center" }}>
               <Button>{t("Login")}</Button>
             </Link>
-            <Link
-              to="/auth/register"
-              style={{ display: "flex", alignItems: "center" }}
-            >
+            <Link to="/auth/register" style={{ display: "flex", alignItems: "center" }}>
               <Button variant="contained">{t("CreateAccount")}</Button>
             </Link>
-            <Link
-              to="/auth/register-designer"
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <Button variant="contained">{t("CreateAccountDesigner")}</Button>
-            </Link>
           </Box>
-        )}
-        {user.exist && (
+        ) : (
           <>
             <Cart />
             <Link to="/user/notification">

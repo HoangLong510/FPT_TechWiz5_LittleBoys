@@ -114,7 +114,7 @@ Route::group([
     Route::delete('/projects/{id}', [DesignerController::class, 'deleteProject']);
     Route::get('/projects', [DesignerController::class, 'getProjects']);
     Route::get('/projects/{id}', [DesignerController::class, 'getProject']);
-    Route::get('/detail/meeting', [DesignerController::class, 'createMeeting']);
+    Route::post('/create-meeting', [DesignerController::class, 'createMeeting']);
     Route::post('/projects/{userId}', [DesignerController::class, 'getDesignerProjects']);
     Route::post('/info/{userId}', [DesignerController::class, 'getDesignerInfo']);
 });

@@ -20,29 +20,48 @@ export default function NavbarMenu() {
     setOpen(newOpen);
   };
 
+  const menuItems = [
+    { to: "/", label: t("Homepage") },
+    { to: "/product", label: t("Products") },
+    { to: "/gallery", label: t("Gallery") },
+    { to: "/about-us", label: t("About Us") },
+    { to: "/contact-us", label: t("Contact Us") },
+    { to: "/blog", label: "Blog" },
+    { to: "/faq", label: "FAQ" },
+  ];
+
+  const renderMenuLinks = (links) =>
+    links.map((link, index) => (
+      <Link
+        key={index}
+        onClick={toggleDrawer(false)}
+        to={link.to}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Button sx={{ width: "100%" }}>{link.label}</Button>
+      </Link>
+    ));
+
   return (
     <>
-      <Box
-        sx={{ display: { xs: "none", md: "flex" } }}
-        className="button"
-        onClick={toggleDrawer(true)}
-      >
+      <Box sx={{ display: { xs: "none", md: "flex" } }} onClick={toggleDrawer(true)}>
         <MoreVertIcon />
       </Box>
-      <Box
-        className="button"
-        onClick={toggleDrawer(true)}
-        sx={{ display: { xs: "flex", md: "none" } }}
-      >
+      <Box sx={{ display: { xs: "flex", md: "none" } }} onClick={toggleDrawer(true)}>
         <MenuIcon />
       </Box>
+
       <Drawer
         open={open}
         onClose={toggleDrawer(false)}
-        anchor={"right"}
+        anchor="right"
         PaperProps={{ sx: { width: { xs: "100%", md: "auto" } } }}
       >
-        <Box sx={{ width: { xs: "100%", md: 350 } }} role="presentation">
+        <Box sx={{ width: { xs: "100%", md: 350 }, padding: { xs: "0 20px", md: "20px" } }} role="presentation">
           <Box
             sx={{
               display: { xs: "flex", md: "none" },
@@ -52,124 +71,19 @@ export default function NavbarMenu() {
               padding: "0px 20px",
             }}
           >
-            <Box
-              className="button"
-              onClick={toggleDrawer(false)}
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <CloseIcon sx={{ fontSize: "30px" }} />
-            </Box>
+            <CloseIcon sx={{ fontSize: "30px" }} onClick={toggleDrawer(false)} />
           </Box>
 
-          <List
-            sx={{
-              display: { xs: "flex", md: "none" },
-              flexDirection: "column",
-              padding: "20px",
-              gap: "20px",
-            }}
-          >
-            <Link
-              onClick={toggleDrawer(false)}
-              to="/"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Button sx={{ width: "100%" }}>{t("Homepage")}</Button>
-            </Link>
-            <Link
-              onClick={toggleDrawer(false)}
-              to="/product"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Button sx={{ width: "100%" }}>{t("Products")}</Button>
-            </Link>
-            <Link
-              onClick={toggleDrawer(false)}
-              to="/gallery"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Button sx={{ width: "100%" }}>{t("Gallery")}</Button>
-            </Link>
-            <Link
-              onClick={toggleDrawer(false)}
-              to="/about-us"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Button sx={{ width: "100%" }}>{t("About Us")}</Button>
-            </Link>
-            <Link
-              onClick={toggleDrawer(false)}
-              to="/contact-us"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Button sx={{ width: "100%" }}>{t("Contact Us")}</Button>
-            </Link>
-
-            <Link
-              onClick={toggleDrawer(false)}
-              to="/blog"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Button sx={{ width: "100%" }}>Blog</Button>
-            </Link>
+          <List sx={{ display: { xs: "flex", md: "none" }, flexDirection: "column", gap: "20px", padding: "20px" }}>
+            {renderMenuLinks(menuItems)}
           </List>
-                        <Link onClick={toggleDrawer(false)} to="/blog" style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <Button sx={{ width: '100%' }}>
-                                Blog
-                            </Button>
-                        </Link>
-                        <Link onClick={toggleDrawer(false)} to="/faq" style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <Button sx={{ width: '100%' }}>
-                                FAQ
-                            </Button>
-                        </Link>
-                    </List>
 
-          <Box sx={{ padding: { xs: "0px 20px", md: "20px 20px 0px 20px" } }}>
+          <Box sx={{ padding: { xs: "0 20px", md: "20px 0" } }}>
             <SelectLocale />
           </Box>
 
           {!user.exist && (
-            <List
-              sx={{
-                display: { xs: "flex", md: "none" },
-                flexDirection: "column",
-                padding: "20px",
-                gap: "20px",
-              }}
-            >
+            <List sx={{ display: { xs: "flex", md: "none" }, flexDirection: "column", gap: "20px" }}>
               <Link
                 onClick={toggleDrawer(false)}
                 to="/auth/login"
@@ -196,14 +110,7 @@ export default function NavbarMenu() {
           )}
 
           {user.exist && (
-            <List
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "20px",
-                gap: { xs: "20px", md: "10px" },
-              }}
-            >
+            <List sx={{ display: 'flex', flexDirection: "column", gap: { xs: "20px", md: "10px" } }}>
               <Link
                 onClick={toggleDrawer(false)}
                 to="/user"
@@ -214,27 +121,9 @@ export default function NavbarMenu() {
                 }}
               >
                 <Button sx={{ width: "100%" }} variant="contained">
-                  {t("Hi")},
-                  <span style={{ fontWeight: "bold", paddingLeft: "5px" }}>
-                    {user.data.fullname}
-                  </span>
+                  {t("Hi")}, <span style={{ fontWeight: "bold", paddingLeft: "5px" }}>{user.data.fullname}</span>
                 </Button>
               </Link>
-              {/* {user.data.role === "user" && (
-                <Link
-                  onClick={toggleDrawer(false)}
-                  to="/auth/register-designer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Button sx={{ width: "100%" }}>
-                    {t("RegisterDesigner")}
-                  </Button>
-                </Link>
-              )} */}
               {user.data.role === "admin" && (
                 <Link
                   onClick={toggleDrawer(false)}

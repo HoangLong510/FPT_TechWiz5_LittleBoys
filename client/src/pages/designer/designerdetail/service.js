@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '~/axios';
 
 export const getDesignerInfoApi = async (userId) => {
   try {
@@ -14,7 +14,7 @@ export const getDesignerInfoApi = async (userId) => {
 
 export const getDesignerProjectsApi = async (userId) => {
   try {
-    const response = await axios.post(`/designer/projects/${userId}`, {
+    const response = await axios.get(`/designer/projects/${userId}`, {
         headers: { 'Content-Type': 'application/json'}
     });
     return response.data;
@@ -24,9 +24,11 @@ export const getDesignerProjectsApi = async (userId) => {
   }
 };
 
-export const createMeetingApi = async (meetingData) => {
+export const createMeetingApi = async (data) => {
     try {
-      const response = await axios.post('/meetings', meetingData);
+      const response = await axios.post('/designer/create-meeting', data, {
+        headers: { 'Content-Type': 'application/json'}
+      });
       return response.data;
     } catch (error) {
       console.error('Error creating meeting:', error);

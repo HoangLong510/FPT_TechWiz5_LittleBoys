@@ -14,7 +14,11 @@ class DesignerController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', [
-            'except' => []
+            'except' => [
+                'getDesignerProjects',
+                'getDesignerInfo',
+                'getProject'
+            ]
         ]);
     }
 
@@ -143,11 +147,13 @@ class DesignerController extends Controller
     public function getProject($id)
     {
         try {
-            $project = Project::findOrFail($id);  // Tìm dự án theo ID
-            $project->image = $project->image ? asset('storage/' . $project->image) : null;
+            $projects = Project::where('user_id', $id)->get();  // Tìm dự án theo ID
+            foreach ($projects as $project) {
+                $project->image = $project->image? asset('storage/'. $project->image) : null;
+            }
             return response()->json([
                 'success' => true,
-                'data' => $project
+                'data' => $projects
             ], 200);
         } catch (\Exception $e) {
             \Log::error('Error fetching project detail: ' . $e->getMessage());
@@ -217,18 +223,17 @@ class DesignerController extends Controller
     // Create meeting between user and designer
     public function createMeeting(Request $request)
     {
+        $user = auth()->user();
         $request->validate([
             'date' => 'required|date',
             'message' => 'nullable|string|max:255',
             'designer_id' => 'required|exists:users,id',
         ]);
 
-        $user = auth()->user();
-
         $meeting = new Meeting();
         $meeting->user_id = $user->id;
         $meeting->designer_id = $request->designer_id;
-        $meeting->date = $request->date;
+        $meeting->scheduled_at = $request->date;
         $meeting->message = $request->message;
 
         $meeting->save();
@@ -242,10 +247,8 @@ class DesignerController extends Controller
 
     //project
 
-    public function getDesignerInfo(Request $request)
+    public function getDesignerInfo($userId)
     {
-        $userId = $request->input('userId'); // Lấy userId từ body request
-
         try {
             $designer = User::where('id', $userId)->where('role', 'designer')->first();
 
@@ -268,10 +271,8 @@ class DesignerController extends Controller
         }
     }
 
-    public function getDesignerProjects(Request $request)
+    public function getDesignerProjects($userId)
     {
-        $userId = $request->input('userId'); // Lấy userId từ body request
-
         try {
             $projects = Project::where('user_id', $userId)->get();
 
