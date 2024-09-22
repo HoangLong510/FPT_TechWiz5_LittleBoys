@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   TextField,
   MenuItem,
@@ -15,24 +15,28 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-} from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import PhoneIcon from '@mui/icons-material/Phone';
-import EmailIcon from '@mui/icons-material/Email';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { motion } from 'framer-motion';
+  Container,
+  Grid,
+} from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { motion } from "framer-motion";
+import RoomIcon from "@mui/icons-material/Room";
+import LanguageIcon from "@mui/icons-material/Language";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    reason: 'Câu hỏi chung',
-    message: '',
+    name: "",
+    email: "",
+    reason: "Câu hỏi chung",
+    message: "",
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -42,178 +46,157 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
     setSnackbarOpen(true);
     setTimeout(() => {
-      navigate('/thank-you');
+      navigate("/thank-you");
     }, 3000);
   };
 
   const faqItems = [
-    { question: 'How do I place an order?', answer: 'You can place an order online through our website or by calling directly.' },
-    { question: 'What is the return policy?', answer: 'We accept returns within 30 days of purchase.' },
-    { question: 'How long does delivery take?', answer: 'The usual delivery time is 3-5 business days.' },
+    {
+      question: "How do I place an order?",
+      answer:
+        "You can place an order online through our website or by calling directly.",
+    },
+    {
+      question: "What is the return policy?",
+      answer: "We accept returns within 30 days of purchase.",
+    },
+    {
+      question: "How long does delivery take?",
+      answer: "The usual delivery time is 3-5 business days.",
+    },
   ];
-  
 
   return (
     <Box
       sx={{
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        bgcolor: 'background.default',
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        bgcolor: "background.default",
         py: 4,
         backgroundImage: "url('/Images/bg/living-room-2732939.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}
     >
-      <Paper
-        elevation={3}
-        component={motion.div}
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        sx={{
-          width: '100%',
-          maxWidth: 600,
-          p: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 3,
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        }}
-      >
-        <Typography variant="h4" align="center" fontWeight='bold' gutterBottom>
-        Contact us
+      <Container sx={{ py: 8 }}>
+        <Typography
+          variant="h3"
+          align="center"
+          gutterBottom
+          sx={{
+            fontWeight: "bold",
+            mb: 4,
+            textShadow: "2px 2px 5px rgba(0,0,0,0.7)",
+          }}
+        >
+          Contact Us
         </Typography>
-
-        <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: 2 }}>
-          <Tooltip title="Gọi cho chúng tôi">
-            <IconButton color="primary" aria-label="phone">
-              <PhoneIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Gửi email cho chúng tôi" >
-            <IconButton color="primary" aria-label="email" href="mailto:decorvistafpthcm@gmail.com" >
-              <EmailIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Ghé thăm chúng tôi">
-            <IconButton color="primary" aria-label="location" target='_blank' component={Link} to={'https://maps.app.goo.gl/KdPzavXu21cp1Nts6'}>
-              <LocationOnIcon />
-            </IconButton>
-          </Tooltip>
-        </Box>
-
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            margin="normal"
-            required
-          />
-          <TextField
-            fullWidth
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            margin="normal"
-            required
-          />
-          <TextField
-            fullWidth
-            select
-            label="Reason for contact"
-            name="reason"
-            value={formData.reason}
-            onChange={handleChange}
-            margin="normal"
-          >
-            {['Câu hỏi chung', 'Trạng thái đơn hàng', 'Đổi trả hàng', 'Đổi trả hàng quốc tế', 'Hàng hóa bị hư hỏng', 'Tài khoản của tôi', 'Yêu cầu hủy đơn hàng', 'Khác'].map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            fullWidth
-            label="Content"
-            name="message"
-            multiline
-            rows={4}
-            value={formData.message}
-            onChange={handleChange}
-            margin="normal"
-            required
-          />
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              startIcon={<SendIcon />}
+        <Grid container spacing={4} justifyContent="center">
+          {/* Address */}
+          <Grid item xs={12} sm={3} textAlign="center">
+            <Box
               sx={{
-                mt: 2,
-                width: isMobile ? '100%' : 'auto',
-                position: 'relative',
-                overflow: 'hidden',
-                background: 'linear-gradient(90deg, #ab6e35 50%, #292929 50%)',
-                backgroundSize: '200% 100%',
-                backgroundPosition: 'right bottom',
-                transition: 'all 0.3s ease',
-                color: '#fff',
-                '&:hover': {
-                  backgroundPosition: 'left bottom',
-                  transform: 'scale(1.05)',
-                },
-                '& .MuiButton-startIcon, & .MuiButton-label': {
-                  position: 'relative',
-                  zIndex: 2,
-                },
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mb: 2,
               }}
             >
-              Send message
-            </Button>
-          </Box>
-        </form>
+              <RoomIcon sx={{ fontSize: 40, color: "#555" }} />
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Address:
+              </Typography>
+              <Typography variant="body2">
+                62 Street 36, Van Phuc Residential Area, Hiep Binh Phuoc Ward,
+                Thu Duc City
+              </Typography>
+            </Box>
+          </Grid>
 
-        <Box sx={{ mt: 4 }}>
-          <Typography variant="h6" gutterBottom>Frequently Asked Questions</Typography>
-          {faqItems.map((item, index) => (
-            <Accordion key={index}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>{item.question}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>{item.answer}</Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Box>
+          {/* Phone */}
+          <Grid item xs={12} sm={3} textAlign="center">
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <PhoneIcon sx={{ fontSize: 40, color: "#555" }} />
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Phone:
+              </Typography>
+              <Typography variant="body2">
+                <Typography variant="body2">
+                  0911 789 450 - 0931 313 329
+                </Typography>
+              </Typography>
+            </Box>
+          </Grid>
 
-        <Typography variant="body2" color="text.secondary" align="center">
-          To ensure you receive emails from Decor Vista, please check your spam folder and add{' '}
-          <a href="mailto:decorvistafpthcm@gmail.com">decorvistafpthcm@gmail.com</a> to your safe senders list.
-        </Typography>
-      </Paper>
+          {/* Email */}
+          <Grid item xs={12} sm={3} textAlign="center">
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <EmailIcon sx={{ fontSize: 40, color: "#555" }} />
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Email:
+              </Typography>
+              <Typography variant="body2">
+                <Typography variant="body2">aptech.fpt@fe.edu.vn</Typography>
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
 
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        message="Message sent successfully!"
-      />
+      <Container maxWidth="lg" sx={{ my: 6 }}>
+        <Grid container spacing={4} alignItems="center">
+          {/* Image on the Left */}
+          <Grid item xs={12} md={6}>
+            <Box
+              component="img"
+              src="/Images/bg/blogdetail3.jpg" // Replace with image path
+              alt="Featured Image"
+              sx={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px",
+              }}
+            />
+          </Grid>
+
+          {/* Content on the Right */}
+          <Grid item xs={12} md={6}>
+            <Typography
+              variant="h4"
+              component="h2"
+              fontWeight="bold"
+              gutterBottom
+            >
+              Contact Us at DecorVista
+            </Typography>
+            <Typography variant="body1" color="black" paragraph>
+            We are always ready to assist you in your journey to create the perfect living space. At DecorVista, our team not only provides sophisticated interior solutions but also ensures that all your inquiries and requests are addressed promptly and professionally. Reach out to us for consultation, order support, or any product-related questions. DecorVista is committed to delivering exceptional customer service and the best experience possible.
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 };
