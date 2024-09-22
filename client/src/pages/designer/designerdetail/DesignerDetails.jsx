@@ -183,28 +183,6 @@ export default function DesignDetails() {
         <DialogTitle>Contact / Request Quote</DialogTitle>
         <DialogContent>
           <TextField sx={{ m: '20px 0px' }}
-            autoFocus
-            margin="dense"
-            label="Name"
-            type="text"
-            fullWidth
-            variant="outlined"
-          />
-          <TextField sx={{ m: '20px 0px' }}
-            margin="dense"
-            label="Email"
-            type="email"
-            fullWidth
-            variant="outlined"
-          />
-          <TextField sx={{ m: '20px 0px' }}
-            margin="dense"
-            label="Phone"
-            type="tel"
-            fullWidth
-            variant="outlined"
-          />
-          <TextField sx={{ m: '20px 0px' }}
             label="Scheduled"
             type="datetime-local"
             fullWidth
@@ -230,7 +208,7 @@ export default function DesignDetails() {
           />
         </DialogContent>
         <Button onClick={() => setContactDialogOpen(false)}>Cancel</Button>
-        <Button
+        <Button variant="contained" sx={{ m: '10px' }}
           onClick={() => {
             handleCreateMeeting()
           }}
